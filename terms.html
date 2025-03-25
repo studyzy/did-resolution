@@ -1,279 +1,164 @@
 <p>
-This section defines the terms used in this specification and throughout
-<a>decentralized identifier</a> infrastructure. A link to these terms is
-included whenever they appear in this specification.
+  本节定义了本规范及<a>去中心化标识符</a>基础设施中使用的术语。在本规范中，每当这些术语出现时都会包含指向它们的链接。
 </p>
 
 <dl class="termlist">
 
-  <dt><dfn data-lt="authenticated">authenticate</dfn></dt>
+  <dt><dfn data-lt="authenticated">认证</dfn></dt>
   <dd>
-    Authentication is a process by which an entity can prove it has a specific
-    attribute or controls a specific secret using one or more <a>verification
-    methods</a>. With <a>DIDs</a>, a common example would be proving control of the
-    cryptographic private key associated with a public key published in a <a>DID
-    document</a>.
+    认证是一个实体通过一个或多个<a>验证方法</a>证明其拥有特定属性或控制特定密钥的过程。在<a>DID</a>场景中，常见例子是证明控制与<a>DID文档</a>中发布的公钥相关联的加密私钥。
   </dd>
 
-  <dt><dfn>binding</dfn></dt>
-  <dd>A concrete mechanism through which a <a>client</a> invokes a <a>DID resolver</a>. This could be a <a>local binding</a> such as a local command line tool or library API, or a <a>remote binding</a> such as the <a href="#bindings-https">HTTP(S) binding</a>. See Section <a href="#resolver-architectures"></a>.</dd>
+  <dt><dfn>绑定</dfn></dt>
+  <dd><a>客户端</a>调用<a>DID解析器</a>的具体机制。可以是<a>本地绑定</a>（如本地命令行工具或库API），或<a>远程绑定</a>（如<a href="#bindings-https">HTTP(S)绑定</a>）。参见章节<a href="#resolver-architectures"></a>。</dd>
 
-  <dt><dfn>client</dfn></dt>
-  <dd>Software and/or hardware that invokes a <a>DID resolver</a> in order to execute the <a>DID resolution</a> and/or <a>DID URL dereferencing</a> algorithms. This invocation is done via a <a>binding</a>. The term <a>client</a> does not imply any specific network topology.</dd>
+  <dt><dfn>客户端</dfn></dt>
+  <dd>通过<a>绑定</a>调用<a>DID解析器</a>以执行<a>DID解析</a>和/或<a>DID URL解引用</a>算法的软硬件系统。术语<a>客户端</a>不隐含任何特定网络拓扑。</dd>
 
-  <dt><dfn data-lt="decentralized identifiers|DID|DIDs">decentralized identifier</dfn> (DID)</dt>
+  <dt><dfn data-lt="decentralized identifiers|DID|DIDs">去中心化标识符</dfn> (DID)</dt>
   <dd>
-    A globally unique persistent identifier that does not require a centralized
-    registration authority and is often generated and/or registered
-    cryptographically. The generic format of a DID is defined in <a
-          data-cite="did-core#did-syntax"></a>. A specific <a>DID scheme</a> is defined in a <a>DID
-    method</a> specification. Many—but not all—DID methods make use of
-    <a>distributed ledger technology</a> (DLT) or some other form of decentralized
-    network.
+    无需中心化注册机构的全局唯一持久标识符，通常通过加密方式生成/注册。通用DID格式定义见<a data-cite="did-core#did-syntax"></a>。具体<a>DID方案</a>由<a>DID方法</a>规范定义。许多（非全部）DID方法使用<a>分布式账本技术</a>(DLT)或其他形式的去中心化网络。
   </dd>
 
-  <dt><dfn data-lt="did controllers|did controller(s)">DID controller</dfn></dt>
+  <dt><dfn data-lt="did controllers|did controller(s)">DID控制者</dfn></dt>
   <dd>
-    An entity that has the capability to make changes to a <a>DID document</a>. A
-    <a>DID</a> might have more than one DID controller. The DID controller(s)
-    can be denoted by the optional `controller` property at the top level of the
-    <a>DID document</a>. Note that a DID controller might be the <a>DID
-    subject</a>.
+    具有修改<a>DID文档</a>能力的实体。一个<a>DID</a>可能有多个控制者，可通过<a>DID文档</a>顶层可选的`controller`属性指明。注意DID控制者可能是<a>DID主体</a>。
   </dd>
 
-  <dt><dfn>DID delegate</dfn></dt>
+  <dt><dfn>DID委托方</dfn></dt>
   <dd>
-    An entity to whom a <a>DID controller</a> has granted permission to use a
-    <a>verification method</a> associated with a <a>DID</a> via a <a>DID
-    document</a>. For example, a parent who controls a child's <a>DID document</a>
-    might permit the child to use their personal device in order to
-    <a>authenticate</a>. In this case, the child is the <a>DID delegate</a>. The
-    child's personal device would contain the private cryptographic material
-    enabling the child to <a>authenticate</a> using the <a>DID</a>. However, the child
-    might not be permitted to add other personal devices without the parent's
-    permission.
+    被<a>DID控制者</a>授予使用<a>DID文档</a>中<a>验证方法</a>权限的实体。例如控制子女<a>DID文档</a>的家长可允许子女使用其设备进行<a>认证</a>，此时子女即<a>DID委托方</a>。其设备包含的加密材料使子女能用该<a>DID</a><a>认证</a>，但未经家长许可可能无法添加其他设备。
   </dd>
 
-  <dt><dfn data-lt="DID documents">DID document</dfn></dt>
+  <dt><dfn data-lt="DID documents">DID文档</dfn></dt>
   <dd>
-    A set of data describing the <a>DID subject</a>, including mechanisms, such as
-    cryptographic public keys, that the <a>DID subject</a> or a <a>DID delegate</a>
-    can use to <a>authenticate</a> itself and prove its association with the
-    <a>DID</a>.
+    描述<a>DID主体</a>的数据集合，包含<a>DID主体</a>或<a>DID委托方</a>用于<a>认证</a>及证明与<a>DID</a>关联的机制（如加密公钥）。
   </dd>
 
-  <dt><dfn data-lt="DID fragments">DID fragment</dfn></dt>
+  <dt><dfn data-lt="DID fragments">DID片段</dfn></dt>
   <dd>
-    The portion of a <a>DID URL</a> that follows the first hash sign character
-    (<code>#</code>). DID fragment syntax is identical to URI fragment syntax.
+    <a>DID URL</a>中首个井号(<code>#</code>)后的部分，语法与URI片段相同。
   </dd>
 
-  <dt><dfn data-lt="DID method's">DID method</dfn></dt>
+  <dt><dfn data-lt="DID method's">DID方法</dfn></dt>
   <dd>
-    A definition of how a specific <a>DID method scheme</a> is implemented. A DID method is
-    defined by a DID method specification, which specifies the precise operations by
-    which <a>DIDs</a> and <a>DID documents</a> are created, resolved, updated,
-    and deactivated. See <a data-cite="did-core#methods"></a>.
+    特定<a>DID方法方案</a>的实现定义，由DID方法规范详细说明<a>DID</a>和<a>DID文档</a>的创建、解析、更新及停用操作。参见<a data-cite="did-core#methods"></a>。
   </dd>
 
-  <dt><dfn data-lt="DID paths">DID path</dfn></dt>
+  <dt><dfn data-lt="DID paths">DID路径</dfn></dt>
   <dd>
-    The portion of a <a>DID URL</a> that begins with and includes the first forward
-    slash (<code>/</code>) character and ends with either a question mark
-    (<code>?</code>) character, a fragment hash sign (<code>#</code>) character,
-    or the end of the <a>DID URL</a>. DID path syntax is identical to URI path syntax.
-    See <a data-cite="did-core#path"></a>.
+    <a>DID URL</a>中首个斜杠(<code>/</code>)开始至问号(<code>?</code>)、井号(<code>#</code>)或URL结尾的部分，语法与URI路径相同。参见<a data-cite="did-core#path"></a>。
   </dd>
 
-  <dt><dfn data-lt="DID queries">DID query</dfn></dt>
+  <dt><dfn data-lt="DID queries">DID查询</dfn></dt>
   <dd>
-    The portion of a <a>DID URL</a> that follows and includes the first question
-    mark character (<code>?</code>). DID query syntax is identical to URI query
-    syntax. See <a data-cite="did-core#query"></a>.
+    <a>DID URL</a>中首个问号(<code>?</code>)开始的部分，语法与URI查询相同。参见<a data-cite="did-core#query"></a>。
   </dd>
 
-  <dt><dfn>DID resolution</dfn></dt>
+  <dt><dfn>DID解析</dfn></dt>
   <dd>
-    The process that takes as its input a <a>DID</a> and a set of resolution
-    options and returns a <a>DID document</a> in a conforming <a>representation</a>
-    plus additional metadata. This process relies on the "Read" operation of the
-    applicable <a>DID method</a>. The inputs and outputs of this process are
-    defined in <a href="#resolving"></a>.
+    以<a>DID</a>和解析选项为输入，返回符合<a>表示形式</a>的<a>DID文档</a>及元数据的过程。该过程依赖适用<a>DID方法</a>的"读取"操作，输入输出定义见<a href="#resolving"></a>。
   </dd>
 
-  <dt><dfn data-lt="DID resolver's">DID resolver</dfn></dt>
+  <dt><dfn data-lt="DID resolver's">DID解析器</dfn></dt>
   <dd>
-    A <a>DID resolver</a> is a software and/or hardware component that performs the
-    <a>DID resolution</a> function by taking a <a>DID</a> as input and producing a
-    conforming <a>DID document</a> as output.
+    执行<a>DID解析</a>功能的软硬件组件，输入<a>DID</a>并输出符合规范的<a>DID文档</a>。
   </dd>
 
-  <dt><dfn data-lt="">DID resolution result</dfn></dt>
-  <dd>A data structure that represents the result of the <a>DID resolution</a> algorithm.
-    May contain a <a>DID document</a>. See Section <a href="#did-resolution-result"></a>.</dd>
+  <dt><dfn data-lt="">DID解析结果</dfn></dt>
+  <dd>表示<a>DID解析</a>算法结果的数据结构，可能包含<a>DID文档</a>。参见章节<a href="#did-resolution-result"></a>。</dd>
 
-  <dt><dfn data-lt="DID schemes|DID method scheme">DID scheme</dfn></dt>
-
+  <dt><dfn data-lt="DID schemes|DID method scheme">DID方案</dfn></dt>
   <dd>
-    The formal syntax of a <a>decentralized identifier</a>. The generic DID scheme
-    begins with the prefix <code>did:</code> as defined in <a
-          data-cite="did-core#did-syntax"></a>. Each <a>DID method</a> specification defines a specific
-    DID method scheme that works with that specific <a>DID method</a>. In a specific DID
-    method scheme, the DID method name follows the first colon and terminates with
-    the second colon, e.g., <code>did:example:</code>
+    <a>去中心化标识符</a>的正式语法。通用DID方案以<code>did:</code>前缀开头（定义见<a data-cite="did-core#did-syntax"></a>）。每个<a>DID方法</a>规范定义特定DID方法方案，例如<code>did:example:</code>。
   </dd>
 
-  <dt><dfn data-lt="DID subjects">DID subject</dfn></dt>
-
+  <dt><dfn data-lt="DID subjects">DID主体</dfn></dt>
   <dd>
-    The entity identified by a <a>DID</a> and described by a <a>DID document</a>.
-    Anything can be a DID subject: person, group, organization, physical thing,
-    digital thing, logical thing, etc.
+    被<a>DID</a>标识并由<a>DID文档</a>描述的实体，可以是人、组织、物理/数字/逻辑对象等。
   </dd>
 
   <dt><dfn data-lt="DID URLs">DID URL</dfn></dt>
   <dd>
-    A <a>DID</a> plus any additional syntactic component that conforms to the
-    definition in <a data-cite="did-core#did-url-syntax"></a>. This includes an optional <a>DID
-    path</a> (with its leading <code>/</code> character), optional <a>DID query</a>
-    (with its leading <code>?</code> character), and optional <a>DID fragment</a>
-    (with its leading <code>#</code> character).
+    符合<a data-cite="did-core#did-url-syntax"></a>定义的<a>DID</a>及其附加语法组件，包括可选<a>DID路径</a>（前导<code>/</code>）、<a>DID查询</a>（前导<code>?</code>）和<a>DID片段</a>（前导<code>#</code>）。
   </dd>
 
-  <dt><dfn>DID URL dereferencing</dfn></dt>
+  <dt><dfn>DID URL解引用</dfn></dt>
   <dd>
-    The process that takes as its input a <a>DID URL</a> and a set of input
-    metadata, and returns a <a>resource</a>. This resource might be a <a>DID
-    document</a> plus additional metadata, a secondary resource
-    contained within the <a>DID document</a>, or a resource entirely
-    external to the <a>DID document</a>. The process uses <a>DID resolution</a> to
-    fetch a <a>DID document</a> indicated by the <a>DID</a> contained within the
-    <a>DID URL</a>. The dereferencing process can then perform additional processing
-    on the <a>DID document</a> to return the dereferenced resource indicated by the
-    <a>DID URL</a>. The inputs and outputs of this process are defined in
-    <a href="#dereferencing"></a>.
+    以<a>DID URL</a>和输入元数据为参数返回<a>资源</a>的过程。资源可能是<a>DID文档</a>、其内部次级资源或外部资源。该过程通过<a>DID解析</a>获取<a>DID URL</a>中的<a>DID文档</a>，再经处理返回解引用资源。输入输出定义见<a href="#dereferencing"></a>。
   </dd>
 
-  <dt><dfn data-lt="DID URL dereferencers">DID URL dereferencer</dfn></dt>
+  <dt><dfn data-lt="DID URL dereferencers">DID URL解引用器</dfn></dt>
   <dd>
-    A software and/or hardware system that performs the <a>DID URL dereferencing</a>
-    function for a given <a>DID URL</a> or <a>DID document</a>.
+    对给定<a>DID URL</a>或<a>DID文档</a>执行<a>DID URL解引用</a>功能的软硬件系统。
   </dd>
 
-  <dt><dfn data-lt="">DID URL dereferencing result</dfn></dt>
-  <dd>A data structure that represents the result of the <a>DID URL dereferencing</a> algorithm.
-    May contain a <a>DID document</a> or other content. See Section <a href="#did-url-dereferencing-result"></a>.</dd>
+  <dt><dfn data-lt="">DID URL解引用结果</dfn></dt>
+  <dd>表示<a>DID URL解引用</a>算法结果的数据结构，可能包含<a>DID文档</a>或其他内容。参见章节<a href="#did-url-dereferencing-result"></a>。</dd>
 
-  <dt><dfn data-lt="distributed ledger technology|DLT">distributed ledger</dfn> (DLT)</dt>
+  <dt><dfn data-lt="distributed ledger technology|DLT">分布式账本</dfn> (DLT)</dt>
   <dd>
-    A non-centralized system for recording events. These systems establish
-    sufficient confidence for participants to rely upon the data recorded by others
-    to make operational decisions. They typically use distributed databases where
-    different nodes use a consensus protocol to confirm the ordering of
-    cryptographically signed transactions. The linking of digitally signed
-    transactions over time often makes the history of the ledger effectively
-    immutable.
+    非中心化的事件记录系统，通过共识协议使参与者能信赖他人记录的数据。其使用加密签名交易的时间链接特性通常使账本历史不可篡改。
   </dd>
 
-  <dt><dfn data-lt="resources">resource</dfn></dt>
+  <dt><dfn data-lt="resources">资源</dfn></dt>
   <dd>
-    As defined by [[RFC3986]]: "...the term 'resource' is used in a general sense
-    for whatever might be identified by a URI." Similarly, any resource might serve
-    as a <a>DID subject</a> identified by a <a>DID</a>.
+    如[[RFC3986]]定义："...‘资源’泛指URI可标识的任何对象"。类似地，任何资源都可作为由<a>DID</a>标识的<a>DID主体</a>。
   </dd>
 
-  <dt><dfn data-lt="representations">representation</dfn></dt>
+  <dt><dfn data-lt="representations">表示形式</dfn></dt>
   <dd>
-    As defined for HTTP by [[RFC7231]]: "information that is intended to reflect a
-    past, current, or desired state of a given resource, in a format that can be
-    readily communicated via the protocol, and that consists of a set of
-    representation metadata and a potentially unbounded stream of representation
-    data." A <a>DID document</a> is a representation of information describing a
-    <a>DID subject</a>. See <a data-cite="did-core#representations"></a>.
+    如[[RFC7231]]为HTTP定义："反映资源过去、当前或期望状态的信息，以可通过协议传输的格式存在，包含表示元数据和可能无限的表示数据流"。<a>DID文档</a>即<a>DID主体</a>信息的表示形式。参见<a data-cite="did-core#representations"></a>。
   </dd>
 
-  <dt><dfn data-lt="">local binding</dfn></dt>
-  <dd>A <a>binding</a> where the <a>client</a> invokes a <a>DID resolver</a> that runs on the same network host, e.g., via a local command line tool or library API.
-    In this case, the <a>DID resolver</a> is sometimes also called a "local <a>DID resolver</a>".
-    See Section <a href="#resolver-architectures"></a>.</dd>
+  <dt><dfn data-lt="">本地绑定</dfn></dt>
+  <dd><a>客户端</a>调用同一网络主机上<a>DID解析器</a>的<a>绑定</a>方式（如本地命令行工具或库API），此时解析器也称"本地<a>DID解析器</a>"。参见章节<a href="#resolver-architectures"></a>。</dd>
 
-  <dt><dfn data-lt="">remote binding</dfn></dt>
-  <dd>A <a>binding</a> where the <a>client</a> invokes a <a>DID resolver</a> that runs on a different network host, e.g., via the <a href="#bindings-https">HTTP(S) binding</a>.
-    In this case, the <a>DID resolver</a> is sometimes also called a "remote <a>DID resolver</a>".
-    See Section <a href="#resolver-architectures"></a>.</dd>
+  <dt><dfn data-lt="">远程绑定</dfn></dt>
+  <dd><a>客户端</a>调用不同网络主机上<a>DID解析器</a>的<a>绑定</a>方式（如<a href="#bindings-https">HTTP(S)绑定</a>），此时解析器也称"远程<a>DID解析器</a>"。参见章节<a href="#resolver-architectures"></a>。</dd>
 
-  <dt><dfn data-lt="service">services</dfn></dt>
+  <dt><dfn data-lt="service">服务</dfn></dt>
   <dd>
-    Means of communicating or interacting with the <a>DID subject</a> or
-    associated entities via one or more <a>service endpoints</a>.
-    Examples include discovery services, agent services, social networking
-    services, file storage services, and verifiable credential repository services.
+    通过一个或多个<a>服务端点</a>与<a>DID主体</a>或关联实体通信交互的方式，包括发现服务、代理服务、社交网络服务、文件存储服务和可验证凭证存储库服务等。
   </dd>
 
-  <dt><dfn data-lt="service endpoints">service endpoint</dfn></dt>
+  <dt><dfn data-lt="service endpoints">服务端点</dfn></dt>
   <dd>
-    A network address, such as an HTTP URL, at which <a>services</a> operate on
-    behalf of a <a>DID subject</a>.
+    代表<a>DID主体</a>提供<a>服务</a>的网络地址（如HTTP URL）。
   </dd>
 
-  <dt><dfn data-lt="">service endpoint construction</dfn></dt>
-  <dd>An algorithm that takes a <a>DID URL</a> and a service, and constructs
-    a <a>service endpoint</a> URL See Section <a href="#service-endpoint-construction"></a>.</dd>
+  <dt><dfn data-lt="">服务端点构建</dfn></dt>
+  <dd>根据<a>DID URL</a>和服务构建<a>服务端点</a>URL的算法。参见章节<a href="#service-endpoint-construction"></a>。</dd>
 
-  <dt><dfn data-lt="">unverifiable read</dfn></dt>
-  <dd> A low confidence implementation of a <a>DID method's</a> "Read" operation between the
-    <a>DID resolver</a> and the <a>verifiable data registry</a>, to obtain the <a>DID document</a>.
-    There is no guarantee about the integrity and correctness of the result. See Section <a href="#method-architectures"></a>.</dd>
+  <dt><dfn data-lt="">不可验证读取</dfn></dt>
+  <dd><a>DID解析器</a>与<a>可验证数据注册表</a>间低置信度的<a>DID方法</a>"读取"操作实现，结果完整性无保证。参见章节<a href="#method-architectures"></a>。</dd>
 
-  <dt>
-    <dfn data-lt="verifiable data registry|verifiable data registries">
-      verifiable data registry</dfn>
-  </dt>
+  <dt><dfn data-lt="verifiable data registry|verifiable data registries">可验证数据注册表</dfn></dt>
   <dd>
-    A system that facilitates the creation, verification, updating, and/or
-    deactivation of <a>decentralized identifiers</a> and <a>DID documents</a>. A
-    verifiable data registry might also be used for other
-    cryptographically-verifiable data structures such as <a>verifiable
-    credentials</a>. For more information, see the W3C Verifiable Credentials
-    specification [[VC-DATA-MODEL]].
+    支持<a>去中心化标识符</a>和<a>DID文档</a>创建、验证、更新及停用的系统，也可用于其他可验证数据结构（如<a>可验证凭证</a>）。详见W3C可验证凭证规范[[VC-DATA-MODEL]]。
   </dd>
 
-  <dt><dfn data-lt="">verification method</dfn></dt>
+  <dt><dfn data-lt="">验证方法</dfn></dt>
   <dd>
     <p>
-      A set of parameters that can be used together with a process to independently
-      verify a proof. For example, a cryptographic public key can be used as a
-      verification method with respect to a digital signature; in such usage, it
-      verifies that the signer possessed the associated cryptographic private key.
+      与验证流程配合使用以独立验证证明的参数集合。例如加密公钥可作为数字签名的验证方法，验证签名者是否拥有对应私钥。
     </p>
     <p>
-      "Verification" and "proof" in this definition are intended to apply broadly. For
-      example, a cryptographic public key might be used during Diffie-Hellman key
-      exchange to negotiate a shared symmetric key for encryption. This guarantees the
-      integrity of the key agreement process. It is thus another type of verification
-      method, even though descriptions of the process might not use the words
-      "verification" or "proof."
+      此处的"验证"和"证明"具有广义含义。例如加密公钥在Diffie-Hellman密钥交换中协商加密用共享对称密钥时，虽未使用"验证"术语，但仍属验证方法。
     </p>
   </dd>
 
-  <dt><dfn data-lt="">verifiable read</dfn></dt>
-  <dd> A high confidence implementation of a <a>DID method's</a> "Read" operation between the
-    <a>DID resolver</a> and the <a>verifiable data registry</a>, to obtain the <a>DID document</a>.
-    There are guarantees about the integrity and correctness of the result to the extent possible under the applicable <a>DID method</a>.
-    See Section <a href="#method-architectures"></a>.</dd>
+  <dt><dfn data-lt="">可验证读取</dfn></dt>
+  <dd><a>DID解析器</a>与<a>可验证数据注册表</a>间高置信度的<a>DID方法</a>"读取"操作实现，在适用方法范围内保证结果完整性。参见章节<a href="#method-architectures"></a>。</dd>
 
-  <dt><dfn data-lt="UUID|UUIDs">Universally Unique Identifier</dfn> (UUID)</dt>
+  <dt><dfn data-lt="UUID|UUIDs">通用唯一标识符</dfn> (UUID)</dt>
   <dd>
-    A type of globally unique identifier defined by [[RFC4122]]. UUIDs are similar
-    to DIDs in that they do not require a centralized registration authority. UUIDs
-    differ from DIDs in that they are not resolvable or
-    cryptographically-verifiable.
+    [[RFC4122]]定义的全局唯一标识符，与DID相似之处在于无需中心化注册机构，但不同之处在于不可解析且无加密可验证性。
   </dd>
 
-  <dt><dfn data-lt="URI|URIs">Uniform Resource Identifier</dfn> (URI)</dt>
+  <dt><dfn data-lt="URI|URIs">统一资源标识符</dfn> (URI)</dt>
   <dd>
-    The standard identifier format for all resources on the World Wide Web as
-    defined by [[RFC3986]]. A <a>DID</a> is a type of URI scheme.
+    [[RFC3986]]定义的万维网资源标准标识格式，<a>DID</a>属于URI方案的一种。
   </dd>
 
 </dl>
