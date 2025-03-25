@@ -1,96 +1,95 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Decentralized Identifier Resolution (DID Resolution) v0.3</title>
-    <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/>
-    <!--
+<head>
+	<title>去中心化标识符解析 (DID 解析) v0.3</title>
+	<meta http-equiv='Content-Type' content='text/html;charset=utf-8'/>
+	<!--
       === NOTA BENE ===
-      For the three scripts below, if your spec resides on dev.w3 you can check them
-      out in the same tree and use relative links so that they'll work offline.
-	 -->
+      对于下面的三个脚本，如果你的规范位于 dev.w3，你可以在同一目录下检出它们并使用相对链接，以便它们可以离线工作。
+     -->
 	<script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
-    <script src="./common.js"></script>
-    <script type="text/javascript" class="remove">
-      var respecConfig = {
-        // specification status (e.g., WD, LCWD, NOTE, etc.). If in doubt use ED.
-        specStatus: "ED",
+	<script src="./common.js"></script>
+	<script type="text/javascript" class="remove">
+		var respecConfig = {
+			// 规范状态（例如，WD, LCWD, NOTE 等）。如果不确定，使用 ED。
+			specStatus: "ED",
 
-        // the specification's short name, as in http://www.w3.org/TR/short-name/
-        shortName: "did-resolution",
+			// 规范的短名称，如 http://www.w3.org/TR/short-name/
+			shortName: "did-resolution",
 
-        // subtitle
-        subtitle: "Algorithms and guidelines for resolving DIDs and dereferencing DID URLs",
+			// 副标题
+			subtitle: "解析 DID 和解除引用 DID URL 的算法和指南",
 
-        // if you wish the publication date to be other than today, set this
-        // publishDate:  "2009-08-06",
+			// 如果你希望发布日期不是今天，设置此值
+			// publishDate:  "2009-08-06",
 
-        // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
-        // and its maturity status
-        // previousPublishDate:  "1977-03-15",
-        // previousMaturity:  "WD",
+			// 如果有之前发布的草案，取消注释并设置其 YYYY-MM-DD 日期
+			// 及其成熟度状态
+			// previousPublishDate:  "1977-03-15",
+			// previousMaturity:  "WD",
 
-        // extend the bibliography entries
-        localBiblio: ccg.localBiblio,
+			// 扩展参考文献条目
+			localBiblio: ccg.localBiblio,
 
-        github: "https://github.com/w3c/did-resolution",
-        includePermalinks: false,
+			github: "https://github.com/w3c/did-resolution",
+			includePermalinks: false,
 
-        // if there a publicly available Editor's Draft, this is the link
-        edDraftURI: "https://w3c.github.io/did-resolution/",
+			// 如果有公开的编辑草案，这是链接
+			edDraftURI: "https://w3c.github.io/did-resolution/",
 
-        // if this is a LCWD, uncomment and set the end of its review period
-        // lcEnd: "2009-08-05",
+			// 如果这是 LCWD，取消注释并设置其审查结束日期
+			// lcEnd: "2009-08-05",
 
-        // editors, add as many as you like
-        // only "name" is required
-        editors: [
-          { name: "Markus Sabadello", url: "https://www.linkedin.com/in/markus-sabadello-353a0821",
-            company: "Danube Tech", companyURL: "https://danubetech.com/", w3cid: 46729 },
-          { name: "Dmitri Zagidulin", url: "https://www.linkedin.com/in/dzagidulin",
-            company: "MIT CSAIL", companyURL: "http://computingjoy.com/", w3cid: 86708 }
-        ],
+			// 编辑者，添加尽可能多的编辑者
+			// 只有 "name" 是必需的
+			editors: [
+				{ name: "Markus Sabadello", url: "https://www.linkedin.com/in/markus-sabadello-353a0821",
+					company: "Danube Tech", companyURL: "https://danubetech.com/", w3cid: 46729 },
+				{ name: "Dmitri Zagidulin", url: "https://www.linkedin.com/in/dzagidulin",
+					company: "MIT CSAIL", companyURL: "http://computingjoy.com/", w3cid: 86708 }
+			],
 
-        // authors, add as many as you like.
-        // This is optional, uncomment if you have authors as well as editors.
-        // only "name" is required. Same format as editors.
-        authors:
-        [
-          { name: "Markus Sabadello", url: "https://www.linkedin.com/in/markus-sabadello-353a0821",
-            company: "Danube Tech", companyURL: "https://danubetech.com/", w3cid: 46729 },
-          { name: "Dmitri Zagidulin", url: "https://www.linkedin.com/in/dzagidulin",
-            company: "MIT CSAIL", companyURL: "http://computingjoy.com/", w3cid: 86708 }
-        ],
+			// 作者，添加尽可能多的作者
+			// 这是可选的，取消注释如果你有作者和编辑者
+			// 只有 "name" 是必需的。与编辑者相同的格式。
+			authors:
+					[
+						{ name: "Markus Sabadello", url: "https://www.linkedin.com/in/markus-sabadello-353a0821",
+							company: "Danube Tech", companyURL: "https://danubetech.com/", w3cid: 46729 },
+						{ name: "Dmitri Zagidulin", url: "https://www.linkedin.com/in/dzagidulin",
+							company: "MIT CSAIL", companyURL: "http://computingjoy.com/", w3cid: 86708 }
+					],
 
-        // group
-        group:           "did",
+			// 工作组
+			group:           "did",
 
-        // name (with the @w3c.org) of the public mailing to which comments are due
-        wgPublicList: "public-did-wg",
+			// 公共邮件列表的名称（带有 @w3c.org），评论应发送到此列表
+			wgPublicList: "public-did-wg",
 
-        maxTocLevel: 4,
-        inlineCSS: true
-      };
-    </script>
-    <style type="text/css">
-      ol.algorithm {
-        counter-reset: numsection;
-        list-style-type: none;
-      }
-      ol.algorithm li {
-        margin: 0.5em 0;
-      }
-      ol.algorithm li:before {
-        font-weight: bold;
-        counter-increment: numsection;
-        content: counters(numsection, ".") ") ";
-      }
-	  .longdesc {
-		  display: none;
-	  }
-	  .longdesc:target {
-		  display: block;
-		  background-color: #ff9;
-	  }
+			maxTocLevel: 4,
+			inlineCSS: true
+		};
+	</script>
+	<style type="text/css">
+		ol.algorithm {
+			counter-reset: numsection;
+			list-style-type: none;
+		}
+		ol.algorithm li {
+			margin: 0.5em 0;
+		}
+		ol.algorithm li:before {
+			font-weight: bold;
+			counter-increment: numsection;
+			content: counters(numsection, ".") ") ";
+		}
+		.longdesc {
+			display: none;
+		}
+		.longdesc:target {
+			display: block;
+			background-color: #ff9;
+		}
 
 		table.simple {
 			border-collapse: collapse;
@@ -119,111 +118,76 @@
 			border-bottom: 2px solid #005a9c;
 		}
 
-    </style>
-  </head>
-  <body data-cite="infra rfc3986">
-    <section id='abstract'>
-      <p>
-Decentralized identifiers (DIDs) are a new type of identifier for
-verifiable, "self-sovereign" digital identity. DIDs are fully under the
-control of the DID controller, independent from any centralized registry,
-identity provider, or certificate authority. DIDs resolve to DID
-Documents — simple documents that describe how to use that specific DID.
-      </p>
+	</style>
+</head>
+<body data-cite="infra rfc3986">
+<section id='abstract'>
+	<p>
+		去中心化标识符（DID）是一种用于可验证的“自我主权”数字身份的新型标识符。DID 完全由 DID 控制者控制，独立于任何中心化注册机构、身份提供者或证书颁发机构。DID 解析为 DID 文档——描述如何使用该特定 DID 的简单文档。
+	</p>
 
-      <p>
-This document specifies the algorithms and guidelines for resolving DIDs
-and dereferencing DID URLs.
-      </p>
-    </section>
+	<p>
+		本文档规定了解析 DID 和解除引用 DID URL 的算法和指南。
+	</p>
+</section>
 
-    <section id='sotd'>
-    <p>
-      Comments regarding this document are welcome. Please file issues
-      directly on <a href="https://github.com/w3c/did-resolution/issues/">GitHub</a>,
-      or send them to
-      <a href="mailto:public-did-wg@w3.org">public-did-wg@w3.org</a>
-      (<a href="mailto:public-did-wg-request@w3.org?subject=subscribe">subscribe</a>,
-      <a href="https://lists.w3.org/Archives/Public/public-did-wg/">archives</a>).
-      </p>
+<section id='sotd'>
+	<p>
+		欢迎对本文档提出意见。请直接在 <a href="https://github.com/w3c/did-resolution/issues/">GitHub</a> 上提交问题，
+		或发送至
+		<a href="mailto:public-did-wg@w3.org">public-did-wg@w3.org</a>
+		(<a href="mailto:public-did-wg-request@w3.org?subject=subscribe">订阅</a>,
+		<a href="https://lists.w3.org/Archives/Public/public-did-wg/">存档</a>)。
+	</p>
 
-      <p>
-      Portions of the work on this specification have been funded by the
-      United States Department of Homeland Security's Science and Technology
-      Directorate under contracts HSHQDC-17-C-00019. The content of this
-      specification does not necessarily reflect the position or the policy of
-      the U.S. Government and no official endorsement should be inferred.
-      </p>
+	<p>
+		本规范的部分工作由美国国土安全部科学技术局资助，合同号为 HSHQDC-17-C-00019。本规范的内容不一定反映美国政府的立场或政策，也不应推断为官方认可。
+	</p>
 
-      <p>
-      Work on this specification has also been supported by the Rebooting the
-      Web of Trust community facilitated by Christopher Allen, Shannon
-      Appelcline, Kiara Robles, Brian Weller, Betty Dhamers, Kaliya Young, Kim
-      Hamilton Duffy, Manu Sporny, Drummond Reed, Joe Andrieu, and Heather
-      Vescent.
-      </p>
-    </section>
+	<p>
+		本规范的工作也得到了由 Christopher Allen、Shannon Appelcline、Kiara Robles、Brian Weller、Betty Dhamers、Kaliya Young、Kim Hamilton Duffy、Manu Sporny、Drummond Reed、Joe Andrieu 和 Heather Vescent 主持的“重启 Web 信任”社区的支持。
+	</p>
+</section>
 
 <section id="introduction">
-<h1>Introduction</h1>
+	<h1>介绍</h1>
 
-	<p><a>DID resolution</a> is the process of obtaining a <a>DID document</a> for a given <a>DID</a>. This is one
-	of four required operations that can be performed on any DID ("Read"; the other ones being "Create", "Update",
-	and "Deactivate"). The details of these operations differ depending on the <a>DID method</a>.
-	Building on top of <a>DID resolution</a>, <a>DID URL dereferencing</a> is the process of retrieving a representation
-	of a resource for a given <a>DID URL</a>. Software and/or hardware that is able to execute these processes is called
-	a <a>DID resolver</a>.
-	
-	<p>This
-	specification defines common
-	requirements, algorithms including their inputs and results, architectural options, and various considerations for the
-	<a>DID resolution</a> and <a>DID URL dereferencing</a> processes.</p>
+	<p><a>DID 解析</a>是获取给定 <a>DID</a> 的 <a>DID 文档</a>的过程。这是可以对任何 DID 执行的四个必需操作之一（“读取”；其他操作包括“创建”、“更新”和“停用”）。这些操作的细节因 <a>DID 方法</a>而异。
+		在 <a>DID 解析</a>的基础上，<a>DID URL 解除引用</a>是获取给定 <a>DID URL</a> 的资源的表示的过程。能够执行这些过程的软件和/或硬件称为 <a>DID 解析器</a>。
 
-	<p>Note that while this specification defines some base-level functionality for DID resolution, the actual steps
-	required to communicate with a DID's <a>verifiable data registry</a> are defined by the applicable
-	<a>DID method</a> specification.</p>
+	<p>本规范定义了 <a>DID 解析</a>和 <a>DID URL 解除引用</a>过程的通用要求、算法（包括其输入和结果）、架构选项和各种注意事项。</p>
 
-	<p class="note">The difference between "resolving" a <a>DID</a> and "dereferencing" a <a>DID URL</a>
-	is being thoroughly discussed by the community. For example, see
-	<a href="https://github.com/w3c/did-spec/issues/166#issuecomment-464502719">this comment</a>.</p>
+	<p>请注意，虽然本规范定义了 DID 解析的一些基本功能，但与 DID 的 <a>可验证数据注册表</a>通信所需的实际步骤由适用的 <a>DID 方法</a>规范定义。</p>
+
+	<p class="note">“解析” <a>DID</a> 和“解除引用” <a>DID URL</a> 之间的区别正在被社区深入讨论。例如，参见
+		<a href="https://github.com/w3c/did-spec/issues/166#issuecomment-464502719">此评论</a>。</p>
 
 	<section id="conformance">
 
 		<p>
-			A <dfn class="lint-ignore">conforming DID resolver</dfn> is any algorithm
-			realized as software and/or hardware that complies with the relevant normative
-			statements in <a href="#resolving"></a>.
+			一个 <dfn class="lint-ignore">符合规范的 DID 解析器</dfn> 是任何实现为软件和/或硬件的算法，它遵守 <a href="#resolving"></a> 中的相关规范性声明。
 		</p>
 
 		<p>
-			A <dfn class="lint-ignore">conforming DID URL dereferencer</dfn> is any
-			algorithm realized as software and/or hardware that complies with the relevant
-			normative statements in <a href="#dereferencing"></a>.
+			一个 <dfn class="lint-ignore">符合规范的 DID URL 解除引用器</dfn> 是任何实现为软件和/或硬件的算法，它遵守 <a href="#dereferencing"></a> 中的相关规范性声明。
 		</p>
 
 	</section>
 
 	<section class="informative">
 		<h2>
-		  Audience
+			受众
 		</h2>
 		<p>
-This specification has three primary audiences: implementers of conformant DID methods;
-implementers of conformant DID resolvers; and implementers of systems and services 
-that wish to resolve DIDs using DID resolvers. The intended audience includes, 
-but is not limited to, software architects, data modelers, application developers, 
-service developers, testers, operators, and user experience (UX) specialists. 
-Other people involved in a broad range of standards efforts related to decentralized 
-identity, verifiable credentials, and secure storage might also be interested in 
-reading this specification.
+			本规范有三个主要受众：符合规范的 DID 方法的实现者；符合规范的 DID 解析器的实现者；以及希望使用 DID 解析器解析 DID 的系统和服务实现者。目标受众包括但不限于软件架构师、数据建模师、应用程序开发人员、服务开发人员、测试人员、操作人员和用户体验（UX）专家。参与与去中心化身份、可验证凭证和安全存储相关的广泛标准工作的其他人也可能对本规范感兴趣。
 		</p>
-  
-	  </section>
+
+	</section>
 
 </section>
 
 <section id="terminology">
-	<h1>Terminology</h1>
+	<h1>术语</h1>
 
 	<div data-include="terms.html">
 	</div>
@@ -231,44 +195,35 @@ reading this specification.
 </section>
 
 <section id="did-parameters">
-	<h2>DID Parameters</h2>
+	<h2>DID 参数</h2>
 
 	<p>
-		The <a>DID URL</a> syntax supports a simple format for parameters
-		(see section <a href="https://www.w3.org/TR/did-core/#query">Query</a>
-		in [[DID-CORE]]). Adding a DID
-		parameter to a <a>DID URL</a> means that the parameter becomes part of the
-		identifier for a <a>resource</a>.
+		<a>DID URL</a> 语法支持一种简单的参数格式
+		（参见 [[DID-CORE]] 中的 <a href="https://www.w3.org/TR/did-core/#query">查询</a> 部分）。向 <a>DID URL</a> 添加 DID 参数意味着该参数成为 <a>资源</a> 标识符的一部分。
 	</p>
 
 	<pre class="example nohighlight"
-		 title="A DID URL with a 'versionTime' DID parameter">
+		 title="带有 'versionTime' DID 参数的 DID URL">
 did:example:123?versionTime=2021-05-10T17:00:00Z
 	</pre>
 
 	<pre class="example nohighlight"
-		 title="A DID URL with a 'service' and a 'relativeRef' DID parameter">
+		 title="带有 'service' 和 'relativeRef' DID 参数的 DID URL">
 did:example:123?service=files&amp;relativeRef=/resume.pdf
 	</pre>
 
 	<p>
-		Some DID parameters are completely independent of any specific <a>DID
-		method</a> and function the same way for all <a>DIDs</a>. Other DID parameters
-		are not supported by all <a>DID methods</a>. Where optional parameters are
-		supported, they are expected to operate uniformly across the <a>DID methods</a>
-		that do support them. The following table provides common DID parameters that
-		function the same way across all <a>DID methods</a>. Support for all
-		<a href="#did-parameters">DID Parameters</a> is OPTIONAL.
+		一些 DID 参数完全独立于任何特定的 <a>DID 方法</a>，并且对所有 <a>DID</a> 的功能相同。其他 DID 参数并非所有 <a>DID 方法</a> 都支持。在支持可选参数的情况下，期望这些参数在支持它们的 <a>DID 方法</a> 中统一操作。下表提供了在所有 <a>DID 方法</a> 中功能相同的常见 DID 参数。支持所有 <a href="#did-parameters">DID 参数</a> 是可选的。
 	</p>
 
 	<table class="simple">
 		<thead>
 		<tr>
 			<th>
-				Parameter&nbsp;Name
+				参数名称
 			</th>
 			<th>
-				Description
+				描述
 			</th>
 		</tr>
 		</thead>
@@ -279,9 +234,8 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 				<code><a>service</a></code>
 			</td>
 			<td>
-				Identifies a service from the <a>DID document</a> by service ID.
-				If present, the associated value MUST be an <a
-					data-lt="ascii string">ASCII string</a>.
+				通过服务 ID 从 <a>DID 文档</a> 中识别服务。
+				如果存在，关联的值必须是一个 <a data-lt="ascii string">ASCII 字符串</a>。
 			</td>
 		</tr>
 		<tr>
@@ -289,14 +243,8 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 				<code>relativeRef</code>
 			</td>
 			<td>
-				A relative <a>URI</a> reference according to <a
-					data-cite="RFC3986#section-4.2">RFC3986 Section 4.2</a> that identifies a
-				<a>resource</a> at a <a>service endpoint</a>, which is selected from a <a>DID
-				document</a> by using the <code>service</code> parameter.
-				If present, the associated value MUST be an <a
-					data-lt="ascii string">ASCII string</a> and MUST use percent-encoding for
-				certain characters as specified in <a data-cite="RFC3986#section-2.1">RFC3986
-				Section 2.1</a>.
+				根据 <a data-cite="RFC3986#section-4.2">RFC3986 第 4.2 节</a> 的相对 <a>URI</a> 引用，它标识了 <a>服务端点</a> 上的 <a>资源</a>，该服务端点通过使用 <code>service</code> 参数从 <a>DID 文档</a> 中选择。
+				如果存在，关联的值必须是一个 <a data-lt="ascii string">ASCII 字符串</a>，并且必须使用 <a data-cite="RFC3986#section-2.1">RFC3986 第 2.1 节</a> 中指定的百分号编码。
 			</td>
 		</tr>
 		<tr>
@@ -304,10 +252,8 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 				<code>versionId</code>
 			</td>
 			<td>
-				Identifies a specific version of a <a>DID document</a> to be resolved (the
-				version ID could be sequential, or a <a>UUID</a>, or method-specific).
-				If present, the associated value MUST be an <a
-					data-lt="ascii string">ASCII string</a>.
+				标识要解析的 <a>DID 文档</a> 的特定版本（版本 ID 可以是顺序的、UUID 或方法特定的）。
+				如果存在，关联的值必须是一个 <a data-lt="ascii string">ASCII 字符串</a>。
 			</td>
 		</tr>
 		<tr>
@@ -315,15 +261,8 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 				<code>versionTime</code>
 			</td>
 			<td>
-				Identifies a certain version timestamp of a <a>DID document</a> to be resolved.
-				That is, the most recent version of the <a>DID document</a> that was valid for a <a>DID</a> 
-				before the specified `versionTime`. If present, the associated value
-				MUST be an <a data-lt="ascii string">ASCII string</a> which is a valid XML
-				datetime value, as defined in section 3.3.7 of <a
-					href="https://www.w3.org/TR/xmlschema11-2/">W3C XML Schema Definition Language
-				(XSD) 1.1 Part 2: Datatypes</a> [[XMLSCHEMA11-2]]. This datetime value MUST be
-				normalized to UTC 00:00:00 and without sub-second decimal precision.
-				For example: <code>2020-12-20T19:17:47Z</code>.
+				标识要解析的 <a>DID 文档</a> 的特定版本时间戳。即，在指定的 `versionTime` 之前对 <a>DID</a> 有效的 <a>DID 文档</a> 的最新版本。如果存在，关联的值必须是一个 <a data-lt="ascii string">ASCII 字符串</a>，它是有效的 XML 日期时间值，如 <a href="https://www.w3.org/TR/xmlschema11-2/">W3C XML Schema 定义语言 (XSD) 1.1 第 2 部分：数据类型</a> [[XMLSCHEMA11-2]] 第 3.3.7 节中所定义。此日期时间值必须规范化为 UTC 00:00:00，并且不包含亚秒级小数精度。
+				例如：<code>2020-12-20T19:17:47Z</code>。
 			</td>
 		</tr>
 		<tr>
@@ -331,10 +270,8 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 				<code>hl</code>
 			</td>
 			<td>
-				A resource hash of the <a>DID document</a> to add integrity protection, as
-				specified in [[?HASHLINK]]. This parameter is non-normative.
-				If present, the associated value MUST be an
-				<a data-lt="ascii string">ASCII string</a>.
+				<a>DID 文档</a> 的资源哈希，用于添加完整性保护，如 [[?HASHLINK]] 中所指定。此参数是非规范性的。
+				如果存在，关联的值必须是一个 <a data-lt="ascii string">ASCII 字符串</a>。
 			</td>
 		</tr>
 
@@ -342,73 +279,41 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 	</table>
 
 	<p>
-		Implementers as well as <a>DID method</a> specification authors might use
-		additional DID parameters that are not listed here. For maximum
-		interoperability, it is RECOMMENDED that DID parameters use the DID
-		Specification Registries mechanism [[?DID-SPEC-REGISTRIES]], to avoid collision
-		with other uses of the same DID parameter with different semantics.
+		实现者以及 <a>DID 方法</a> 规范作者可能会使用此处未列出的其他 DID 参数。为了最大程度的互操作性，建议 DID 参数使用 DID 规范注册机制 [[?DID-SPEC-REGISTRIES]]，以避免与具有不同语义的相同 DID 参数的其他用途发生冲突。
 	</p>
 
 	<p>
-		DID parameters might be used if there is a clear use case where the parameter
-		needs to be part of a URL that references a <a>resource</a> with more
-		precision than using the <a>DID</a> alone. It is expected that DID parameters
-		are <em>not</em> used if the same functionality can be expressed by passing
-		input metadata to a <a>DID resolver</a>.
+		如果存在明确的用例，其中参数需要成为 URL 的一部分以更精确地引用 <a>资源</a>，则可以使用 DID 参数。如果相同的功能可以通过将输入元数据传递给 <a>DID 解析器</a> 来表达，则预计不会使用 DID 参数。
 	</p>
 
-	<p class="note" title="DID parameters and DID resolution">
-		The <a>DID resolution</a> and the <a>DID URL dereferencing</a> functions can
-		be influenced by passing <a href="#did-resolution-options"></a> or
-		<a href="#did-url-dereferencing-options"></a> to a <a>DID resolver</a> that are
-		not part of the <a>DID URL</a>. This is comparable to
-		HTTP, where certain parameters could either be included in an HTTP URL, or
-		alternatively passed as HTTP headers during the dereferencing process. The
-		important distinction is that DID parameters that are part of the <a>DID
-		URL</a> should be used to specify <em>what <a>resource</a> is being
-		identified</em>, whereas input metadata that is not part of the <a>DID URL</a>
-		should be used to control <em>how that <a>resource</a> is resolved or
-		dereferenced</em>.
+	<p class="note" title="DID 参数和 DID 解析">
+		<a>DID 解析</a> 和 <a>DID URL 解除引用</a> 功能可以通过传递 <a href="#did-resolution-options"></a> 或 <a href="#did-url-dereferencing-options"></a> 给 <a>DID 解析器</a> 来影响，这些选项不是 <a>DID URL</a> 的一部分。这与 HTTP 类似，某些参数可以包含在 HTTP URL 中，或者作为 HTTP 头在解除引用过程中传递。重要的区别在于，作为 <a>DID URL</a> 一部分的 DID 参数应该用于指定 <em>正在识别的 <a>资源</a></em>，而不作为 <a>DID URL</a> 一部分的输入元数据应该用于控制 <em>如何解析或解除引用该 <a>资源</a></em>。
 	</p>
 
 </section>
 
 <section id="resolving">
-	<h1>DID Resolution</h1>
+	<h1>DID 解析</h1>
 
 	<p>
-		The <a>DID resolution</a> function resolves a <a>DID</a> into a <a>DID
-		document</a> by using the "Read" operation of the applicable <a>DID method</a>
-		as described in <a data-cite="did-core#method-operations">Method Operations</a>. All
-		conforming <a>DID resolvers</a> implement the function below, which has the
-		following abstract form:
+		<a>DID 解析</a> 功能通过使用适用的 <a>DID 方法</a> 的“读取”操作将 <a>DID</a> 解析为 <a>DID 文档</a>，如 <a data-cite="did-core#method-operations">方法操作</a> 中所述。所有符合规范的 <a>DID 解析器</a> 都实现了以下函数，其抽象形式如下：
 	</p>
 
-	<pre title="Abstract function for DID Resolution">
+	<pre title="DID 解析的抽象函数">
 resolve(did, resolutionOptions) →
    « didResolutionMetadata, didDocument, didDocumentMetadata »
       </pre>
 
 	<p>
-		All conformant <a>DID resolvers</a> MUST implement the <a>DID resolution</a>
-		function for at least one <a>DID method</a> and MUST be able to return a
-		<a>DID document</a> in at least one conformant <a>representation</a>.
+		所有符合规范的 <a>DID 解析器</a> 必须为至少一种 <a>DID 方法</a> 实现 <a>DID 解析</a> 功能，并且必须能够返回至少一种符合规范的 <a>表示</a> 的 <a>DID 文档</a>。
 	</p>
 
 	<p>
-		Conforming <a>DID resolver</a> implementations do not alter the signature of
-		this function in any way. <a>DID resolver</a> implementations might map the
-		<code>resolve</code> function to a
-		method-specific internal function to perform the actual <a>DID resolution</a>
-		process. <a>DID resolver</a> implementations might implement and expose
-		additional functions with different signatures in addition to the
-		<code>resolve</code> function specified here.
+		符合规范的 <a>DID 解析器</a> 实现不会以任何方式更改此函数的签名。<a>DID 解析器</a> 实现可能会将 <code>resolve</code> 函数映射到方法特定的内部函数以执行实际的 <a>DID 解析</a> 过程。<a>DID 解析器</a> 实现可能会实现并暴露具有不同签名的其他函数，除了此处指定的 <code>resolve</code> 函数。
 	</p>
 
 	<p>
-		The input variables
-		of the <code>resolve</code> function are
-		as follows:
+		<code>resolve</code> 函数的输入变量如下：
 	</p>
 
 	<dl>
@@ -416,25 +321,18 @@ resolve(did, resolutionOptions) →
 			did
 		</dt>
 		<dd>
-			This is the <a>DID</a> to resolve. This input is REQUIRED and the value MUST
-			be a conformant <a>DID</a> as defined in <a data-cite="did-core#did-syntax"></a>.
+			这是要解析的 <a>DID</a>。此输入是必需的，值必须是符合 <a data-cite="did-core#did-syntax"></a> 中定义的 <a>DID</a>。
 		</dd>
 		<dt>
 			resolutionOptions
 		</dt>
 		<dd>
-			A <a href="#metadata-structure">metadata structure</a> containing properties
-			defined in <a href="#did-resolution-options"></a>. This input is
-			REQUIRED, but the structure MAY be empty.
+			一个 <a href="#metadata-structure">元数据结构</a>，包含 <a href="#did-resolution-options"></a> 中定义的属性。此输入是必需的，但结构可能为空。
 		</dd>
 	</dl>
 
 	<p>
-		This function returns multiple values, and no limitations
-		are placed on how these values are returned together.
-		The return values of <code>resolve</code> are
-		<a>didResolutionMetadata</a>, <a>didDocument</a>, and
-		<a>didDocumentMetadata</a>. These values are described below:
+		此函数返回多个值，并且对这些值如何一起返回没有限制。<code>resolve</code> 的返回值包括 <a>didResolutionMetadata</a>、<a>didDocument</a> 和 <a>didDocumentMetadata</a>。这些值描述如下：
 	</p>
 
 	<dl>
@@ -442,50 +340,27 @@ resolve(did, resolutionOptions) →
 			<dfn>didResolutionMetadata</dfn>
 		</dt>
 		<dd>
-			A <a href="#metadata-structure">metadata structure</a> consisting of values
-			relating to the results of the <a>DID resolution</a> process which typically
-			changes between invocations of the <code>resolve</code>
-			function, as it represents data about the
-			resolution process itself. This structure is REQUIRED, and in the case of an
-			error in the resolution process, this MUST NOT be empty. This metadata is
-			defined by <a href="#did-resolution-metadata"></a>. If the resolution is
-			not successful, this structure MUST contain an <code>error</code> property
-			describing the error.
+			一个 <a href="#metadata-structure">元数据结构</a>，包含与 <a>DID 解析</a> 过程结果相关的值，这些值通常在 <code>resolve</code> 函数的调用之间变化，因为它表示解析过程本身的数据。此结构是必需的，并且在解析过程中出现错误时，此结构不能为空。此元数据由 <a href="#did-resolution-metadata"></a> 定义。如果解析不成功，此结构必须包含一个描述错误的 <code>error</code> 属性。
 		</dd>
 		<dt>
 			<dfn>didDocument</dfn>
 		</dt>
 		<dd>
-			If the resolution is successful, this MUST be a <a>DID document</a> that
-			is capable of being represented in one of the conformant
-			<a data-cite="did-core#representations">representations</a> of the [[[DID]]] specification.
-			The value of <code><a data-cite="did-core#dfn-id">id</a></code> in the resolved <a>DID document</a> MUST
-			match the <a>DID</a> that was resolved. If the resolution is unsuccessful, this
-			value MUST be empty.
+			如果解析成功，这必须是一个 <a>DID 文档</a>，它能够以 [[[DID]]] 规范中定义的符合规范的 <a data-cite="did-core#representations">表示</a> 之一表示。解析的 <a>DID 文档</a> 中的 <code><a data-cite="did-core#dfn-id">id</a></code> 值必须与解析的 <a>DID</a> 匹配。如果解析不成功，此值必须为空。
 		</dd>
 		<dt>
 			<dfn>didDocumentMetadata</dfn>
 		</dt>
 		<dd>
-			If the resolution is successful, this MUST be a <a
-				href="#metadata-structure">metadata structure</a>. This structure contains
-			metadata about the <a>DID document</a> contained in the <code>didDocument</code>
-			property. This metadata typically does not change between invocations of the
-			<code>resolve</code> function unless the
-			<a>DID document</a> changes, as it represents metadata about the <a>DID
-			document</a>. If the resolution is unsuccessful, this output MUST be an empty <a
-				href="#metadata-structure">metadata structure</a>. Properties defined by this
-			specification are in <a href="#did-document-metadata"></a>.
+			如果解析成功，这必须是一个 <a href="#metadata-structure">元数据结构</a>。此结构包含 <code>didDocument</code> 属性中包含的 <a>DID 文档</a> 的元数据。此元数据通常在 <code>resolve</code> 函数的调用之间不会变化，除非 <a>DID 文档</a> 发生变化，因为它表示 <a>DID 文档</a> 的元数据。如果解析不成功，此输出必须是一个空的 <a href="#metadata-structure">元数据结构</a>。此规范定义的属性在 <a href="#did-document-metadata"></a> 中。
 		</dd>
 	</dl>
 
 	<section>
-		<h3>DID Resolution Options</h3>
+		<h3>DID 解析选项</h3>
 
 		<p>
-			The possible properties within this structure and their possible values are
-			registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]]. This
-			specification defines the following common properties.
+			此结构中的可能属性及其可能值在 DID 规范注册表 [[?DID-SPEC-REGISTRIES]] 中注册。本规范定义了以下常见属性。
 		</p>
 
 		<dl>
@@ -493,12 +368,7 @@ resolve(did, resolutionOptions) →
 				accept
 			</dt>
 			<dd>
-				The Media Type of the caller's preferred <a>representation</a> of the <a>DID
-				document</a>. The Media Type MUST be expressed as an <a data-lt="ascii
-string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
-				value to determine the <a>representation</a> of the returned
-				<code>didDocument</code> if such a <a>representation</a> is supported and
-				available. This property is OPTIONAL.
+				调用者首选的 <a>DID 文档</a> 的媒体类型。媒体类型必须表示为 <a data-lt="ascii string">ASCII 字符串</a>。<a>DID 解析器</a> 实现应使用此值来确定返回的 <code>didDocument</code> 的 <a>表示</a>，如果支持并可用此类 <a>表示</a>。此属性是可选的。
 			</dd>
 		</dl>
 
@@ -507,36 +377,30 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 				expandRelativeUrls
 			</dt>
 			<dd>
-				A boolean flag which instructs a <a>DID resolver</a> to expand
-				<a data-cite="did-core#relative-did-urls">relative DID URLs</a> in
-				the <a>DID document</a> to
-				absolute DID URLs conformant with <a data-cite="did-core#did-url-syntax">
-				DID URL Syntax</a>.
+				一个布尔标志，指示 <a>DID 解析器</a> 将 <a data-cite="did-core#relative-did-urls">相对 DID URL</a> 扩展为符合 <a data-cite="did-core#did-url-syntax">DID URL 语法</a> 的绝对 DID URL。
 			</dd>
 		</dl>
 
 		<dl>
 			<dt>versionId</dt>
 			<dd>
-				See <a href="#did-parameters"></a> for the definition.
+				参见 <a href="#did-parameters"></a> 中的定义。
 			</dd>
 		</dl>
 
-    <dl>
+		<dl>
 			<dt>versionTime</dt>
 			<dd>
-				See <a href="#did-parameters"></a> for the definition.
+				参见 <a href="#did-parameters"></a> 中的定义。
 			</dd>
 		</dl>
 	</section>
 
 	<section>
-		<h3>DID Resolution Metadata</h3>
+		<h3>DID 解析元数据</h3>
 
 		<p>
-			The possible properties within this structure and their possible values are
-			registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]]. This
-			specification defines the following DID resolution metadata properties:
+			此结构中的可能属性及其可能值在 DID 规范注册表 [[?DID-SPEC-REGISTRIES]] 中注册。本规范定义了以下 DID 解析元数据属性：
 		</p>
 
 		<dl>
@@ -544,45 +408,31 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 				contentType
 			</dt>
 			<dd>
-				The Media Type of the returned <code>didDocument</code>. This property is
-				OPTIONAL. If present, the value of this
-				property MUST be an <a data-lt="ascii string">ASCII string</a> that is the Media
-				Type of the conformant <a>representations</a>. In this case, the
-				caller of the <code>resolve</code> function MUST use this value
-				when determining how to parse and process the <code>didDocument</code>.
+				返回的 <code>didDocument</code> 的媒体类型。此属性是可选的。如果存在，此属性的值必须是一个 <a data-lt="ascii string">ASCII 字符串</a>，它是符合规范的 <a>表示</a> 的媒体类型。在这种情况下，<code>resolve</code> 函数的调用者必须使用此值来确定如何解析和处理 <code>didDocument</code>。
 			</dd>
 			<dt>
 				error
 			</dt>
 			<dd>
-				The error code from the resolution process. This property is REQUIRED when there
-				is an error in the resolution process. The value of this property MUST be a
-				single keyword <a data-lt="ascii string">ASCII string</a>. The possible property
-				values of this field SHOULD be registered in the DID Specification Registries
-				[[?DID-SPEC-REGISTRIES]]. This specification defines the following
-				common error values:
+				解析过程中的错误代码。当解析过程中出现错误时，此属性是必需的。此属性的值必须是一个单一的关键字 <a data-lt="ascii string">ASCII 字符串</a>。此字段的可能属性值应在 DID 规范注册表 [[?DID-SPEC-REGISTRIES]] 中注册。本规范定义了以下常见错误值：
 				<dl>
 					<dt>
 						invalidDid
 					</dt>
 					<dd>
-						The <a>DID</a> supplied to the <a>DID resolution</a> function does not conform
-						to valid syntax. (See <a data-cite="did-core#did-syntax"></a>.)
+						提供给 <a>DID 解析</a> 函数的 <a>DID</a> 不符合有效语法。（参见 <a data-cite="did-core#did-syntax"></a>。）
 					</dd>
 					<dt>
 						notFound
 					</dt>
 					<dd>
-						The <a>DID resolver</a> was unable to find the <a>DID document</a>
-						resulting from this resolution request.
+						<a>DID 解析器</a> 无法找到此解析请求生成的 <a>DID 文档</a>。
 					</dd>
 					<dt>
 						representationNotSupported
 					</dt>
 					<dd>
-						This error code is returned if the <a>representation</a> requested via the
-						<code>accept</code> input metadata property is not supported by the <a>DID
-						method</a> and/or <a>DID resolver</a> implementation.
+						如果通过 <code>accept</code> 输入元数据属性请求的 <a>表示</a> 不受 <a>DID 方法</a> 和/或 <a>DID 解析器</a> 实现支持，则返回此错误代码。
 					</dd>
 				</dl>
 			</dd>
@@ -591,39 +441,27 @@ string">ASCII string</a>. The <a>DID resolver</a> implementation SHOULD use this
 	</section>
 
 	<section>
-		<h3>DID Document Metadata</h3>
+		<h3>DID 文档元数据</h3>
 
 		<p>
-			The possible properties within this structure and their possible values SHOULD
-			be registered in the DID Specification Registries [[?DID-SPEC-REGISTRIES]].
-			This specification defines the following common properties.
+			此结构中的可能属性及其可能值应在 DID 规范注册表 [[?DID-SPEC-REGISTRIES]] 中注册。本规范定义了以下常见属性。
 		</p>
 
 		<dl>
 			<dt><dfn class="lint-ignore">created</dfn></dt>
 			<dd>
-				<a>DID document</a> metadata SHOULD include a <code>created</code> property to
-				indicate the timestamp of the <a data-cite="did-core#method-operations">Create operation</a>.
-				The value of the property MUST be a <a data-cite="INFRA#string">string</a>
-				formatted as an <a data-cite="XMLSCHEMA11-2#dateTime">XML Datetime</a>
-				normalized to UTC 00:00:00 and without sub-second decimal precision. For
-				example: <code>2020-12-20T19:17:47Z</code>.
+				<a>DID 文档</a> 元数据应包括一个 <code>created</code> 属性，以指示 <a data-cite="did-core#method-operations">创建操作</a> 的时间戳。属性的值必须是一个 <a data-cite="INFRA#string">字符串</a>，格式化为 <a data-cite="XMLSCHEMA11-2#dateTime">XML 日期时间</a>，规范化为 UTC 00:00:00，并且不包含亚秒级小数精度。例如：<code>2020-12-20T19:17:47Z</code>。
 			</dd>
 
 			<dt><dfn class="lint-ignore">updated</dfn></dt>
 			<dd>
-				<a>DID document</a> metadata SHOULD include an <code>updated</code> property to
-				indicate the timestamp of the last <a data-cite="did-core#method-operations">Update
-				operation</a> for the document version which was resolved. The value of the
-				property MUST follow the same formatting rules as the <code>created</code>
-				property. The <code>updated</code> property is omitted if an Update operation
-				has never been performed on the <a>DID document</a>. If an <code>updated</code>
-				property exists, it can be the same value as the <code>created</code> property
-				when the difference between the two timestamps is less than one second.
+				<a>DID 文档</a> 元数据应包括一个 <code>updated</code> 属性，以指示解析的文档版本的最后一次 <a data-cite="did-core#method-operations">更新操作</a> 的时间戳。属性的值必须遵循与 <code>created</code> 属性相同的格式化规则。如果从未对 <a>DID 文档</a> 执行过更新操作，则省略 <code>updated</code> 属性。如果存在 <code>updated</code> 属性，它可以与 <code>created</code> 属性具有相同的值，当两个时间戳之间的差异小于一秒时。
 			</dd>
 
 			<dt><dfn class="lint-ignore">deactivated</dfn></dt>
 			<dd>
+
+
 				If a DID has been <a data-cite="did-core#method-operations">deactivated</a>,
 				<a>DID document</a> metadata MUST include this property with the boolean value
 				<code>true</code>. If a DID has not been deactivated, this property is OPTIONAL,
