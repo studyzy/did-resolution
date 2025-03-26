@@ -1287,13 +1287,13 @@ https://example.com/messages/8377464/some/path?query#frag
 		<h2 id="did-document-metadata">DID文档元数据</h2>
 		<p>这是一个元数据结构（参见[[DID-CORE]]中的<a href="https://www.w3.org/TR/did-core/#metadata-structure">元数据结构</a>部分），包含有关<a>DID文档</a>的元数据。</p>
 		<p>此元数据通常在<a>DID解析</a>函数的调用之间不会变化，除非<a>DID文档</a>发生变化，因为它表示有关<a>DID文档</a>的数据。</p>
-		<p>此元数据的来源是<a>DID控制器</a>和/或<a>DID方法</a>。</p>
+		<p>此元数据的来源是<a>DID控制者</a>和/或<a>DID方法</a>。</p>
 		<p>DID文档元数据的示例包括：</p>
 		<ul>
 			<li>DID及其关联DID文档创建或更新的时间戳（<b>created</b>和<b>updated</b>元数据属性）。</li>
 			<li>有关控制器、能力、委托等的元数据。</li>
 			<li>DID文档的版本信息（参见<a href="#versioning"></a>部分）。</li>
-			<li>由DID控制器添加的证明（例如，以建立控制权限）。</li>
+			<li>由DID控制者添加的证明（例如，以建立控制权限）。</li>
 		</ul>
 		<p>DID文档元数据还可以包括方法特定的元数据，例如：</p>
 		<ul>
@@ -1682,18 +1682,18 @@ curl -X GET https://resolver.example/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX
 </section>
 
 <section id="service-endpoint-construction">
-	<h1>服务端点构造</h1>
+	<h1>服务端点构建</h1>
 
-	<p>本节定义了<a>服务端点构造</a>的输入和算法，该算法返回一个<a>服务端点</a> URL作为输出。此算法在<a>DID URL解引用</a>过程中选择服务端点时使用（参见<a href="#dereferencing"></a>）。</p>
+	<p>本节定义了<a>服务端点构建</a>的输入和算法，该算法返回一个<a>服务端点</a> URL作为输出。此算法在<a>DID URL解引用</a>过程中选择服务端点时使用（参见<a href="#dereferencing"></a>）。</p>
 
 	<p>在本节中，<code>path</code>、<code>query</code>和<code>fragment</code>的定义遵循[[RFC3986]]。</p>
 
 	<section>
 		<h2>输入</h2>
 
-		<p><a>服务端点构造</a>算法的输入是一个<var>输入 <a>DID URL</a></var>和一个<var>输入 <a>服务端点</a> URL</var>。</p>
+		<p><a>服务端点构建</a>算法的输入是一个<var>输入 <a>DID URL</a></var>和一个<var>输入 <a>服务端点</a> URL</var>。</p>
 
-		<p><a>服务端点构造</a>算法的输入要求如下：</p>
+		<p><a>服务端点构建</a>算法的输入要求如下：</p>
 		<ul>
 			<li><var>输入 <a>DID URL</a></var>和<var>输入 <a>服务端点</a> URL</var>都可以有<code>path</code>组件。</li>
 			<li><var>输入 <a>DID URL</a></var>和<var>输入 <a>服务端点</a> URL</var>不能同时有<code>query</code>组件。</li>
@@ -1719,7 +1719,7 @@ curl -X GET https://resolver.example/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX
 
 		<p class="issue">我们可能允许<var>输入<a>DID URL</a></var>和<var>输入<a>服务端点</a>URL</var>同时包含<code>query</code>组件，前提是它们都包含可以合并的键/值参数列表。</p>
 
-		<p class="issue">服务端点构造算法的细节已在2019年4月的CCG邮件列表中讨论过，例如<a href="https://lists.w3.org/Archives/Public/public-credentials/2019Apr/0021.html">这里</a>或<a href="https://lists.w3.org/Archives/Public/public-credentials/2019Apr/0032.html">这里</a>。</p>
+		<p class="issue">服务端点构建算法的细节已在2019年4月的CCG邮件列表中讨论过，例如<a href="https://lists.w3.org/Archives/Public/public-credentials/2019Apr/0021.html">这里</a>或<a href="https://lists.w3.org/Archives/Public/public-credentials/2019Apr/0032.html">这里</a>。</p>
 
 		<p class="issue">我们可以考虑复用[[RFC3986]]中定义的“相对解析”算法，而不是定义自己的算法。</p>
 
