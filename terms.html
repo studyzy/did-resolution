@@ -17,7 +17,7 @@
 
   <dt><dfn data-lt="decentralized identifiers|DID|DIDs">去中心化标识符</dfn> (DID)</dt>
   <dd>
-    无需中心化注册机构的全局唯一持久标识符，通常通过加密方式生成/注册。通用DID格式定义见<a data-cite="did-core#did-syntax"></a>。具体<a>DID方案</a>由<a>DID方法</a>规范定义。许多（非全部）DID方法使用<a>分布式账本技术</a>(DLT)或其他形式的去中心化网络。
+    无需中心化注册机构的全局唯一持久标识符，通常通过加密方式生成/注册。通用DID格式定义见<a data-cite="did-core#did-syntax"></a>。具体<a>DID方案</a>由<a>DID方法</a>规范定义。许多（非全部）DID方法使用<a>分布式账本</a>技术(DLT)或其他形式的去中心化网络。
   </dd>
 
   <dt><dfn data-lt="did controllers|did controller(s)">DID控制者</dfn></dt>
@@ -42,7 +42,7 @@
 
   <dt><dfn data-lt="DID method's">DID方法</dfn></dt>
   <dd>
-    特定<a>DID方法方案</a>的实现定义，由DID方法规范详细说明<a>DID</a>和<a>DID文档</a>的创建、解析、更新及停用操作。参见<a data-cite="did-core#methods"></a>。
+    特定<a href="#dfn-did-schemes">DID方法方案</a>的实现定义，由DID方法规范详细说明<a>DID</a>和<a>DID文档</a>的创建、解析、更新及停用操作。参见<a data-cite="did-core#methods"></a>。
   </dd>
 
   <dt><dfn data-lt="DID paths">DID路径</dfn></dt>
@@ -57,7 +57,7 @@
 
   <dt><dfn>DID解析</dfn></dt>
   <dd>
-    以<a>DID</a>和解析选项为输入，返回符合<a>表示形式</a>的<a>DID文档</a>及元数据的过程。该过程依赖适用<a>DID方法</a>的"读取"操作，输入输出定义见<a href="#resolving"></a>。
+    以<a>DID</a>和解析选项为输入，返回符合<a>表示</a>的<a>DID文档</a>及元数据的过程。该过程依赖适用<a>DID方法</a>的"读取"操作，输入输出定义见<a href="#resolving"></a>。
   </dd>
 
   <dt><dfn data-lt="DID resolver's">DID解析器</dfn></dt>
@@ -106,9 +106,9 @@
     如[[RFC3986]]定义："...‘资源’泛指URI可标识的任何对象"。类似地，任何资源都可作为由<a>DID</a>标识的<a>DID主体</a>。
   </dd>
 
-  <dt><dfn data-lt="representations">表示形式</dfn></dt>
+  <dt><dfn data-lt="representations">表示</dfn></dt>
   <dd>
-    如[[RFC7231]]为HTTP定义："反映资源过去、当前或期望状态的信息，以可通过协议传输的格式存在，包含表示元数据和可能无限的表示数据流"。<a>DID文档</a>即<a>DID主体</a>信息的表示形式。参见<a data-cite="did-core#representations"></a>。
+    如[[RFC7231]]为HTTP定义："反映资源过去、当前或期望状态的信息，以可通过协议传输的格式存在，包含表示元数据和可能无限的表示数据流"。<a>DID文档</a>即<a>DID主体</a>信息的表示。参见<a data-cite="did-core#representations"></a>。
   </dd>
 
   <dt><dfn data-lt="">本地绑定</dfn></dt>
@@ -130,12 +130,12 @@
   <dt><dfn data-lt="">服务端点构建</dfn></dt>
   <dd>根据<a>DID URL</a>和服务构建<a>服务端点</a>URL的算法。参见章节<a href="#service-endpoint-construction"></a>。</dd>
 
-  <dt><dfn data-lt="">不可验证读取</dfn></dt>
+  <dt><dfn data-lt="">不可验证读</dfn></dt>
   <dd><a>DID解析器</a>与<a>可验证数据注册表</a>间低置信度的<a>DID方法</a>"读取"操作实现，结果完整性无保证。参见章节<a href="#method-architectures"></a>。</dd>
 
   <dt><dfn data-lt="verifiable data registry|verifiable data registries">可验证数据注册表</dfn></dt>
   <dd>
-    支持<a>去中心化标识符</a>和<a>DID文档</a>创建、验证、更新及停用的系统，也可用于其他可验证数据结构（如<a>可验证凭证</a>）。详见W3C可验证凭证规范[[VC-DATA-MODEL]]。
+    支持<a>去中心化标识符</a>和<a>DID文档</a>创建、验证、更新及停用的系统，也可用于其他可验证数据结构（如可验证凭证）。详见W3C可验证凭证规范[[VC-DATA-MODEL]]。
   </dd>
 
   <dt><dfn data-lt="">验证方法</dfn></dt>
@@ -148,7 +148,7 @@
     </p>
   </dd>
 
-  <dt><dfn data-lt="">可验证读取</dfn></dt>
+  <dt><dfn data-lt="">可验证读</dfn></dt>
   <dd><a>DID解析器</a>与<a>可验证数据注册表</a>间高置信度的<a>DID方法</a>"读取"操作实现，在适用方法范围内保证结果完整性。参见章节<a href="#method-architectures"></a>。</dd>
 
   <dt><dfn data-lt="UUID|UUIDs">通用唯一标识符</dfn> (UUID)</dt>
