@@ -1,97 +1,102 @@
 <!DOCTYPE html>
 <html lang="zh">
-<head>
-	<title>去中心化标识符解析 (DID解析) v0.3</title>
-	<meta http-equiv='Content-Type' content='text/html;charset=utf-8'/>
-	<!--
+  <head>
+    <title>去中心化标识符解析（DID Resolution）v0.3</title>
+    <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/>
+    <!--
       === NOTA BENE ===
-      对于下面的三个脚本，如果你的规范位于 dev.w3，你可以在同一目录下检出它们并使用相对链接，以便它们可以离线工作。
-     -->
+      For the three scripts below, if your spec resides on dev.w3 you can check them
+      out in the same tree and use relative links so that they'll work offline.
+	 -->
 	<script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
-	<script src="./common.js"></script>
-	<script type="text/javascript" class="remove">
-		var respecConfig = {
-			// 规范状态（例如，WD, LCWD, NOTE 等）。如果不确定，使用 ED。
-			specStatus: "ED",
+    <script src="./common.js"></script>
+    <script type="text/javascript" class="remove">
+      var respecConfig = {
+        // specification status (e.g., WD, LCWD, NOTE, etc.). If in doubt use ED.
+        specStatus: "ED",
 
-			// 规范的短名称，如 http://www.w3.org/TR/short-name/
-			shortName: "did-resolution",
+        // the specification's short name, as in http://www.w3.org/TR/short-name/
+        shortName: "did-resolution",
 
-			// 副标题
-			subtitle: "解析DID和解引用DID URL的算法和指南",
+        // subtitle
+        subtitle: "解析 DID 和解引用 DID URL 的算法与指南",
 
-			// 如果你希望发布日期不是今天，设置此值
-			// publishDate:  "2009-08-06",
+        // if you wish the publication date to be other than today, set this
+        // publishDate:  "2009-08-06",
 
-			// 如果有之前发布的草案，取消注释并设置其 YYYY-MM-DD 日期
-			// 及其成熟度状态
-			// previousPublishDate:  "1977-03-15",
-			// previousMaturity:  "WD",
+        // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
+        // and its maturity status
+        // previousPublishDate:  "1977-03-15",
+        // previousMaturity:  "WD",
 
-			// 扩展参考文献条目
-			localBiblio: ccg.localBiblio,
+        // extend the bibliography entries
+        localBiblio: ccg.localBiblio,
 
-			github: "https://github.com/w3c/did-resolution",
-			includePermalinks: false,
+        github: "https://github.com/w3c/did-resolution",
+        includePermalinks: false,
 
-			// 如果有公开的编辑草案，这是链接
-			edDraftURI: "https://w3c.github.io/did-resolution/",
+        // if there a publicly available Editor's Draft, this is the link
+        edDraftURI: "https://w3c.github.io/did-resolution/",
 
-			// 如果这是 LCWD，取消注释并设置其审查结束日期
-			// lcEnd: "2009-08-05",
+        // if this is a LCWD, uncomment and set the end of its review period
+        // lcEnd: "2009-08-05",
 
-			// 编辑者，添加尽可能多的编辑者
-			// 只有 "name" 是必需的
-			editors: [
-				{ name: "Markus Sabadello", url: "https://www.linkedin.com/in/markus-sabadello-353a0821",
-					company: "Danube Tech", companyURL: "https://danubetech.com/", w3cid: 46729 },
-				{ name: "Dmitri Zagidulin", url: "https://www.linkedin.com/in/dzagidulin",
-					company: "MIT CSAIL", companyURL: "http://computingjoy.com/", w3cid: 86708 },
-				{ name: "曾毅（中文翻译）", url: "https://github.com/studyzy/",
-					company: "深蓝居", companyURL: "https://www.cnblogs.com/studyzy", w3cid: 99999999 }
-			],
+        // editors, add as many as you like
+        // only "name" is required
+        editors: [
+          { name: "Markus Sabadello", url: "https://www.linkedin.com/in/markus-sabadello-353a0821",
+            company: "Danube Tech", companyURL: "https://danubetech.com/", w3cid: 46729,
+						extras: [
+							{name: "until 2025-12-10", class: "former"},
+						]
+				 },
+          { name: "Dmitri Zagidulin", url: "https://www.linkedin.com/in/dzagidulin",
+            company: "MIT CSAIL", companyURL: "http://computingjoy.com/", w3cid: 86708 },
+          { name: "曾毅（中文翻译）", url: "https://github.com/studyzy/",
+            company: "深蓝居", companyURL: "https://www.cnblogs.com/studyzy", w3cid: 99999999 }
+        ],
 
-			// 作者，添加尽可能多的作者
-			// 这是可选的，取消注释如果你有作者和编辑者
-			// 只有 "name" 是必需的。与编辑者相同的格式。
-			authors:
-					[
-						{ name: "Markus Sabadello", url: "https://www.linkedin.com/in/markus-sabadello-353a0821",
-							company: "Danube Tech", companyURL: "https://danubetech.com/", w3cid: 46729 },
-						{ name: "Dmitri Zagidulin", url: "https://www.linkedin.com/in/dzagidulin",
-							company: "MIT CSAIL", companyURL: "http://computingjoy.com/", w3cid: 86708 }
-					],
+        // authors, add as many as you like.
+        // This is optional, uncomment if you have authors as well as editors.
+        // only "name" is required. Same format as editors.
+        authors:
+        [
+          { name: "Markus Sabadello", url: "https://www.linkedin.com/in/markus-sabadello-353a0821",
+            company: "Danube Tech", companyURL: "https://danubetech.com/", w3cid: 46729 },
+          { name: "Dmitri Zagidulin", url: "https://www.linkedin.com/in/dzagidulin",
+            company: "MIT CSAIL", companyURL: "http://computingjoy.com/", w3cid: 86708 }
+        ],
 
-			// 工作组
-			group:           "did",
+        // group
+        group:           "did",
 
-			// 公共邮件列表的名称（带有 @w3c.org），评论应发送到此列表
-			wgPublicList: "public-did-wg",
+        // name (with the @w3c.org) of the public mailing to which comments are due
+        wgPublicList: "public-did-wg",
 
-			maxTocLevel: 4,
-			inlineCSS: true
-		};
-	</script>
-	<style type="text/css">
-		ol.algorithm {
-			counter-reset: numsection;
-			list-style-type: none;
-		}
-		ol.algorithm li {
-			margin: 0.5em 0;
-		}
-		ol.algorithm li:before {
-			font-weight: bold;
-			counter-increment: numsection;
-			content: counters(numsection, ".") ") ";
-		}
-		.longdesc {
-			display: none;
-		}
-		.longdesc:target {
-			display: block;
-			background-color: #ff9;
-		}
+        maxTocLevel: 4,
+        inlineCSS: true
+      };
+    </script>
+    <style type="text/css">
+      ol.algorithm {
+        counter-reset: numsection;
+        list-style-type: none;
+      }
+      ol.algorithm li {
+        margin: 0.5em 0;
+      }
+      ol.algorithm li:before {
+        font-weight: bold;
+        counter-increment: numsection;
+        content: counters(numsection, ".") ") ";
+      }
+	  .longdesc {
+		  display: none;
+	  }
+	  .longdesc:target {
+		  display: block;
+		  background-color: #ff9;
+	  }
 
 		table.simple {
 			border-collapse: collapse;
@@ -120,71 +125,135 @@
 			border-bottom: 2px solid #005a9c;
 		}
 
-	</style>
-</head>
-<body data-cite="infra rfc3986">
-<section id='abstract'>
-	<p>
-		去中心化标识符（DID）是一种用于可验证的“自我主权”数字身份的新型标识符。DID完全由DID控制者控制，独立于任何中心化注册机构、身份提供者或证书颁发机构。DID解析为DID文档——描述如何使用该特定DID的简单文档。
-	</p>
+    </style>
+  </head>
+  <body data-cite="infra rfc3986">
+    <section id='abstract'>
+      <p>
+去中心化标识符（DID）是一种用于可验证的"自主权"数字身份的新型标识符。DID 完全由
+DID 控制者掌控，独立于任何集中式注册机构、身份提供者或证书颁发机构。DID 解析为
+DID 文档——描述如何使用该特定 DID 的简单文档。
+      </p>
 
-	<p>
-		本文档规定了解析DID和解引用DID URL的算法和指南。
-	</p>
-</section>
+      <p>
+本文档规定了解析 DID 和解引用 DID URL 的算法与指南。此外，本文档描述了与 DID
+解析过程相关的输入和输出元数据，并进一步描述了 DID 解析请求可能返回的数据结构。
+本文档依赖于核心 DID 规范
+<a href="https://www.w3.org/TR/did-1.1/">Decentralized Identifiers (DIDs) v1.1</a>，
+该规范详细描述了底层 DID 架构。
+      </p>
+    </section>
 
-<section id='sotd'>
-	<p>
-		欢迎对本文档提出意见。请直接在 <a href="https://github.com/w3c/did-resolution/issues/">GitHub</a> 上提交问题，
-		或发送至
-		<a href="mailto:public-did-wg@w3.org">public-did-wg@w3.org</a>
-		(<a href="mailto:public-did-wg-request@w3.org?subject=subscribe">订阅</a>,
-		<a href="https://lists.w3.org/Archives/Public/public-did-wg/">存档</a>)。
-	</p>
+    <section id='sotd'>
+    <p>
+      欢迎对本文档提出意见。请直接在
+      <a href="https://github.com/w3c/did-resolution/issues/">GitHub</a> 上提交问题，
+      或发送至
+      <a href="mailto:public-did-wg@w3.org">public-did-wg@w3.org</a>
+      （<a href="mailto:public-did-wg-request@w3.org?subject=subscribe">订阅</a>，
+      <a href="https://lists.w3.org/Archives/Public/public-did-wg/">存档</a>）。
+      </p>
 
-	<p>
-		本规范的部分工作由美国国土安全部科学技术局资助，合同号为 HSHQDC-17-C-00019。本规范的内容不一定反映美国政府的立场或政策，也不应推断为官方认可。
-	</p>
+      <p>
+      本规范的部分工作由美国国土安全部科学技术局根据合同
+      HSHQDC-17-C-00019 资助。本规范的内容不一定反映美国政府的立场或政策，
+      也不应推断为官方认可。
+      </p>
 
-	<p>
-		本规范的工作也得到了由 Christopher Allen、Shannon Appelcline、Kiara Robles、Brian Weller、Betty Dhamers、Kaliya Young、Kim Hamilton Duffy、Manu Sporny、Drummond Reed、Joe Andrieu 和 Heather Vescent 主持的“重启 Web 信任”社区的支持。
-	</p>
-</section>
+      <p>
+      本规范的工作也得到了由 Christopher Allen、Shannon Appelcline、
+      Kiara Robles、Brian Weller、Betty Dhamers、Kaliya Young、Kim Hamilton Duffy、
+      Manu Sporny、Drummond Reed、Joe Andrieu 和 Heather Vescent
+      推动的 Rebooting the Web of Trust 社区的支持。
+      </p>
+    </section>
 
 <section id="introduction">
-	<h1>介绍</h1>
+<h1>引言</h1>
 
-	<p><a>DID解析</a>是获取给定 <a>DID</a> 的 <a>DID文档</a>的过程。这是可以对任何DID执行的四个必需操作之一（“读取”；其他操作包括“创建”、“更新”和“停用”）。这些操作的细节因 <a>DID方法</a>而异。
-		在 <a>DID解析</a>的基础上，<a>DID URL解引用</a>是获取给定 <a>DID URL</a> 的资源的表示的过程。能够执行这些过程的软件和/或硬件称为 <a>DID解析器</a>。
+	<p><a>DID resolution</a> 是为给定的 <a>DID</a> 获取 <a>DID document</a> 的过程。这是可以对任何 DID 执行的四种必需操作之一（"读取"；其他三种分别是"创建"、"更新"和"停用"）。这些操作的具体细节取决于 <a>DID method</a>。
+	在 <a>DID resolution</a> 的基础上，<a>DID URL dereferencing</a> 是为给定的 <a>DID URL</a> 检索资源表示的过程。能够执行这些过程的软件和/或硬件称为 <a>DID resolver</a>。
 
-	<p>本规范定义了 <a>DID解析</a>和 <a>DID URL解引用</a>过程的通用要求、算法（包括其输入和结果）、架构选项和各种注意事项。</p>
+	<p>本规范定义了 <a>DID resolution</a> 和 <a>DID URL dereferencing</a> 过程的通用要求、算法（包括其输入和结果）、架构选项以及各种注意事项。</p>
 
-	<p>请注意，虽然本规范定义了DID解析的一些基本功能，但与DID的 <a>可验证数据注册表</a>通信所需的实际步骤由适用的 <a>DID方法</a>规范定义。</p>
+	<p>请注意，虽然本规范定义了 DID 解析的一些基本功能，但与 DID 的 <a>verifiable data registry</a> 通信所需的实际步骤由适用的 <a>DID method</a> 规范定义。</p>
 
-	<p class="note">“解析” <a>DID</a> 和“解引用” <a>DID URL</a> 之间的区别正在被社区深入讨论。例如，参见
-		<a href="https://github.com/w3c/did-spec/issues/166#issuecomment-464502719">此评论</a>。</p>
+	<section id="implementer-overview" class="informative">
+		<h2>实现者概览</h2>
+		<p>
+			通过使用标准的 <code>resolve(did, resolutionOptions)</code> 接口（如
+			<a href="#resolving">DID 解析章节</a>中所定义）调用 <a>DID resolver</a>，可以获取 <a>DID document</a> 及其附带的元数据
+			（例如 `contentType`、证明、版本信息），应用程序可以使用这些信息来验证用户的加密密钥、服务端点或状态。
+		<p>
+			例如，一个钱包应用可以使用 `versionTime` 参数解析 <code>did:example:123?versionTime=2021-05-10T17:00:00Z</code>
+			以检索该 DID 在过去某一时刻的状态，或者客户端可以解引用一个 DID URL，
+			 如 <code>did:example:123?service=files&relativeRef=/resume.pdf</code>
+			 （参见<a href="#example-dereferencing-to-service-endpoint-url">此处的详细示例</a>），
+			 以获取用户通过 DID 文档中声明的服务存储的简历。
+		</p>
+		<p>
+			此外，本规范的 <a href="#dereferencing-algorithm">DID URL 解引用算法</a>展示了客户端如何通过
+			片段（例如 <code>#key-1</code>）从 <a>DID document</a> 中提取特定的验证方法
+			（参见<a href="#example-dereferencing-to-verification-method">此处的详细示例</a>）。
+			在实践中，实现者通过
+			<a href="https://github.com/w3c-ccg/did-resolution-test-suite">DID Resolution Test Suite</a> 验证其解析器，
+			该测试套件测试规范性的 MUST 要求和错误条件（如无效 DID、已停用 DID、不支持的方法、
+			相对 URL 扩展等），以确保客户端应用程序能够可靠地依赖不同 DID 方法的正确解析行为。
+		</p>
+	</section>
 
 	<section id="conformance">
 
 		<p>
-			一个 <dfn class="lint-ignore">符合规范的DID解析器</dfn> 是任何实现为软件和/或硬件的算法，它遵守 <a href="#resolving"></a> 中的相关规范性声明。
+			<dfn class="lint-ignore">conforming DID resolver</dfn>（合规 DID 解析器）是指符合
+			<a href="#resolving"></a> 中相关规范性声明的、以软件和/或硬件实现的任何算法。
 		</p>
 
 		<p>
-			一个 <dfn class="lint-ignore">符合规范的DID URL解引用器</dfn> 是任何实现为软件和/或硬件的算法，它遵守 <a href="#dereferencing"></a> 中的相关规范性声明。
+			<dfn class="lint-ignore">conforming DID URL dereferencer</dfn>（合规 DID URL 解引用器）是指符合
+			<a href="#dereferencing"></a> 中相关规范性声明的、以软件和/或硬件实现的任何算法。
 		</p>
 
 	</section>
 
 	<section class="informative">
 		<h2>
-			受众
+		  目标读者
 		</h2>
 		<p>
-			本规范有三个主要受众：符合规范的DID方法的实现者；符合规范的DID解析器的实现者；以及希望使用DID解析器解析DID的系统和服务实现者。目标受众包括但不限于软件架构师、数据建模师、应用程序开发人员、服务开发人员、测试人员、操作人员和用户体验（UX）专家。参与与去中心化身份、可验证凭证和安全存储相关的广泛标准工作的其他人也可能对本规范感兴趣。
+本规范有三类主要读者：合规 DID 方法的实现者；合规 DID 解析器的实现者；以及
+希望使用 DID 解析器解析 DID 的系统和服务的实现者。目标读者包括但不限于
+软件架构师、数据建模师、应用开发者、服务开发者、测试人员、运维人员和
+用户体验（UX）专家。参与去中心化身份、可验证凭证和安全存储等广泛标准工作的
+其他人员也可能有兴趣阅读本规范。
 		</p>
 
-	</section>
+	  </section>
+
+			<section class="informative">
+		<h2>
+		  用例
+		</h2>
+		<p>
+DID 解析规范旨在通过定义标准化接口来支持广泛的用例，以独立于任何特定 DID 的
+DID 方法来解析 DID 和解引用 DID URL。这些用例包括：
+		</p>
+		<ul>
+			<li>
+去中心化通讯录：通过使用 DID 作为通讯录中人员和组织的标识符，这些 DID 的控制者可以独立更新其 DID 文档的内容。通过 DID 解析，可以解析这些 DID 以获取任何给定联系人的 DID 文档的当前状态，从而实现具有可更新服务和验证材料的持久稳定标识符，这对于持续的可验证交互是必要的。
+			</li>
+			<li>
+验证可验证凭证：可验证凭证由颁发者签名并交给持有者。持有者随后可以创建可验证表述并将其呈现给验证者。在凭证中，如果颁发者和持有者使用 DID 进行标识，验证者可以使用 DID 解析来解析已标识的颁发者和持有者的 DID 文档，以获取验证可验证表述上的签名所需的验证材料。
+			</li>
+			<li>
+可审计性：DID 解析可用于获取 DID 文档在特定时间点或特定版本的历史状态。这可用于审计 DID 控制者的历史可验证操作。例如，可验证收据的颁发或合同的签署。
+			</li>
+			<li>
+基于 DID URL 的资源检索：DID 控制者可以在其 DID 文档中添加指向其控制的资源的服务端点，例如个人头像。通过使用 DID URL 引用这些资源，Web 应用可以使用 DID 解析和 DID URL 解引用来检索资源的当前版本。DID URL 可以作为该资源的持久、可解引用的标识符，同时 DID 控制者可以随时间独立更改资源。
+			</li>
+		</ul>
+
+	  </section>
 
 </section>
 
@@ -197,25 +266,34 @@
 </section>
 
 <section id="did-parameters">
-	<h2>DID参数</h2>
+	<h2>DID 参数</h2>
 
 	<p>
 		<a>DID URL</a> 语法支持一种简单的参数格式
-		（参见 [[DID-CORE]] 中的 <a href="https://www.w3.org/TR/did-core/#query">查询</a> 部分）。向 <a>DID URL</a> 添加DID参数意味着该参数成为 <a>资源</a> 标识符的一部分。
+		（参见 [[DID-CORE]] 中的 <a href="https://www.w3.org/TR/did-core/#query">Query</a> 章节）。向 <a>DID URL</a> 添加 DID 参数意味着该参数成为
+		<a>resource</a> 标识符的一部分。
 	</p>
 
 	<pre class="example nohighlight"
-		 title="带有 'versionTime'DID参数的DID URL">
+		 title="带有 'versionTime' DID 参数的 DID URL">
 did:example:123?versionTime=2021-05-10T17:00:00Z
 	</pre>
 
 	<pre class="example nohighlight"
-		 title="带有 'service' 和 'relativeRef'DID参数的DID URL">
+		 title="带有 'service' 和 'relativeRef' DID 参数的 DID URL">
 did:example:123?service=files&amp;relativeRef=/resume.pdf
 	</pre>
 
 	<p>
-		一些DID参数完全独立于任何特定的 <a>DID方法</a>，并且对所有 <a>DID</a> 的功能相同。其他DID参数并非所有 <a>DID方法</a> 都支持。在支持可选参数的情况下，期望这些参数在支持它们的 <a>DID方法</a> 中统一操作。下表提供了在所有 <a>DID方法</a> 中功能相同的常见DID参数。支持所有 <a href="#did-parameters">DID参数</a> 是可选的。
+		对于存在的每个 DID 参数，其关联值必须（MUST）是根据
+		<a data-cite="RFC3987#section-3.1">RFC3987 第 3.1 节</a>序列化为 ASCII 的
+		<a data-cite="INFRA#scalar-value-string">标量值</a>字符串。
+	</p>
+
+	<p>
+		某些 DID 参数完全独立于任何特定的 <a>DID
+		method</a>，并且对所有 <a>DIDs</a> 的工作方式相同。其他 DID 参数并非所有 <a>DID methods</a> 都支持。在支持可选参数的情况下，它们预期在支持它们的 <a>DID methods</a> 之间统一运行。以下表格提供了在所有 <a>DID methods</a> 之间以相同方式运行的常见 DID 参数。对所有
+		<a href="#did-parameters">DID 参数</a>的支持是可选的（OPTIONAL）。
 	</p>
 
 	<table class="simple">
@@ -236,8 +314,15 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 				<code><a>service</a></code>
 			</td>
 			<td>
-				通过服务 ID 从 <a>DID文档</a> 中识别服务。
-				如果存在，关联的值必须是一个 <a data-lt="ascii string">ASCII 字符串</a>。
+				通过服务 ID 从 <a>DID document</a> 中标识一个 <a data-cite="did-core#services">service</a>。
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<code>serviceType</code>
+			</td>
+			<td>
+				通过服务类型从 <a>DID document</a> 中标识一组一个或多个 <a data-cite="did-core#services">services</a>。
 			</td>
 		</tr>
 		<tr>
@@ -245,8 +330,9 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 				<code>relativeRef</code>
 			</td>
 			<td>
-				根据 <a data-cite="RFC3986#section-4.2">RFC3986 第 4.2 节</a> 的相对 <a>URI</a> 引用，它标识了 <a>服务端点</a> 上的 <a>资源</a>，该服务端点通过使用 <code>service</code> 参数从 <a>DID文档</a> 中选择。
-				如果存在，关联的值必须是一个 <a data-lt="ascii string">ASCII 字符串</a>，并且必须使用 <a data-cite="RFC3986#section-2.1">RFC3986 第 2.1 节</a> 中指定的百分号编码。
+				根据 <a data-cite="RFC3986#section-4.2">RFC3986 第 4.2 节</a>的相对 <a>URI</a> 引用，用于标识
+				<a>service endpoint</a> 处的 <a>resource</a>，该服务端点通过 <code>service</code> 参数从 <a>DID
+				document</a> 中选择。
 			</td>
 		</tr>
 		<tr>
@@ -254,8 +340,7 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 				<code>versionId</code>
 			</td>
 			<td>
-				标识要解析的 <a>DID文档</a> 的特定版本（版本 ID 可以是顺序的、<a>UUID</a>或方法特定的）。
-				如果存在，关联的值必须是一个 <a data-lt="ascii string">ASCII 字符串</a>。
+				标识要解析的 <a>DID document</a> 的特定版本（版本 ID 可以是顺序的、<a>UUID</a> 或方法特定的）。
 			</td>
 		</tr>
 		<tr>
@@ -263,8 +348,9 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 				<code>versionTime</code>
 			</td>
 			<td>
-				标识要解析的 <a>DID文档</a> 的特定版本时间戳。即，在指定的 `versionTime` 之前对 <a>DID</a> 有效的 <a>DID文档</a> 的最新版本。如果存在，关联的值必须是一个 <a data-lt="ascii string">ASCII 字符串</a>，它是有效的 XML 日期时间值，如 <a href="https://www.w3.org/TR/xmlschema11-2/">W3C XML Schema 定义语言 (XSD) 1.1 第 2 部分：数据类型</a> [[XMLSCHEMA11-2]] 第 3.3.7 节中所定义。此日期时间值必须规范化为 UTC 00:00:00，并且不包含亚秒级小数精度。
-				例如：<code>2020-12-20T19:17:47Z</code>。
+				标识要解析的 <a>DID document</a> 的特定版本时间戳。即在指定 `versionTime` 之前对 <a>DID</a> 有效的最新版本的 <a>DID document</a>。如果存在，关联值必须（MUST）是一个 <a data-lt="ascii string">ASCII 字符串</a>，且为有效的 XML 日期时间值，如 <a
+					href="https://www.w3.org/TR/xmlschema11-2/">W3C XML Schema Definition Language
+				(XSD) 1.1 Part 2: Datatypes</a> [[XMLSCHEMA11-2]] 第 3.3.7 节所定义。此日期时间值必须（MUST）标准化为 UTC 00:00:00 且不含亚秒小数精度。例如：<code>2020-12-20T19:17:47Z</code>。
 			</td>
 		</tr>
 		<tr>
@@ -272,8 +358,7 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 				<code>hl</code>
 			</td>
 			<td>
-				<a>DID文档</a> 的资源哈希，用于添加完整性保护，如 [[?HASHLINK]] 中所指定。此参数是非规范性的。
-				如果存在，关联的值必须是一个 <a data-lt="ascii string">ASCII 字符串</a>。
+				<a>DID document</a> 的资源哈希，用于添加完整性保护，如 [[?HASHLINK]] 中所指定。此参数为非规范性的。
 			</td>
 		</tr>
 
@@ -281,37 +366,46 @@ did:example:123?service=files&amp;relativeRef=/resume.pdf
 	</table>
 
 	<p>
-		实现者以及 <a>DID方法</a> 规范作者可能会使用此处未列出的其他DID参数。为了最大程度的互操作性，建议DID参数使用DID规范注册机制 [[?DID-SPEC-REGISTRIES]]，以避免与具有不同语义的相同DID参数的其他用途发生冲突。
+		实现者以及 <a>DID method</a> 规范作者可能使用此处未列出的其他 DID 参数。为了最大化互操作性，建议（RECOMMENDED）DID 参数使用 DID 文档属性扩展机制 [[?DID-EXTENSIONS-PROPERTIES]]，以避免与具有不同语义的相同 DID 参数的其他用途发生冲突。
 	</p>
 
 	<p>
-		如果存在明确的用例，其中参数需要成为 URL 的一部分以更精确地引用 <a>资源</a>，则可以使用DID参数。如果相同的功能可以通过将输入元数据传递给 <a>DID解析器</a> 来表达，则预计不会使用DID参数。
+		DID 参数可以（MAY）在存在明确用例的情况下使用，即该参数需要成为 URL 的一部分，以比单独使用 <a>DID</a> 更高的精度引用 <a>resource</a>。预期 DID 参数
+		在相同功能可以通过向 <a>DID resolver</a> 传递输入元数据来表达时，<em>不</em>使用 DID 参数。
 	</p>
 
-	<p class="note" title="DID参数和DID解析">
-		<a>DID解析</a> 和 <a>DID URL解引用</a> 功能可以通过传递 <a href="#did-resolution-options"></a> 或 <a href="#did-url-dereferencing-options"></a> 给 <a>DID解析器</a> 来影响，这些选项不是 <a>DID URL</a> 的一部分。这与 HTTP 类似，某些参数可以包含在 HTTP URL 中，或者作为 HTTP 头在解引用过程中传递。重要的区别在于，作为 <a>DID URL</a> 一部分的DID参数应该用于指定 <em>正在识别的 <a>资源</a></em>，而不作为 <a>DID URL</a> 一部分的输入元数据应该用于控制 <em>如何解析或解引用该 <a>资源</a></em>。
+	<p class="note" title="DID 参数与 DID 解析">
+		<a>DID resolution</a> 和 <a>DID URL dereferencing</a> 函数可以通过向 <a>DID resolver</a> 传递不属于 <a>DID URL</a> 的 <a href="#did-resolution-options"></a> 或
+		<a href="#did-url-dereferencing-options"></a> 来影响其行为。这类似于 HTTP，其中某些参数可以包含在 HTTP URL 中，或者在解引用过程中作为 HTTP 头传递。重要的区别在于：作为 <a>DID
+		URL</a> 一部分的 DID 参数应当用于指定<em>正在标识什么 <a>resource</a></em>，而不属于 <a>DID URL</a> 的输入元数据应当用于控制<em>如何解析或解引用该 <a>resource</a></em>。
 	</p>
 
 </section>
 
 <section id="resolving">
-	<h1>DID解析</h1>
+	<h1>DID 解析</h1>
 
 	<p>
-		<a>DID解析</a> 功能通过使用适用的 <a>DID方法</a> 的“读取”操作将 <a>DID</a> 解析为 <a>DID文档</a>，如 <a data-cite="did-core#method-operations">方法操作</a> 中所述。所有符合规范的 <a>DID解析器</a> 都实现了以下函数，其抽象形式如下：
+		<a>DID resolution</a> 函数通过使用适用 <a>DID method</a> 的"读取"操作将 <a>DID</a> 解析为 <a>DID
+		document</a>，如 <a data-cite="did-core#method-operations">Method Operations</a> 中所述。
+	</p>
+	<p>	所有合规的 <a>DID resolvers</a> 实现以下函数，其抽象形式如下：
 	</p>
 
-	<pre title="DID解析的抽象函数">
+	<pre title="DID 解析的抽象函数">
 resolve(did, resolutionOptions) →
-   «DIDResolutionMetadata,DIDDocument,DIDDocumentMetadata »
+   « didResolutionMetadata, didDocument, didDocumentMetadata »
       </pre>
 
 	<p>
-		所有符合规范的 <a>DID解析器</a> 必须为至少一种 <a>DID方法</a> 实现 <a>DID解析</a> 功能，并且必须能够返回至少一种符合规范的 <a>表示</a> 的 <a>DID文档</a>。
+		所有合规的 <a>DID resolvers</a> 必须（MUST）为至少一种 <a>DID method</a> 实现 <a>DID resolution</a>
+		函数，并且必须（MUST）能够以至少一种合规 <a>representation</a> 返回 <a>DID document</a>。
 	</p>
 
 	<p>
-		符合规范的 <a>DID解析器</a> 实现不会以任何方式更改此函数的签名。<a>DID解析器</a> 实现可能会将 <code>resolve</code> 函数映射到方法特定的内部函数以执行实际的 <a>DID解析</a> 过程。<a>DID解析器</a> 实现可能会实现并暴露具有不同签名的其他函数，除了此处指定的 <code>resolve</code> 函数。
+		合规的 <a>DID resolver</a> 实现不以任何方式改变此函数的签名。<a>DID resolver</a> 实现可以（MAY）将
+		<code>resolve</code> 函数映射到方法特定的内部函数以执行实际的 <a>DID resolution</a>
+		过程。<a>DID resolver</a> 实现可以（MAY）在此处指定的 <code>resolve</code> 函数之外实现和暴露具有不同签名的额外函数。
 	</p>
 
 	<p>
@@ -323,18 +417,21 @@ resolve(did, resolutionOptions) →
 			did
 		</dt>
 		<dd>
-			这是要解析的 <a>DID</a>。此输入是必需的，值必须是符合 <a data-cite="did-core#did-syntax"></a> 中定义的 <a>DID</a>。
+			这是要解析的 <a>DID</a>。此输入是必需的（REQUIRED），且值必须（MUST）是 <a data-cite="did-core#did-syntax"></a> 中定义的合规 <a>DID</a>。
 		</dd>
 		<dt>
 			resolutionOptions
 		</dt>
 		<dd>
-			一个 <a href="#metadata-structure">元数据结构</a>，包含 <a href="#did-resolution-options"></a> 中定义的属性。此输入是必需的，但结构可能为空。
+			一个<a href="#metadata-structure">元数据结构</a>，包含除 <code>did</code> 本身之外的 <code>resolve</code> 函数的输入选项。此结构在 <a
+				href="#did-resolution-options"></a> 中进一步定义。此输入是必需的（REQUIRED），但结构可以（MAY）为空。
 		</dd>
 	</dl>
 
 	<p>
-		此函数返回多个值，并且对这些值如何一起返回没有限制。<code>resolve</code> 的返回值包括 <a>didResolutionMetadata</a>、<a>didDocument</a> 和 <a>didDocumentMetadata</a>。这些值描述如下：
+		此函数返回多个值，不对这些值如何一起返回施加限制。<code>resolve</code> 的返回值是
+		<a>didResolutionMetadata</a>、<a>didDocument</a> 和
+		<a>didDocumentMetadata</a>。这些值描述如下：
 	</p>
 
 	<dl>
@@ -342,27 +439,32 @@ resolve(did, resolutionOptions) →
 			<dfn>didResolutionMetadata</dfn>
 		</dt>
 		<dd>
-			一个 <a href="#metadata-structure">元数据结构</a>，包含与 <a>DID解析</a> 过程结果相关的值，这些值通常在 <code>resolve</code> 函数的调用之间变化，因为它表示解析过程本身的数据。此结构是必需的，并且在解析过程中出现错误时，此结构不能为空。此元数据由 <a href="#did-resolution-metadata"></a> 定义。如果解析不成功，此结构必须包含一个描述错误的 <code>error</code> 属性。
+			一个<a href="#metadata-structure">元数据结构</a>，包含与 <a>DID resolution</a> 过程结果相关的值。此结构是必需的（REQUIRED），在解析过程中出现错误的情况下，此结构禁止（MUST NOT）为空。此结构在 <a href="#did-resolution-metadata"></a> 中进一步定义。如果解析不成功，此结构必须（MUST）包含描述错误的 <code>error</code> 属性。参见 <a href="#errors"></a> 章节。
 		</dd>
 		<dt>
 			<dfn>didDocument</dfn>
 		</dt>
 		<dd>
-			如果解析成功，这必须是一个 <a>DID文档</a>，它能够以 [[[DID]]] 规范中定义的符合规范的 <a data-cite="did-core#representations">表示</a> 之一表示。解析的 <a>DID文档</a> 中的 <code><a data-cite="did-core#dfn-id">id</a></code> 值必须与解析的 <a>DID</a> 匹配。如果解析不成功，此值必须为空。
+			如果解析成功，此值必须（MUST）是一个能够以 <a data-cite="did#data-model"></a> 规范的一种合规 <a data-cite="did#representations">representations</a> 表示的 <a>DID document</a>。已解析的 <a>DID document</a> 中 <code><a data-cite="did#dfn-id">id</a></code> 的值必须（MUST）与被解析的 <a>DID</a> 字符串等价。如果解析不成功，此值必须（MUST）为空。
 		</dd>
 		<dt>
 			<dfn>didDocumentMetadata</dfn>
 		</dt>
 		<dd>
-			如果解析成功，这必须是一个 <a href="#metadata-structure">元数据结构</a>。此结构包含 <code>didDocument</code> 属性中包含的 <a>DID文档</a> 的元数据。此元数据通常在 <code>resolve</code> 函数的调用之间不会变化，除非 <a>DID文档</a> 发生变化，因为它表示 <a>DID文档</a> 的元数据。如果解析不成功，此输出必须是一个空的 <a href="#metadata-structure">元数据结构</a>。此规范定义的属性在 <a href="#did-document-metadata"></a> 中。
+			如果解析成功，此值必须（MUST）是一个 <a
+				href="#metadata-structure">元数据结构</a>。此结构包含关于 <code>didDocument</code>
+			属性中 <a>DID document</a> 的元数据。如果解析不成功，此输出必须（MUST）是一个空的 <a
+				href="#metadata-structure">元数据结构</a>。此结构在 <a href="#did-document-metadata"></a> 中进一步定义。
 		</dd>
 	</dl>
 
-	<section>
-		<h3 id="did-resolution-options">DID解析选项</h3>
+	<section id="did-resolution-options">
+		<h3>DID 解析选项</h3>
+
+		<p>这是一个<a href="#metadata-structure">元数据结构</a>，包含 <a>DID Resolution</a> 过程的输入选项。</p>
 
 		<p>
-			此结构中的可能属性及其可能值在DID规范注册表 [[?DID-SPEC-REGISTRIES]] 中注册。本规范定义了以下常见属性。
+			此结构中可能的属性及其可能的值应当（SHOULD）在 DID Resolution Extensions [[?DID-EXTENSIONS-RESOLUTION]] 中注册。本规范定义了以下常见输入选项：
 		</p>
 
 		<dl>
@@ -370,7 +472,10 @@ resolve(did, resolutionOptions) →
 				accept
 			</dt>
 			<dd>
-				调用者首选的 <a>DID文档</a> 的媒体类型。媒体类型必须表示为 <a data-lt="ascii string">ASCII 字符串</a>。<a>DID解析器</a> 实现应使用此值来确定返回的 <code>didDocument</code> 的 <a>表示</a>，如果支持并可用此类 <a>表示</a>。此属性是可选的。
+				调用者首选的 <a>DID
+				document</a> <a>representation</a> 的媒体类型。媒体类型必须（MUST）表示为 <a data-lt="ascii
+string">ASCII 字符串</a>。<a>DID resolver</a> 实现应当（SHOULD）使用此值来确定返回的
+				<code>didDocument</code> 的 <a>representation</a>（如果支持且可用该 <a>representation</a>）。此属性是可选的（OPTIONAL）。
 			</dd>
 		</dl>
 
@@ -379,7 +484,9 @@ resolve(did, resolutionOptions) →
 				expandRelativeUrls
 			</dt>
 			<dd>
-				一个布尔标志，指示 <a>DID解析器</a> 将 <a data-cite="did-core#relative-did-urls">相对DID URL</a> 扩展为符合 <a data-cite="did-core#did-url-syntax">DID URL语法</a> 的绝对DID URL。
+				一个布尔标志，指示 <a>DID resolver</a> 将 <a>DID document</a> 中的
+				<a data-cite="did-core#relative-did-urls">相对 DID URL</a> 扩展为符合 <a data-cite="did-core#did-url-syntax">
+				DID URL 语法</a>的绝对 DID URL。
 			</dd>
 		</dl>
 
@@ -390,7 +497,7 @@ resolve(did, resolutionOptions) →
 			</dd>
 		</dl>
 
-		<dl>
+    <dl>
 			<dt>versionTime</dt>
 			<dd>
 				参见 <a href="#did-parameters"></a> 中的定义。
@@ -398,11 +505,24 @@ resolve(did, resolutionOptions) →
 		</dl>
 	</section>
 
-	<section>
-		<h3>DID解析元数据</h3>
+	<section id="did-resolution-metadata">
+		<h3>DID 解析元数据</h3>
+
+		<p>这是一个<a href="#metadata-structure">元数据结构</a>，包含关于 <a>DID Resolution</a> 过程的元数据。</p>
+		<p>此元数据通常在每次调用 <a>DID Resolution</a> 函数时发生变化，因为它表示解析过程本身的数据。</p>
+		<p>此元数据的来源是 <a>DID resolver</a>。</p>
+		<p>DID 解析元数据的示例包括：</p>
+		<ul>
+			<li>返回内容的媒体类型（`contentType`）。</li>
+			<li>错误对象（`error`）（参见 <a href="#errors"></a> 章节）。</li>
+            <li>由 <a>DID resolver</a> 生成的证明，例如用于建立可信解析（<b>proof</b>）。</li>
+			<li>DID 解析过程的持续时间。</li>
+			<li>缓存信息（参见 <a href="#caching"></a> 章节）。</li>
+			<li>在 DID 解析过程中使用的 <a>verifiable data registry</a> 的 URL、IP 地址和/或其他网络信息。</li>
+		</ul>
 
 		<p>
-			此结构中的可能属性及其可能值在DID规范注册表 [[?DID-SPEC-REGISTRIES]] 中注册。本规范定义了以下DID解析元数据属性：
+			此结构中可能的属性及其可能的值应当（SHOULD）在 DID Resolution Extensions [[?DID-EXTENSIONS-RESOLUTION]] 中注册。本规范定义了以下常见元数据属性：
 		</p>
 
 		<dl>
@@ -410,249 +530,275 @@ resolve(did, resolutionOptions) →
 				contentType
 			</dt>
 			<dd>
-				返回的 <code>didDocument</code> 的媒体类型。此属性是可选的。如果存在，此属性的值必须是一个 <a data-lt="ascii string">ASCII 字符串</a>，它是符合规范的 <a>表示</a> 的媒体类型。在这种情况下，<code>resolve</code> 函数的调用者必须使用此值来确定如何解析和处理 <code>didDocument</code>。
+				返回的 <code>didDocument</code> 的媒体类型。此属性是可选的（OPTIONAL）。如果存在，此属性的值必须（MUST）是一个 <a data-lt="ascii string">ASCII 字符串</a>，即合规 <a>representations</a> 的媒体类型。在这种情况下，<code>resolve</code> 函数的调用者必须（MUST）在确定如何解析和处理 <code>didDocument</code> 时使用此值。
 			</dd>
 			<dt>
 				error
 			</dt>
 			<dd>
-				解析过程中的错误代码。当解析过程中出现错误时，此属性是必需的。此属性的值必须是一个单一的关键字 <a data-lt="ascii string">ASCII 字符串</a>。此字段的可能属性值应在DID规范注册表 [[?DID-SPEC-REGISTRIES]] 中注册。本规范定义了以下常见错误值：
-				<dl>
-					<dt>
-						invalidDid
-					</dt>
-					<dd>
-						提供给 <a>DID解析</a> 函数的 <a>DID</a> 不符合有效语法。（参见 <a data-cite="did-core#did-syntax"></a>。）
-					</dd>
-					<dt>
-						notFound
-					</dt>
-					<dd>
-						<a>DID解析器</a> 无法找到此解析请求生成的 <a>DID文档</a>。
-					</dd>
-					<dt>
-						representationNotSupported
-					</dt>
-					<dd>
-						如果通过 <code>accept</code> 输入元数据属性请求的 <a>表示</a> 不受 <a>DID方法</a> 和/或 <a>DID解析器</a> 实现支持，则返回此错误代码。
-					</dd>
-				</dl>
+				[[RFC9457]] 中定义的错误数据结构。当解析过程中出现错误时，此属性是必需的（REQUIRED）。本规范定义的错误可在 <a href="#errors"></a> 章节中找到。其他错误应当（SHOULD）在 DID Resolution Extensions [[?DID-EXTENSIONS-RESOLUTION]] 中注册。
 			</dd>
+
+            <dt>
+                proof
+            </dt>
+            <dd>
+                <p>
+                    某些 <a>DID resolvers</a> 和 <a>DID URL dereferencers</a> 在执行 <a>DID Resolution</a> 或 <a>DID URL Dereferencing</a> 函数时使用证明。详见 <a href="#resolver-architectures"></a>。
+                </p>
+                <p>
+                    <a>DID resolution</a> 元数据可以（MAY）包含 <code>proof</code> 属性。如果存在，其值必须（MUST）是一个 <a
+                        data-cite="INFRA#sets">集合</a>，其中每个项目是一个表示证明的 <a data-cite="INFRA#maps">映射</a>。此属性的使用和证明类型与 <a>DID method</a> 无关。
+                </p>
+            </dd>
 		</dl>
 
 	</section>
 
-	<section>
-		<h3>DID文档元数据</h3>
+	<section id="did-document-metadata">
+		<h3>DID 文档元数据</h3>
+
+		<p>这是一个<a href="#metadata-structure">元数据结构</a>，包含关于 <a>DID Resolution</a> 过程的元数据。</p>
+		<p>此元数据通常不会在 <a>DID Resolution</a> 函数的调用之间发生变化，除非 <a>DID document</a> 发生更改，因为它表示关于 <a>DID document</a> 的数据。</p>
+		<p>此元数据的来源是 <a>DID controller</a> 和/或 <a>DID method</a>。
+			由 DID 控制者证明的 DID 文档元数据没有内在的准确性保证。建议客户端在依赖 DID 文档元数据来指导业务逻辑时保持谨慎。
+		</p>
+		<p>DID 文档元数据的示例包括：</p>
+		<ul>
+			<li><a>DID</a> 及其关联 <a>DID document</a> 被创建或更新时的时间戳（例如 `created`、`updated`、`nextUpdate`）。</li>
+			<li>关于 DID 文档的版本信息（例如 `versionId`、`nextVersionId`）。</li>
+			<li>由 <a>DID controller</a> 添加或由 <a>DID method's</a> <a>verifiable data registry</a> 生成的证明，可用于建立控制权或启用 <a>verifiable reads</a>（例如 `proof`）。</li>
+            <li>关于控制者、能力、委托等的元数据。</li>
+            <li>方法特定的元数据，如区块链或其他 <a>verifiable data registry</a> 中记录的区块号、索引、交易哈希、确认数等。</li>
+		</ul>
 
 		<p>
-			此结构中的可能属性及其可能值应在DID规范注册表 [[?DID-SPEC-REGISTRIES]] 中注册。本规范定义了以下常见属性。
+			此结构中可能的属性及其可能的值应当（SHOULD）在 DID Document Properties Extensions [[?DID-EXTENSIONS-PROPERTIES]] 中注册。本规范定义了以下常见元数据属性。
 		</p>
 
 		<dl>
 			<dt><dfn class="lint-ignore">created</dfn></dt>
 			<dd>
-				<a>DID文档</a> 元数据应包括一个 <code>created</code> 属性，以指示 <a data-cite="did-core#method-operations">创建操作</a> 的时间戳。属性的值必须是一个 <a data-cite="INFRA#string">字符串</a>，格式化为 <a data-cite="XMLSCHEMA11-2#dateTime">XML 日期时间</a>，规范化为 UTC 00:00:00，并且不包含亚秒级小数精度。例如：<code>2020-12-20T19:17:47Z</code>。
+				<a>DID document</a> 元数据应当（SHOULD）包含 <code>created</code> 属性，以指示 <a data-cite="did-core#method-operations">Create 操作</a>的时间戳。该属性的值必须（MUST）是格式化为 <a data-cite="XMLSCHEMA11-2#dateTime">XML Datetime</a> 的 <a data-cite="INFRA#string">字符串</a>，标准化为 UTC 00:00:00 且不含亚秒小数精度。例如：<code>2020-12-20T19:17:47Z</code>。
 			</dd>
 
 			<dt><dfn class="lint-ignore">updated</dfn></dt>
 			<dd>
-				<a>DID文档</a> 元数据应包括一个 <code>updated</code> 属性，以指示解析的文档版本的最后一次 <a data-cite="did-core#method-operations">更新操作</a> 的时间戳。属性的值必须遵循与 <code>created</code> 属性相同的格式化规则。如果从未对 <a>DID文档</a> 执行过更新操作，则省略 <code>updated</code> 属性。如果存在 <code>updated</code> 属性，它可以与 <code>created</code> 属性具有相同的值，当两个时间戳之间的差异小于一秒时。
+				<a>DID document</a> 元数据应当（SHOULD）包含 <code>updated</code> 属性，以指示已解析文档版本的最后一次 <a data-cite="did-core#method-operations">Update 操作</a>的时间戳。该属性的值必须（MUST）遵循与 <code>created</code> 属性相同的格式规则。如果从未对 <a>DID document</a> 执行过 Update 操作，则省略 <code>updated</code> 属性。如果 <code>updated</code> 属性存在，当两个时间戳之间的差异小于一秒时，其值可以与 <code>created</code> 属性的值相同。
 			</dd>
 
 			<dt><dfn class="lint-ignore">deactivated</dfn></dt>
 			<dd>
-				如果DID已被 <a data-cite="did-core#method-operations">停用</a>，<a>DID文档</a> 元数据必须包含此属性，并且布尔值为 <code>true</code>。如果DID未被停用，此属性是可选的，但如果包含，则必须具有布尔值 <code>false</code>。
+				如果 DID 已被<a data-cite="did-core#method-operations">停用</a>，<a>DID document</a> 元数据必须（MUST）包含此属性，其布尔值为 <code>true</code>。如果 DID 未被停用，此属性是可选的（OPTIONAL），但如果包含，必须（MUST）具有布尔值 <code>false</code>。
 			</dd>
 
 			<dt><dfn class="lint-ignore">nextUpdate</dfn></dt>
 			<dd>
-				如果解析的文档版本不是文档的最新版本，<a>DID文档</a> 元数据可以包含一个 <code>nextUpdate</code> 属性，指示下一次 <a data-cite="did-core#method-operations">更新操作</a> 的时间戳。属性的值必须遵循与 <code>created</code> 属性相同的格式化规则。
+				如果已解析的文档版本不是文档的最新版本，<a>DID document</a> 元数据可以（MAY）包含 <code>nextUpdate</code> 属性。它指示下一次 <a data-cite="did-core#method-operations">Update 操作</a>的时间戳。该属性的值必须（MUST）遵循与 <code>created</code> 属性相同的格式规则。
 			</dd>
 
 			<dt><dfn class="lint-ignore">versionId</dfn></dt>
 			<dd>
-				<a>DID文档</a> 元数据应包含一个 <code>versionId</code> 属性，以指示解析的文档版本的最后一次 <a data-cite="did-core#method-operations">更新操作</a> 的版本。属性的值必须是一个 <a data-lt="ascii string">ASCII 字符串</a>。
+				<a>DID document</a> 元数据应当（SHOULD）包含 <code>versionId</code> 属性，以指示已解析文档版本的最后一次 <a data-cite="did-core#method-operations">Update 操作</a>的版本。该属性的值必须（MUST）是一个 <a data-lt="ascii string">ASCII 字符串</a>。
 			</dd>
 
 			<dt><dfn class="lint-ignore">nextVersionId</dfn></dt>
 			<dd>
-				如果解析的文档版本不是文档的最新版本，<a>DID文档</a> 元数据可以包含一个 <code>nextVersionId</code> 属性，指示下一次 <a data-cite="did-core#method-operations">更新操作</a> 的版本。属性的值必须是一个 <a data-lt="ascii string">ASCII 字符串</a>。
+				如果已解析的文档版本不是文档的最新版本，<a>DID document</a> 元数据可以（MAY）包含 <code>nextVersionId</code> 属性。它指示下一次 <a data-cite="did-core#method-operations">Update 操作</a>的版本。该属性的值必须（MUST）是一个 <a data-lt="ascii
+string">ASCII 字符串</a>。
 			</dd>
 
 			<dt><dfn>equivalentId</dfn></dt>
 			<dd>
 				<p>
-					一个 <a>DID方法</a> 可以定义不同形式的 <a>DID</a>，这些形式在逻辑上是等价的。例如，一个 <a>DID</a> 在注册到 <a>可验证数据注册表</a> 之前可能采用一种形式，而在注册后采用另一种形式。在这种情况下，<a>DID方法</a> 规范可能需要将解析的 <a>DID</a> 的一个或多个逻辑等价的 <a>DID</a> 作为 <a>DID文档</a> 的属性表达出来。这就是 <code><a>equivalentId</a></code> 属性的目的。
+					<a>DID method</a> 可以定义逻辑等价的不同 <a>DID</a> 形式。例如，<a>DID</a> 在注册到 <a>verifiable data registry</a> 之前采用一种形式，注册后采用另一种形式。在这种情况下，<a>DID method</a> 规范可能需要将一个或多个逻辑等价于已解析 <a>DID</a> 的 <a>DIDs</a> 表示为 <a>DID document</a> 的属性。这就是 <code><a>equivalentId</a></code> 属性的用途。
 				</p>
 				<p>
-					<a>DID文档</a> 元数据可以包含一个 <code>equivalentId</code> 属性。如果存在，值必须是一个 <a data-cite="INFRA#ordered-set">集合</a>，其中每个项目是一个 <a data-cite="INFRA#string">字符串</a>，符合 <a data-cite="did-core#did-syntax"></a> 中的规则。关系是每个 <code><a>equivalentId</a></code> 值在逻辑上等同于 <code>id</code> 属性值，因此指的是相同的 <a>DID主体</a>。每个 <code><a>equivalentId</a></code>DID值必须由与 <code>id</code> 属性值相同的 <a>DID方法</a> 生成，并且是该 <a>DID方法</a> 的一种形式。（例如，<code>did:example:abc</code> == <code>did:example:ABC</code>）
+					<a>DID document</a> 元数据可以（MAY）包含 <code>equivalentId</code> 属性。如果存在，其值必须（MUST）是一个 <a
+						data-cite="INFRA#sets">集合</a>，其中每个项目是符合 <a
+						data-cite="did-core#did-syntax"></a> 章节规则的 <a data-cite="INFRA#string">字符串</a>。该关系声明每个 <code><a>equivalentId</a></code> 值在逻辑上等价于 <code>id</code> 属性值，因此指向相同的 <a>DID subject</a>。每个 <code><a>equivalentId</a></code> DID 值必须（MUST）由与 <code>id</code> 属性值相同的 <a>DID method</a> 产生，并且是其形式之一。（例如，<code>did:example:abc</code> == <code>did:example:ABC</code>）
 				</p>
 				<p>
-					一个符合规范的 <a>DID方法</a> 规范必须保证每个 <code><a>equivalentId</a></code> 值在逻辑上等同于 <code>id</code> 属性值。
+					合规的 <a>DID method</a> 规范必须（MUST）保证每个 <code><a>equivalentId</a></code> 值在逻辑上等价于 <code>id</code> 属性值。
 				</p>
 				<p>
-					请求方应保留 <code>id</code> 和 <code><a>equivalentId</a></code> 属性的值，以确保与它们包含的任何值的后续交互都被正确处理为逻辑等价（例如，在数据库中保留所有变体，以便与任何一个交互都映射到相同的底层账户）。
+					请求方应保留 <code>id</code> 和 <code><a>equivalentId</a></code> 属性中的值，以确保与其中任何值的后续交互都能作为逻辑等价正确处理（例如，在数据库中保留所有变体，以便与任何一个的交互都映射到相同的底层账户）。
 				</p>
 				<p class="note" title="更强的等价性">
-					<code><a>equivalentId</a></code> 是一种比 <code><a data-cite="did-core#also-known-as">alsoKnownAs</a></code> 更强的等价形式，因为等价性必须由治理的 <a>DID方法</a> 保证。<code><a>equivalentId</a></code> 表示一个完整的图合并，因为相同的 <a>DID文档</a> 描述了 <code><a>equivalentId</a></code> <a>DID</a> 和 <code>id</code> 属性 <a>DID</a>。
+					<code><a>equivalentId</a></code> 是比 <code><a data-cite="did-core#also-known-as">alsoKnownAs</a></code> 更强的等价形式，因为这种等价性必须（MUST）由管辖的 <a>DID method</a> 保证。使用 <code><a>equivalentId</a></code> 意味着同一个 <a>DID document</a> 描述了 <code><a>equivalentId</a></code> <a>DID</a> 和 <code>id</code> 属性 <a>DID</a>。
 				</p>
 				<p>
-					如果请求方不保留 <code>id</code> 和 <code><a>equivalentId</a></code> 属性的值，并确保与它们包含的任何值的后续交互都被正确处理为逻辑等价，可能会出现负面或意外的问题。强烈建议实现者遵守与此元数据属性相关的指示。
+					如果请求方未保留 <code>id</code> 和 <code><a>equivalentId</a></code> 属性中的值，并确保与其中任何值的后续交互都能作为逻辑等价正确处理，则可能出现负面或意外问题。强烈建议实现者遵守与此元数据属性相关的指令。
 				</p>
 			</dd>
+
 			<dt><dfn>canonicalId</dfn></dt>
 			<dd>
 				<p>
-					<code><a>canonicalId</a></code> 属性与 <code><a>equivalentId</a></code> 属性相同，除了：a) 它与单个值而不是集合相关联，b) <a>DID</a> 被定义为包含 <a>DID文档</a> 范围内的 <a>DID主体</a> 的规范 ID。
+					<code><a>canonicalId</a></code> 属性与 <code><a>equivalentId</a></code> 属性相同，不同之处在于：a）它与单个值而非集合关联，b）该 <a>DID</a> 被定义为在包含它的 <a>DID document</a> 范围内 <a>DID subject</a> 的规范 ID。
 				</p>
 				<p>
-					<a>DID文档</a> 元数据可以包含一个 <code>canonicalId</code> 属性。如果存在，值必须是一个 <a data-cite="INFRA#string">字符串</a>，符合 <a data-cite="did-core#did-syntax"></a> 中的规则。关系是 <code><a>canonicalId</a></code> 值在逻辑上等同于 <code>id</code> 属性值，并且 <code><a>canonicalId</a></code> 值由 <a>DID方法</a> 定义为包含 <a>DID文档</a> 范围内的 <a>DID主体</a> 的规范 ID。一个 <code><a>canonicalId</a></code> 值必须由与 <code>id</code> 属性值相同的 <a>DID方法</a> 生成，并且是该 <a>DID方法</a> 的一种形式。（例如，<code>did:example:abc</code> == <code>did:example:ABC</code>）。
+					<a>DID document</a> 元数据可以（MAY）包含 <code>canonicalId</code> 属性。如果存在，其值必须（MUST）是符合 <a
+						data-cite="did-core#did-syntax"></a> 章节规则的 <a
+						data-cite="INFRA#string">字符串</a>。该关系声明 <code><a>canonicalId</a></code> 值在逻辑上等价于 <code>id</code> 属性值，并且 <code><a>canonicalId</a></code> 值由 <a>DID method</a> 定义为在包含它的 <a>DID document</a> 范围内 <a>DID
+					subject</a> 的规范 ID。<code><a>canonicalId</a></code> 值必须（MUST）由与 <code>id</code> 属性值相同的 <a>DID method</a> 产生，并且是其形式之一。（例如，<code>did:example:abc</code> == <code>did:example:ABC</code>）。
 				</p>
 				<p>
-					一个符合规范的 <a>DID方法</a> 规范必须保证 <code><a>canonicalId</a></code> 值在逻辑上等同于 <code>id</code> 属性值。
+					合规的 <a>DID method</a> 规范必须（MUST）保证 <code><a>canonicalId</a></code> 值在逻辑上等价于 <code>id</code> 属性值。
 				</p>
 				<p>
-					请求方应使用 <code><a>canonicalId</a></code> 值作为其 <a>DID主体</a> 的主要 ID 值，并将所有其他等价值视为次要别名（例如，更新其系统中的相应主要引用以反映新的规范 ID 指示）。
+					请求方应使用 <code><a>canonicalId</a></code> 值作为 <a>DID subject</a> 的主要 ID 值，并将所有其他等价值视为次要别名（例如，更新系统中对应的主要引用以反映新的规范 ID 指令）。
 				</p>
 				<p class="note" title="规范等价性">
-					<code><a>canonicalId</a></code> 是与 <code><a>equivalentId</a></code> 相同的等价性声明，除了它被约束为单个值，该值被定义为包含 <a>DID文档</a> 范围内的 <a>DID主体</a> 的规范。与 <code><a>equivalentId</a></code> 一样，<code><a>canonicalId</a></code> 表示一个完整的图合并，因为相同的 <a>DID文档</a> 描述了 <code><a>canonicalId</a></code>DID和 <code>id</code> 属性 <a>DID</a>。
+					<code><a>canonicalId</a></code> 与 <code><a>equivalentId</a></code> 是相同的等价声明，只是它被约束为单个值，该值被定义为在 <a>DID document</a> 范围内 <a>DID subject</a> 的规范值。与 <code><a>equivalentId</a></code> 一样，使用 <code><a>canonicalId</a></code> 意味着同一个 <a>DID document</a> 描述了 <code><a>canonicalId</a></code> DID 和 <code>id</code> 属性 <a>DID</a>。
 				</p>
 				<p>
-					如果解析方不使用 <code><a>canonicalId</a></code> 值作为其 <a>DID主体</a> 的主要 ID 值，并将所有其他等价值视为次要别名，可能会出现与用户体验相关的负面或意外问题。强烈建议实现者遵守与此元数据属性相关的指示。
+					如果解析方未使用 <code><a>canonicalId</a></code> 值作为 DID 主体的主要 ID 值，并将所有其他等价值视为次要别名，则可能出现与用户体验相关的负面或意外问题。强烈建议实现者遵守与此元数据属性相关的指令。
 				</p>
 			</dd>
+
+            <dt>proof</dt>
+            <dd>
+                <p>
+                    许多 <a>DID methods</a> 在执行 <a data-cite="did-core#method-operations">方法操作</a>时使用证明。详见 <a href="#method-architectures"></a>。
+                </p>
+                <p>
+                    <a>DID document</a> 元数据可以（MAY）包含 <code>proof</code> 属性。如果存在，其值必须（MUST）是一个 <a
+                        data-cite="INFRA#sets">集合</a>，其中每个项目是一个表示证明的 <a data-cite="INFRA#maps">映射</a>。此属性的使用和证明类型是 <a>DID method</a> 特定的。
+                </p>
+            </dd>
 		</dl>
 
 	</section>
 
 	<section id="resolving-algorithm">
-		<h2>算法</h2>
-		<p>以下 <a>DID解析</a> 算法必须由符合规范的 <a>DID解析器</a> 实现。</p>
+		<h2>DID 解析算法</h2>
+		<p>以下 <a>DID resolution</a> 算法必须（MUST）由合规的 <a>DID resolver</a> 实现。</p>
 		<ol class="algorithm">
-			<li>验证 <var>输入 <a>DID</a></var> 是否符合 <a href="https://www.w3.org/TR/did-core/#did-syntax">DID语法</a> 中的 `did` 规则。
-				如果不符合，<a>DID解析器</a> 必须返回以下结果：
-				<ol class="algorithm">
-					<li><b>didResolutionMetadata</b>: <code>«[ "error" → "invalidDid", ... ]»</code></li>
-					<li><b>didDocument</b>: <code>null</code></li>
-					<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
-				</ol>
+			<li>验证<var>输入 <a>DID</a></var> 是否符合
+			<a href="https://www.w3.org/TR/did-core/#did-syntax">DID 语法</a>的 `did` 规则。如果不符合，<a>DID resolver</a> 必须（MUST）返回以下结果：
+			<ol class="algorithm">
+				<li><b>didResolutionMetadata</b>：<var>错误对象</var>，type 设置为 <a href="#INVALID_DID">INVALID_DID</a></li>
+				<li><b>didDocument</b>：<code>null</code></li>
+				<li><b>didDocumentMetadata</b>：<code>«[ ]»</code></li>
+			</ol>
 			</li>
-			<li>确定 <var>输入 <a>DID</a></var> 的DID方法是否由实现此算法的 <a>DID解析器</a> 支持。如果不支持，<a>DID解析器</a> 必须返回以下结果：
-				<ol class="algorithm">
-					<li><b>didResolutionMetadata</b>: <code>«[ "error" → "methodNotSupported", ... ]»</code></li>
-					<li><b>didDocument</b>: <code>null</code></li>
-					<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
-				</ol>
+			<li>确定<var>输入 <a>DID</a></var> 的 DID 方法是否被实现此算法的 <a>DID resolver</a> 支持。如果不支持，<a>DID resolver</a> 必须（MUST）返回以下结果：
+			<ol class="algorithm">
+				<li><b>didResolutionMetadata</b>：<var>错误对象</var>，type 设置为 <a href="#METHOD_NOT_SUPPORTED">METHOD_NOT_SUPPORTED</a></li>
+				<li><b>didDocument</b>：<code>null</code></li>
+				<li><b>didDocumentMetadata</b>：<code>«[ ]»</code></li>
+			</ol>
 			</li>
-			<li>通过执行 <a href="https://www.w3.org/TR/did-core/#method-operations">读取</a> 操作，从 <var>输入 <a>DID</a></var> 的 <a>可验证数据注册表</a> 中获取 <a>DID文档</a>，如 <var>输入 <a>DID方法</a></var> 所定义：
+			<li>通过执行<var>输入 <a>DID method</a></var> 定义的
+			<a href="https://www.w3.org/TR/did-core/#method-operations">Read</a> 操作，获取<var>输入 <a>DID</a></var> 的 <a>DID document</a>：
+			<ol class="algorithm">
+				<li>除<var>输入 <a>DID</a></var> 外，此算法的所有额外<var>解析选项</var>必须（MUST）传递给<var>输入 <a>DID method</a></var> 的
+				<a href="https://www.w3.org/TR/did-core/#method-operations">Read</a> 操作。</li>
+				<li>如果<var>输入 <a>DID</a></var> 不存在，返回以下结果：
 				<ol class="algorithm">
-					<li>除了 <var>输入 <a>DID</a></var> 外，此算法的所有其他 <var>解析选项</var> 都必须传递给 <var>输入 <a>DID方法</a></var> 的 <a href="https://www.w3.org/TR/did-core/#method-operations">读取</a> 操作。</li>
-					<li>如果 <var>输入 <a>DID</a></var> 不存在，返回以下结果：
-						<ol class="algorithm">
-							<li><b>didResolutionMetadata</b>: <code>«[ "error" → "notFound", ... ]»</code></li>
-							<li><b>didDocument</b>: <code>null</code></li>
-							<li><b>didDocumentMetadata</b>: <code>«[ ]»</code></li>
-						</ol>
-					</li>
-					<li>如果 <var>输入 <a>DID</a></var> 已被停用，返回以下结果：
-						<ol class="algorithm">
-							<li><b>didResolutionMetadata</b>: <code>«[ ... ]»</code></li>
-							<li><b>didDocument</b>: <code>null</code></li>
-							<li><b>didDocumentMetadata</b>: <code>«[ "deactivated" → true, ... ]»</code></li>
-						</ol>
-					</li>
-					<li>否则，<a href="https://www.w3.org/TR/did-core/#method-operations">读取</a> 操作的结果称为 <var>输出 <a>DID文档</a></var>。此结果必须以与 <b>accept</b> <var>输入 <a href="#did-resolution-options">DID解析选项</a></var> 对应的符合规范的 <a href="https://www.w3.org/TR/did-core/#representations">表示</a> 表示。</li>
+					<li><b>didResolutionMetadata</b>：<var>错误对象</var>，type 设置为 <a href="#NOT_FOUND">NOT_FOUND</a></li>
+					<li><b>didDocument</b>：<code>null</code></li>
+					<li><b>didDocumentMetadata</b>：<code>«[ ]»</code></li>
 				</ol>
-			<li>如果 <var>输入 <a href="#did-resolution-options">DID解析选项</a></var> 包含值为 <code>true</code> 的 <code>expandRelativeUrls</code> 选项：
+				</li>
+				<li>如果<var>输入 <a>DID</a></var> 已被停用，返回以下结果：
 				<ol class="algorithm">
-					<li>遍历 <a data-cite="did-core#services">服务</a>、<a data-cite="did-core#verification-methods">验证方法</a> 和 <a data-cite="did-core#verification-relationships">验证关系</a> 中的所有 <var>输出 <a>DID文档</a></var>。</li>
-					<li>如果 <a data-cite="did-core#services">服务</a> 或 <a data-cite="did-core#verification-methods">验证方法</a> 的 <code>id</code> 属性值（包括嵌入在 <a data-cite="did-core#verification-relationships">验证关系</a> 中的值）是 <a data-cite="did-core#relative-did-urls">相对DID URL</a>，或者如果 <a data-cite="did-core#verification-relationships">验证关系</a> 是 <a data-cite="did-core#relative-did-urls">相对DID URL</a>：
+					<li><b>didResolutionMetadata</b>：<code>«[ ... ]»</code></li>
+					<li><b>didDocument</b>：<code>null</code></li>
+					<li><b>didDocumentMetadata</b>：<code>«[ "deactivated" → true, ... ]»</code></li>
+				</ol>
+				</li>
+				<li>否则，<a href="https://www.w3.org/TR/did-core/#method-operations">Read</a> 操作的结果称为<var>输出 <a>DID document</a></var>。此结果必须（MUST）以对应于 <b>accept</b> <var>输入 <a href="#did-resolution-options">DID 解析选项</a></var>的<a href="https://www.w3.org/TR/did-core/#representations">合规表示形式</a>来表示。</li>
+			</ol>
+			<li>如果<var>输入 <a href="#did-resolution-options">DID 解析选项</a></var>包含值为 <code>true</code> 的 <code>expandRelativeUrls</code> 选项：
+				<ol class="algorithm">
+					<li>遍历<var>输出 <a>DID document</a></var> 中的所有 <a data-cite="did-core#services">services</a>、
+						<a data-cite="did-core#verification-methods">verification methods</a> 和
+						<a data-cite="did-core#verification-relationships">verification relationships</a>。</li>
+					<li>如果 <a data-cite="did-core#services">service</a> 或
+						<a data-cite="did-core#verification-methods">verification method</a>
+						（包括嵌入在 <a data-cite="did-core#verification-relationships">verification relationships</a> 中的）的 <code>id</code> 属性值是
+						<a data-cite="did-core#relative-did-urls">相对 DID URL</a>，或者
+						<a data-cite="did-core#verification-relationships">verification relationship</a> 是
+						<a data-cite="did-core#relative-did-urls">相对 DID URL</a>：
 						<ol class="algorithm">
-							<li>根据 <a data-cite="did-core#relative-did-urls">相对DID URL</a> 的规则，将 <a data-cite="did-core#relative-did-urls">相对DID URL</a> 解析为符合 <a data-cite="did-core#did-url-syntax">DID URL语法</a> 的绝对 <a>DID URL</a>。
+							<li>根据 [[[DID-CORE]]] 中 <a data-cite="did-core#relative-did-urls">Relative DID URLs</a> 章节的规则，将 <a data-cite="did-core#relative-did-urls">相对 DID URL</a> 解析为符合 <a data-cite="did-core#did-url-syntax">DID URL 语法</a>的绝对 <a>DID URL</a>。
 							</li>
 						</ol>
 					</li>
-					<li>更新 <var>输出 <a>DID文档</a></var>，将 <a data-cite="did-core#relative-did-urls">相对DID URL</a> 替换为解析后的绝对 <a>DID URL</a>。
+					<li>通过将 <a data-cite="did-core#relative-did-urls">相对 DID URL</a> 替换为已解析的绝对 <a>DID URLs</a> 来更新<var>输出 <a>DID document</a></var>。
 					</li>
 				</ol>
 			</li>
 			<li>返回以下结果：
 				<ol class="algorithm">
-					<li><b>didResolutionMetadata</b>: <code>«[ ... ]»</code></li>
-					<li><b>didDocument</b>: <var>输出DID文档</var></li>
-					<li><b>didDocumentMetadata</b>: <code>«[ "contentType" → </code><var>输出DID文档媒体类型</var><code>, ... ]»</code></li>
+					<li><b>didResolutionMetadata</b>：<code>«[ ... ]»</code></li>
+					<li><b>didDocument</b>：<var>输出 DID 文档</var></li>
+					<li><b>didDocumentMetadata</b>：<code>«[ "contentType" → </code><var>输出 DID 文档媒体类型</var><code>, ... ]»</code></li>
 				</ol>
 			</li>
 		</ol>
-
-		<p class="issue" data-number="5">关于如何处理已被 <a href="https://www.w3.org/TR/did-core/#method-operations">停用</a> 的DID的讨论正在进行中。</p>
-
-		<p class="issue" data-number="13">指定在DID解析过程中如何验证DID文档上的签名/证明。</p>
-
-		<p class="issue">我们是否应该定义功能，使客户端能够发现 <a>DID解析器</a> 支持的 <a>DID方法</a> 列表或其他功能？或者这是实现特定的，超出本规范的范围？例如，参见 <a href="https://github.com/w3c/did-resolution/issues/26">这里</a> 和 <a href="https://github.com/w3c/did-resolution/issues/25">这里</a>。</p>
 
 	</section>
 
 </section>
 
 <section id="dereferencing">
-	<h1>DID URL解引用</h1>
+	<h1>DID URL 解引用</h1>
 
 	<p>
-		<a>DID URL解引用</a> 功能将 <a>DID URL</a> 解引用为 <a>资源</a>，其内容取决于 <a>DID URL</a> 的组件，包括 <a>DID方法</a>、方法特定的标识符、路径、查询和片段。此过程依赖于 <a>DID解析</a> 包含在 <a>DID URL</a> 中的 <a>DID</a>。<a>DID URL解引用</a> 可能涉及多个步骤（例如，当被解引用的DID URL包含片段时），并且该函数定义为在所有步骤完成后返回最终资源。下图描述了上述关系。
+		<a>DID URL dereferencing</a> 函数将 <a>DID URL</a> 解引用为一个 <a>resource</a>，其内容取决于 <a>DID URL</a> 的各组成部分，包括 <a>DID method</a>、方法特定标识符、路径、查询和片段。此过程依赖于 <a>DID URL</a> 中包含的 <a>DID</a> 的 <a>DID resolution</a>。<a>DID URL dereferencing</a> 可能涉及多个步骤（例如，当正在解引用的 DID URL 包含片段时），该函数被定义为在所有步骤完成后返回最终资源。下图描述了上述关系。
 	</p>
 
 	<figure id="did-url-dereference-overview">
 		<img style="margin: auto; display: block; width: 75%;"
-			 src="diagrams/did_url_dereference_overview.svg" alt="
-DID解析为DID文档；DID URL包含DID；DID URL解引用为DID文档片段或外部资源。
+			 src="diagrams/section-5/did-url-dereference-overview.svg" alt="
+DID 解析为 DID 文档；DID URL 包含 DID；DID URL 解引用为 DID 文档片段或外部资源。
         " >
 		<figcaption>
-			DID URL解引用概述
-			参见：<a class="longdesc-link"
-					href="#did-url-dereference-overview-longdesc">叙述性描述</a>。
+			DID URL 解引用概览
+			另见：<a class="longdesc-link"
+						 href="#did-url-dereference-overview-longdesc">叙述性描述</a>。
 		</figcaption>
 	</figure>
 
 	<div class="longdesc" id="did-url-dereference-overview-longdesc">
 		<p>
-			图的左上部分包含一个黑色轮廓的矩形，标记为 "DID"。
+			图的左上部分包含一个黑色轮廓的矩形，标记为"DID"。
 		</p>
 		<p>
-			图的左下部分包含一个黑色轮廓的矩形，标记为 "DID URL"。
-			此矩形包含四个较小的黑色轮廓矩形，水平排列相邻。这些较小的矩形分别标记为 "DID"、"路径"、"查询" 和 "片段"。
+			图的左下部分包含一个黑色轮廓的矩形，标记为"DID URL"。此矩形包含四个较小的黑色轮廓矩形，水平排列相邻。这些较小的矩形依次标记为"DID"、"path"、"query"和"fragment"。
 		</p>
 		<p>
-			图的右上部分包含一个黑色轮廓的矩形，标记为 "DID文档"。
-			此矩形包含三个较小的黑色轮廓矩形。这些较小的矩形分别标记为 "id"、"（属性 X）" 和 "（属性 Y）"，并被多个省略号（...）包围。一个弯曲的黑色箭头，标记为 "DID文档 - 相对片段解引用"，从标记为 "（属性 X）" 的矩形延伸到标记为 "（属性 Y）" 的矩形。
+			图的右上部分包含一个黑色轮廓的矩形，标记为"DID document"。此矩形包含三个较小的黑色轮廓矩形。这些较小的矩形标记为"id"、"(property X)"和"(property Y)"，并被多组省略号包围。一条标记为"DID document - relative fragment dereference"的黑色弯曲箭头从标记为"(property X)"的矩形延伸，指向标记为"(property Y)"的矩形。
 		</p>
 		<p>
-			图的右下部分包含一个黑色轮廓的椭圆形，标记为 "资源"。
+			图的右下部分包含一个黑色轮廓的椭圆形，标记为"Resource"。
 		</p>
 		<p>
-			一个黑色箭头，标记为 "解析为DID文档"，从图的左上部分标记为 "DID" 的矩形指向图的右上部分标记为 "DID文档" 的矩形。
+			一条标记为"resolves to a DID document"的黑色箭头从图左上部分标记为"DID"的矩形延伸，指向图右上部分标记为"DID document"的矩形。
 		</p>
 		<p>
-			一个黑色箭头，标记为 "引用"，从图的右上部分标记为 "DID文档" 的矩形指向图的右下部分标记为 "资源" 的椭圆形。
+			一条标记为"refers to"的黑色箭头从图右上部分标记为"DID document"的矩形延伸，指向图右下部分标记为"Resource"的椭圆形。
 		</p>
 		<p>
-			一个黑色箭头，标记为 "包含"，从图的左下部分标记为 "DID" 的小矩形指向图的左上部分标记为 "DID" 的矩形。
+			一条标记为"contains"的黑色箭头从图左下部分标记为"DID URL"的矩形中标记为"DID"的小矩形延伸，指向图左上部分标记为"DID"的矩形。
 		</p>
 		<p>
-			一个黑色箭头，标记为 "解引用为DID文档"，从图的左下部分标记为 "DID URL" 的矩形指向图的右上部分标记为 "DID文档" 的矩形。
+			一条标记为"dereferences to a DID document"的黑色箭头从图左下部分标记为"DID URL"的矩形延伸，指向图右上部分标记为"DID document"的矩形。
 		</p>
 		<p>
-			一个黑色箭头，标记为 "解引用为资源"，从图的左下部分标记为 "DID URL" 的矩形指向图的右下部分标记为 "资源" 的椭圆形。
+			一条标记为"dereferences to a resource"的黑色箭头从图左下部分标记为"DID URL"的矩形延伸，指向图右下部分标记为"Resource"的椭圆形。
 		</p>
 	</div>
 
 	<p>
-		所有符合规范的 <a>DID解析器</a> 都实现了以下函数，其抽象形式如下：
+		所有合规的 <a>DID URL dereferencers</a> 实现以下函数，其抽象形式如下：
 	</p>
 
-	<pre title="DID URL解引用的抽象函数">
-dereference(DID URL, dereferenceOptions) →
+	<pre title="DID URL 解引用的抽象函数">
+dereference(didUrl, dereferenceOptions) →
    « dereferencingMetadata, contentStream, contentMetadata »
       </pre>
 
@@ -662,57 +808,67 @@ dereference(DID URL, dereferenceOptions) →
 
 	<dl>
 		<dt>
-			DID URL
+			didUrl
 		</dt>
 		<dd>
-			一个符合规范的 <a>DID URL</a>，作为单个 <a data-cite="INFRA#string">字符串</a>。这是要解引用的 <a>DID URL</a>。要解引用 <a>DID片段</a>，必须使用包含 <a>DID片段</a> 的完整 <a>DID URL</a>。此输入是必需的。
+			作为单个 <a data-cite="INFRA#string">字符串</a>的合规 <a>DID URL</a>。这是要解引用的 <a>DID URL</a>。要解引用 <a>DID fragment</a>，必须（MUST）使用包含 <a>DID fragment</a> 的完整 <a>DID URL</a>。此输入是必需的（REQUIRED）。
 
-			<p class="note" title="DID URL解引用器模式">
-				虽然任何 <code>DID URL</code> 都可以传递给DID URL解引用器，但实现者应参考 <a href="#dereferencing"></a> 以进一步了解 <a>DID URL</a> 如何被解引用的常见模式。
+			<p class="note" title="DID URL 解引用器模式">
+				虽然将任何 <code>didUrl</code> 传递给 DID URL 解引用器都是有效的，但实现者应参考 <a href="#dereferencing"></a> 以进一步了解 <a>DID URL</a> 预期如何被解引用的常见模式。
 			</p>
 		</dd>
 		<dt>
 			dereferencingOptions
 		</dt>
 		<dd>
-			一个 <a href="#metadata-structure">元数据结构</a>，包含除 <code>DID URL</code> 本身之外的 <code>dereference</code> 函数的输入选项。此规范定义的属性在 <a href="#did-url-dereferencing-options"></a> 中。此输入是必需的，但结构可能为空。
+			一个<a href="#metadata-structure">元数据结构</a>，包含除 <code>didUrl</code> 本身之外的 <code>dereference</code> 函数的输入选项。此结构在 <a
+				href="#did-url-dereferencing-options"></a> 中进一步定义。此输入是必需的（REQUIRED），但结构可以（MAY）为空。
 		</dd>
 	</dl>
 
 	<p>
-		此函数返回多个值，并且对这些值如何一起返回没有限制。<code>dereference</code> 的返回值包括 <code>dereferencingMetadata</code>、<code>contentStream</code> 和 <code>contentMetadata</code>：
+		此函数返回多个值，不对这些值如何一起返回施加限制。<code>dereference</code> 的返回值是
+		<a>dereferencingMetadata</a>、<a>contentStream</a> 和
+		<a>contentMetadata</a>。这些值描述如下：
 	</p>
 
 	<dl>
 		<dt>
-			dereferencingMetadata
+			<dfn>dereferencingMetadata</dfn>
 		</dt>
 		<dd>
-			一个 <a href="#metadata-structure">元数据结构</a>，包含与 <a>DID URL解引用</a> 过程结果相关的值。此结构是必需的，并且在解引用过程中出现错误时，此结构不能为空。此规范定义的属性在 <a href="#did-url-dereferencing-metadata"></a> 中。如果解引用不成功，此结构必须包含一个描述错误的 <code>error</code> 属性。
+			一个<a href="#metadata-structure">元数据结构</a>，包含与 <a>DID URL dereferencing</a> 过程结果相关的值。此结构是必需的（REQUIRED），在解引用过程中出现错误的情况下，此结构禁止（MUST NOT）为空。此结构在 <a
+				href="#did-url-dereferencing-metadata"></a> 中进一步定义。如果解引用不成功，此结构必须（MUST）包含描述错误的 <code>error</code> 属性。参见 <a href="#errors"></a> 章节。
 		</dd>
 		<dt>
-			contentStream
+			<dfn>contentStream</dfn>
 		</dt>
 		<dd>
-			如果 <code>dereferencing</code> 函数被调用并成功，这必须包含与 <a>DID URL</a> 对应的 <a>资源</a>。<code>contentStream</code> 可以是 <a>资源</a>，例如可以以符合规范的 <a>表示</a> 之一序列化的 <a>DID文档</a>、<a data-cite="did-core#verification-methods">验证方法</a>、<a data-cite="did-core#services">服务</a>，或任何其他可以通过媒体类型标识并通过解析过程获得的资源格式。如果解引用不成功，此值必须为空。
+			如果调用 <code>dereferencing</code> 函数且成功，此值必须（MUST）包含对应于 <a>DID URL</a> 的 <a>resource</a>。<code>contentStream</code> 可以（MAY）是可以以一种合规 <a>representations</a> 序列化的 <a>resource</a>（如 <a>DID
+			document</a>）、<a data-cite="did-core#verification-methods">verification
+			method</a>、<a data-cite="did-core#services">service</a>，或通过解析过程可以获取的任何其他可通过媒体类型标识的资源格式。如果解引用不成功，此值必须（MUST）为空。
 		</dd>
 		<dt>
-			contentMetadata
+			<dfn>contentMetadata</dfn>
 		</dt>
 		<dd>
-			如果解引用成功，这必须是一个 <a href="#metadata-structure">元数据结构</a>，但结构可能为空。此结构包含 <code>contentStream</code> 的元数据。如果 <code>contentStream</code> 是 <a>DID文档</a>，这必须是 <a>didDocumentMetadata</a> 结构，如 <a>DID解析</a> 中所述。如果解引用不成功，此输出必须是一个空的 <a href="#metadata-structure">元数据结构</a>。
+			如果解引用成功，此值必须（MUST）是一个 <a href="#metadata-structure">
+			元数据结构</a>，但该结构可以（MAY）为空。此结构包含关于 <code>contentStream</code> 的元数据。如果 <code>contentStream</code> 是 <a>DID document</a>，此值必须（MUST）是 <a>DID Resolution</a> 中描述的 <a>didDocumentMetadata</a> 结构。如果解引用不成功，此输出必须（MUST）是一个空的 <a href="#metadata-structure">元数据结构</a>。此结构在 <a href="#did-url-content-metadata"></a> 中进一步定义。
 		</dd>
 	</dl>
 
 	<p>
-		符合规范的 <a>DID URL解引用</a> 实现不会以任何方式更改这些函数的签名。<a>DID URL解引用</a> 实现可能会将 <code>dereference</code> 函数映射到方法特定的内部函数以执行实际的 <a>DID URL解引用</a> 过程。<a>DID URL解引用</a> 实现可能会实现并暴露具有不同签名的其他函数，除了此处指定的 <code>dereference</code> 函数。
+		合规的 <a>DID URL dereferencing</a> 实现不以任何方式改变这些函数的签名。<a>DID URL dereferencing</a> 实现可以将 <code>dereference</code> 函数映射到方法特定的内部函数以执行实际的 <a>DID URL
+		dereferencing</a> 过程。<a>DID URL dereferencing</a> 实现可以在此处指定的 <code>dereference</code> 函数之外实现和暴露具有不同签名的额外函数。
 	</p>
 
-	<section>
-		<h3 id="did-url-dereferencing-options">DID URL解引用选项</h3>
+	<section id="did-url-dereferencing-options">
+		<h3>DID URL 解引用选项</h3>
+
+		<p>这是一个<a href="#metadata-structure">元数据结构</a>，包含 <a>DID URL Dereferencing</a> 过程的输入选项。</p>
 
 		<p>
-			此结构中的可能属性及其可能值应在DID规范注册表 [[?DID-SPEC-REGISTRIES]] 中注册。本规范定义了以下常见的解引用选项属性：
+			此结构中可能的属性及其可能的值应当（SHOULD）在 DID Resolution Extensions [[?DID-EXTENSIONS-RESOLUTION]] 中注册。本规范定义了以下常见输入选项：
 		</p>
 
 		<dl>
@@ -720,16 +876,28 @@ dereference(DID URL, dereferenceOptions) →
 				accept
 			</dt>
 			<dd>
-				调用者首选的 <code>contentStream</code> 的媒体类型。媒体类型必须表示为 <a data-lt="ascii string">ASCII 字符串</a>。<a>DID URL解引用</a> 实现应使用此值来确定返回的 <a>表示</a> 的 <code>contentType</code>，如果支持并可用此类 <a>表示</a>。
+				调用者首选的 <code>contentStream</code> 媒体类型。媒体类型必须（MUST）表示为 <a data-lt="ascii string">ASCII 字符串</a>。<a>DID URL dereferencer</a> 实现应当（SHOULD）使用此值来确定返回值中包含的 <a>representation</a> 的 <code>contentType</code>（如果支持且可用该 <a>representation</a>）。
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				verificationRelationship
+			</dt>
+			<dd>
+				调用者期望从 DID URL 解引用得到的 verificationMethod 被授权的 verificationRelationship。如果存在，关联值必须（MUST）是一个 <a data-lt="ascii string">ASCII 字符串</a>。如果 DID URL 未解引用到 verificationMethod，或者 DID 文档未为指定的 verificationRelationship 授权该 verificationMethod，则必须（MUST）引发错误。
 			</dd>
 		</dl>
 	</section>
 
-	<section>
-		<h3 id="did-url-dereferencing-metadata">DID URL解引用元数据</h3>
+	<section id="did-url-dereferencing-metadata">
+		<h3>DID URL 解引用元数据</h3>
+
+		<p>这是一个<a href="#metadata-structure">元数据结构</a>，包含关于 <a>DID URL Dereferencing</a> 过程的元数据。</p>
+		<p>此元数据通常在每次调用 <a>DID URL Dereferencing</a> 函数时发生变化，因为它表示解引用过程本身的数据。</p>
+		<p>此元数据的来源是 <a>DID URL dereferencer</a>。</p>
 
 		<p>
-			此结构中的可能属性及其可能值已在DID规范注册表 [[?DID-SPEC-REGISTRIES]] 中注册。本规范定义了以下常见属性。
+			此结构中可能的属性及其可能的值应当（SHOULD）在 DID Resolution Extensions [[?DID-EXTENSIONS-RESOLUTION]] 中注册。本规范定义了以下常见元数据属性：
 		</p>
 
 		<dl>
@@ -737,142 +905,230 @@ dereference(DID URL, dereferenceOptions) →
 				contentType
 			</dt>
 			<dd>
-				如果解引用成功，返回的 <code>contentStream</code> 的媒体类型应使用此属性表示。媒体类型值必须表示为 <a data-lt="ascii string">ASCII 字符串</a>。
+				如果解引用成功，返回的 <code>contentStream</code> 的媒体类型应当（SHOULD）使用此属性表示。媒体类型值必须（MUST）表示为 <a data-lt="ascii string">ASCII 字符串</a>。
 			</dd>
 			<dt>
 				error
 			</dt>
 			<dd>
-				解引用过程中的错误代码。当解引用过程中出现错误时，此属性是必需的。此属性的值必须为单个关键字，表示为 <a data-lt="ascii string">ASCII 字符串</a>。此字段的可能属性值应在DID规范注册表 [[?DID-SPEC-REGISTRIES]] 中注册。本规范定义了以下常见错误值：
-				<dl>
-					<dt>
-						invalidDID URL
-					</dt>
-					<dd>
-						提供给 <a>DID URL解引用</a> 函数的 <a>DID URL</a> 不符合有效语法。（参见 <a data-cite="did-core#did-url-syntax"></a>。）
-					</dd>
-					<dt>
-						notFound
-					</dt>
-					<dd>
-						<a>DID URL解引用器</a> 无法找到此解引用请求产生的 <code>contentStream</code>。
-					</dd>
-				</dl>
+                [[RFC9457]] 中定义的错误数据结构。当解引用过程中出现错误时，此属性是必需的（REQUIRED）。本规范定义的错误可在 <a href="#errors"></a> 章节中找到。其他错误应当（SHOULD）在 DID Resolution Extensions [[?DID-EXTENSIONS-RESOLUTION]] 中注册。
 			</dd>
+
+            <dt>
+                proof
+            </dt>
+            <dd>
+                <p>
+                    某些 <a>DID resolvers</a> 和 <a>DID URL dereferencers</a> 在执行 <a>DID Resolution</a> 或 <a>DID URL Dereferencing</a> 函数时使用证明。详见 <a href="#resolver-architectures"></a>。
+                </p>
+                <p>
+                    <a>DID URL dereferencing</a> 元数据可以（MAY）包含 <code>proof</code> 属性。如果存在，其值必须（MUST）是一个 <a
+                        data-cite="INFRA#sets">集合</a>，其中每个项目是一个表示证明的 <a data-cite="INFRA#maps">映射</a>。此属性的使用和证明类型与 <a>DID method</a> 无关。
+                </p>
+            </dd>
 		</dl>
 	</section>
 
+	<section id="did-url-content-metadata">
+		<h3>DID URL 内容元数据</h3>
+
+		<p>这是一个<a href="#metadata-structure">元数据结构</a>，包含关于 <a>DID URL Dereferencing</a> 过程的元数据。</p>
+		<p>此元数据通常不会在 <a>DID URL Dereferencing</a> 函数的调用之间发生变化，除非内容发生更改，因为它表示关于内容的数据。</p>
+		<p>此元数据的来源是 <a>DID controller</a> 和/或 <a>DID method</a>。</p>
+
+		<p>
+			此结构中可能的属性及其可能的值应当（SHOULD）在 DID Resolution Extensions [[?DID-EXTENSIONS-RESOLUTION]] 中注册。本规范不定义常见属性。
+		</p>
+	</section>
 
 	<section id="dereferencing-algorithm">
-		<h2>算法</h2>
-		<p>以下 <a>DID URL解引用</a> 算法必须由符合规范的 <a>DID解析器</a> 实现。根据 [[RFC3986]]，它包含以下三个步骤：解析DID；解引用资源；以及解引用片段（仅当 <var>输入 <a>DID URL</a></var> 包含 <a>DID片段</a> 时）：</p>
+		<h2>DID URL 解引用算法</h2>
+		<p>以下 <a>DID URL dereferencing</a> 算法必须（MUST）由合规的 <a>DID resolver</a> 实现。根据 [[RFC3986]]，它由以下三个步骤组成：解析 DID；解引用资源；以及解引用片段（仅当<var>输入 <a>DID URL</a></var> 包含 <a>DID fragment</a> 时）：</p>
 
 		<section id="dereferencing-algorithm-resource">
 			<h2>解引用资源</h2>
 			<ol class="algorithm">
-				<li>验证 <var>输入 <a>DID URL</a></var> 是否符合 <a href="https://www.w3.org/TR/did-core/#did-url-syntax">DID URL语法</a> 的 `did-url` 规则。如果不符合，<a>DID URL解引用器</a> 必须返回以下结果：
+				<li>验证<var>输入 <a>DID URL</a></var> 是否符合
+					<a href="https://www.w3.org/TR/did-core/#did-url-syntax">DID URL 语法</a>的 `did-url` 规则。如果不符合，<a>DID URL dereferencer</a> 必须（MUST）返回以下结果：
 					<ol class="algorithm">
-						<li><b>dereferencingMetadata</b>: <code>«[ "error" → "invalidDID URL" ]»</code></li>
-						<li><b>contentStream</b>: <code>null</code></li>
-						<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
+						<li><b>dereferencingMetadata</b>：<var>错误对象</var>，type 设置为 <a href="#INVALID_DID_URL">INVALID_DID_URL</a></li>
+						<li><b>contentStream</b>：<code>null</code></li>
+						<li><b>contentMetadata</b>：<code>«[ ]»</code></li>
 					</ol>
 				</li>
-				<li>通过执行 <a>DID解析</a> 算法获取 <var>输入 <a>DID</a></var> 的 <a>DID文档</a>，如 <a href="#resolving"></a> 中所定义。所有 <var>解引用选项</var> 和 <var>输入 <a>DID URL</a></var> 的所有 <a href="https://www.w3.org/TR/did-core/#did-parameters">DID参数</a> 必须作为 <var>解析选项</var> 传递给 <a>DID解析</a> 算法。</li>
-				<li>如果 <var>输入 <a>DID</a></var> 在 VDR 中不存在，<a>DID URL解引用器</a> 必须返回以下结果：
-					<ol class="algorithm">
-						<li><b>dereferencingMetadata</b>: <code>«[ "error" → "notFound", ... ]»</code></li>
-						<li><b>contentStream</b>: <code>null</code></li>
-						<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
-					</ol>
+				<li>通过执行 <a href="#resolving"></a> 中定义的 <a>DID resolution</a> 算法，获取<var>输入 <a>DID</a></var> 的 <a>DID document</a>。所有<var>解引用选项</var>和<var>输入 <a>DID URL</a></var> 的所有
+					<a href="https://www.w3.org/TR/did-core/#did-parameters">DID 参数</a>必须（MUST）作为<var>解析选项</var>传递给 <a>DID Resolution</a> 算法。</li>
+				<li>如果<var>输入 <a>DID</a></var> 在 VDR 中不存在，<a>DID URL dereferencer</a> 必须（MUST）返回以下结果：
+						<ol class="algorithm">
+							<li><b>dereferencingMetadata</b>：<var>错误对象</var>，type 设置为 <a href="#NOT_FOUND">NOT_FOUND</a></li>
+							<li><b>contentStream</b>：<code>null</code></li>
+							<li><b>contentMetadata</b>：<code>«[ ]»</code></li>
+						</ol>
 				</li>
-				<li>否则，<a>DID解析</a> 算法的 <b>didDocument</b> 结果称为 <var>解析的 <a>DID文档</a></var>。</li>
-				<li>如果存在，从 <var>输入 <a>DID URL</a></var> 中分离 <a>DID片段</a> 并继续使用调整后的 <var>输入 <a>DID URL</a></var>。</li>
-				<li>如果 <var>输入 <a>DID URL</a></var> 不包含 <a>DID路径</a> 和 <a>DID查询</a>：
+				<li>否则，<a>DID resolution</a> 算法的 <b>didDocument</b> 结果称为<var>已解析的 <a>DID document</a></var>。</li>
+				<li>如果存在，从<var>输入 <a>DID URL</a></var> 中分离 <a>DID fragment</a>，并继续使用调整后的<var>输入 <a>DID URL</a></var>。</li>
+				<li>如果<var>输入 <a>DID URL</a></var> 不包含 <a>DID path</a> 且不包含 <a>DID query</a>：
 					<pre class="example nohighlight">did:example:1234</pre>
-					<a>DID URL解引用器</a> 必须返回 <var>解析的 <a>DID文档</a></var> 和 <var>解析的 <a href="#did-document-metadata"></a></var>，如下所示：
+					<a>DID URL dereferencer</a> 必须（MUST）按以下方式返回<var>已解析的 <a>DID document</a></var> 和<var>已解析的 <a href="#did-document-metadata"></a></var>：
 					<ol class="algorithm">
-						<li><b>dereferencingMetadata</b>: <code>«[ ... ]»</code></li>
-						<li><b>contentStream</b>: <code>resolvedDIDdocument</code></li>
-						<li><b>contentMetadata</b>: <code>«[ <code>resolvedDIDdocument metadata</code> ]»</code></li>
+						<li><b>dereferencingMetadata</b>：<code>«[ ... ]»</code></li>
+						<li><b>contentStream</b>：<code>已解析的 DID 文档</code></li>
+						<li><b>contentMetadata</b>：<code>«[ <code>已解析的 DID 文档元数据</code> ]»</code></li>
 					</ol>
 				</li>
-				<li>如果 <var>输入 <a>DID URL</a></var> 包含 <a href="https://www.w3.org/TR/did-core/#did-parameters">DID参数</a> <code>hl</code>：
+				<li>如果<var>输入 <a>DID URL</a></var> 包含
+					<a href="https://www.w3.org/TR/did-core/#did-parameters">DID 参数</a> <code>hl</code>：
 					<pre class="example nohighlight">did:example:1234?hl=zQmWvQxTqbG2Z9HPJgG57jjwR154cKhbtJenbyYTWkjgF3e</pre>
-					<ol class="algorithm"><li>
-						<p class="issue">TODO: 指定处理 `hl`DID参数的算法。</p>
-					</li></ol>
+					<p class="issue">TODO: 指定处理 `hl` DID 参数的算法。</p>
 				</li>
-				<li>如果 <var>输入 <a>DID URL</a></var> 包含 <a href="https://www.w3.org/TR/did-core/#did-parameters">DID参数</a> <code>service</code> 和可选的 <code>relativeRef</code>DID参数：
+				<li>如果<var>输入 <a>DID URL</a></var> 包含
+				<a href="https://www.w3.org/TR/did-core/#did-parameters">
+					DID 参数</a> <code>service</code> 和/或 <a href="https://www.w3.org/TR/did-core/#did-parameters">
+					DID 参数</a> <code>serviceType</code>，以及可选的
+					<a data-cite="did-core#did-parameters">DID 参数</a> <code>relativeRef</code>：
 					<pre class="example nohighlight">did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest</pre>
 					<ol class="algorithm">
-						<li>从 <var>解析的 <a>DID文档</a></var> 中选择 <a href="#service-endpoint-construction">服务端点</a>，其 <code>id</code> 属性包含与 <var>输入 <a>DID URL</a></var> 的 <code>service</code>DID参数值匹配的片段。这称为 <var>输入 <a>服务端点</a></var>。</li>
-						<li>执行 <a>服务端点构建</a> 算法：
+						<li>从<var>已解析的 <a>DID document</a></var> 中，选择满足以下条件的所有
+							<a data-cite="did-core#services">services</a>：
 							<ol class="algorithm">
-								<li>读取 <var>输入 <a>服务端点</a></var> 的 <code>serviceEndpoint</code> 属性的值。这称为 <var>输入 <a>服务端点</a> URL</var>。</li>
-								<li>将 <var>输入 <a>DID URL</a></var> 和 <var>输入 <a>服务端点</a> URL</var> 传递给 <a>服务端点构建</a> 算法。</li>
-								<li>结果称为 <var>输出 <a>服务端点</a> URL</var>。</li>
+								<li>如果<var>输入 <a>DID URL</a></var> 包含
+									<a data-cite="did-core#did-parameters">DID 参数</a> <code>service</code>：
+									如果 <a data-cite="did-core#services">service</a> 的 <code>id</code>
+									属性与 <code>service</code> DID 参数的值匹配，则选择该服务。如果 <code>id</code>
+									属性或 <code>service</code> DID 参数或两者都包含相对引用，则必须（MUST）根据 <a data-cite="RFC3986#section-5">RFC3986 第 5 节：引用解析</a>和 [[[DID-CORE]]] 中 <a data-cite="did-core#relative-did-urls">相对 DID URL</a> 章节中指定的规则解析并使用对应的绝对 URI 来确定匹配。</li>
+								<li>如果<var>输入 <a>DID URL</a></var> 包含
+									<a data-cite="did-core#did-parameters">DID 参数</a> <code>serviceType</code>：
+									如果 <a data-cite="did-core#services">service</a> 的 <code>type</code>
+									属性与 <code>serviceType</code> DID 参数的值匹配，则选择该服务。</li>
+							</ol>
+							所选的 <a data-cite="did-core#services">services</a> 构成一个称为<var>所选 <a>services</a></var> 的列表。
+						</li>
+						<li>如果<var>输入 <a>DID URL</a></var> 包含
+							<a data-cite="did-core#did-parameters">DID 参数</a> <code>relativeRef</code>：
+							<ol class="algorithm">
+								<li>对每个<var>所选 <a>service</a></var>：
+									<ol class="algorithm">
+										<li>如果<var>所选 <a>service</a></var> 的 <code>serviceEndpoint</code> 属性值是一个 <a data-cite="INFRA#maps">映射</a>，跳过此<var>所选 <a>service</a></var>。</li>
+										<li>如果<var>所选 <a>service</a></var> 的 <code>serviceEndpoint</code> 属性值是一个 <a data-cite="INFRA#string">字符串</a>，将此值添加到<var>所选 <a>service endpoint</a> URL</var> 列表中。</li>
+										<li>如果<var>所选 <a>service</a></var> 的 <code>serviceEndpoint</code> 属性值是一个 <a data-cite="INFRA#sets">集合</a>，将其中所有 <a data-cite="INFRA#string">字符串</a>项添加到<var>所选 <a>service endpoint</a> URL</var> 列表中。</li>
+									</ol>
+								</li>
+								<li>对每个<var>所选 <a>service endpoint</a> URL</var>，按以下方式执行 <a data-cite="RFC3986#section-5">RFC3986 第 5 节：引用解析</a>中指定的算法：
+									<ol class="algorithm">
+										<li><strong>基础 URI</strong> 值为<var>所选 <a>service endpoint</a> URL</var>。</li>
+										<li><strong>相对引用</strong>为
+											<a data-cite="did-core#did-parameters">DID 参数</a> <code>relativeRef</code> 的值。</li>
+										<li>将<var>所选 <a>service endpoint</a> URL</var> 更新为"引用解析"算法的结果。</li>
+									</ol>
+									<div class="note">
+										<p>
+											解析 <a>service endpoint</a>——特别是当它是 DID 时——可能导致 <dfn>resolution cycle</dfn>（解析循环），即一组导致无限循环的步骤。例如，<a>service endpoint</a> 可能通过一系列解析间接指回先前已解引用的标识符。递归解析 <a>service endpoint</a> 的 <a>DID resolver</a> 应检测并处理此类循环，以防止无限循环或解析失败。进一步指导请参见 <a href="#security-cycles-resolution">解析循环</a>章节。
+										</p>
+									</div>
+								</li>
 							</ol>
 						</li>
-						<li>返回以下结果：
+						<li>如果 <b>accept</b> <var>输入 <a href="#did-url-dereferencing-options">DID 解引用选项</a></var>缺失，或其值为 <a>DID document</a> 的 <a>representation</a> 的媒体类型：
 							<ol class="algorithm">
-								<li><b>dereferencingMetadata</b>: <code>«[ ... ]»</code></li>
-								<li><b>content</b>: <var>output service endpoint URL</var></li>
-								<li><b>contentMetadata</b>: <code>«[ "contentType" → "text/uri-list", ... ]»</code></li>
+								<li>将<var>已解析的 <a>DID document</a></var> 中的 <a>services</a> 更新为仅包含<var>所选 <a>services</a></var>。</li>
+								<li>返回以下结果：
+									<ol class="algorithm">
+										<li><b>dereferencingMetadata</b>：<code>«[ ... ]»</code></li>
+										<li><b>content</b>：<code>包含所选服务的已解析 DID 文档</code></li>
+										<li><b>contentMetadata</b>：<code>«[ <code>已解析的 DID 文档元数据</code> ]»</code></li>
+									</ol>
+								</li>
+							</ol>
+						</li>
+						<li>如果 <b>accept</b> <var>输入 <a href="#did-resolution-options">DID 解析选项</a></var>的值为 <b>text/uri-list</b>：
+							<ol class="algorithm">
+								<li>返回以下结果：
+									<ol class="algorithm">
+										<li><b>dereferencingMetadata</b>：<code>«[ ... ]»</code></li>
+										<li><b>content</b>：<code>« 所选服务端点 URL »</code></li>
+										<li><b>contentMetadata</b>：<code>«[ "contentType" → "text/uri-list", ... ]»</code></li>
+									</ol>
+								</li>
+							</ol>
+						</li>
+						<li>否则，返回以下结果：
+							<ol class="algorithm">
+								<li><b>dereferencingMetadata</b>：<var>错误对象</var>，type 设置为 <a href="#REPRESENTATION_NOT_SUPPORTED">REPRESENTATION_NOT_SUPPORTED</a></li>
+								<li><b>content</b>：<code>null</code></li>
+								<li><b>contentMetadata</b>：<code>«[ ]»</code></li>
 							</ol>
 						</li>
 					</ol>
 				</li>
 
-				<li>否则，如果 <var>输入 <a>DID URL</a></var> 包含 <a>DID路径</a> 和/或 <a>DID查询</a>：
-					<pre class="example nohighlight">did:example:1234/custom/path?customquery</pre>
-					<ol class="algorithm">
-						<li>适用的 <a>DID方法</a> 可以指定如何解引用 <var>输入 <a>DID URL</a></var> 的 <a>DID路径</a> 和/或 <a>DID查询</a>。
-							<pre class="example nohighlight">did:example:1234/resources/1234</pre>
-						</li>
-						<li>扩展规范可以指定如何解引用 <var>输入 <a>DID URL</a></var> 的 <a>DID路径</a>。
-							<pre class="example nohighlight">did:example:1234/whois</pre>
-						</li>
-						<li>扩展规范可以指定如何解引用 <var>输入 <a>DID URL</a></var> 的 <a>DID查询</a>。
-							<pre class="example nohighlight">did:example:1234?transformKey=JsonWebKey</pre>
-						</li>
-						<li>客户端可以以应用程序特定的方式解引用 <var>输入 <a>DID URL</a></var>。</li>
-					</ol>
+				<li>否则，如果<var>输入 <a>DID URL</a></var> 包含 <a>DID path</a> 和/或 <a>DID query</a>：
+				<pre class="example nohighlight">did:example:1234/custom/path?customquery</pre>
+				<ol class="algorithm">
+					<li>适用的 <a>DID method</a> 可以（MAY）指定如何解引用<var>输入 <a>DID URL</a></var> 的 <a>DID path</a> 和/或 <a>DID query</a>。
+						<pre class="example nohighlight">did:example:1234/resources/1234</pre>
+					</li>
+					<li>扩展规范可以（MAY）指定如何解引用<var>输入 <a>DID URL</a></var> 的 <a>DID path</a>。
+						<pre class="example nohighlight">did:example:1234/whois</pre>
+					</li>
+					<li>扩展规范可以（MAY）指定如何解引用<var>输入 <a>DID URL</a></var> 的 <a>DID query</a>。
+						<pre class="example nohighlight">did:example:1234?transformKey=JsonWebKey</pre>
+					</li>
+					<li>客户端可以（MAY）以应用特定的方式解引用<var>输入 <a>DID URL</a></var>。</li>
+				</ol>
 				</li>
-				<li>如果此算法、适用的 <a>DID方法</a>、扩展或客户端都无法解引用 <var>输入 <a>DID URL</a></var>，则返回以下结果：
-					<ol class="algorithm">
-						<li><b>dereferencingMetadata</b>: <code>«[ "error" → "notFound" ]»</code></li>
-						<li><b>contentStream</b>: <code>null</code></li>
-						<li><b>contentMetadata</b>: <code>«[ ]»</code></li>
-					</ol>
+				<li>如果此算法、适用的 <a>DID method</a>、扩展规范或客户端都无法解引用<var>输入 <a>DID URL</a></var>，返回以下结果：
+				<ol class="algorithm">
+					<li><b>dereferencingMetadata</b>：<var>错误对象</var>，type 设置为 <a href="#NOT_FOUND">NOT_FOUND</a></li>
+					<li><b>contentStream</b>：<code>null</code></li>
+					<li><b>contentMetadata</b>：<code>«[ ]»</code></li>
+				</ol>
 				</li>
 			</ol>
-
-			<p class="issue" data-number="85">除了DID参数 <code>service</code> 之外，是否还可以有一个DID参数 <code>serviceType</code> 来根据服务的类型而不是 ID 选择服务。参见 <a href="https://lists.w3.org/Archives/Public/public-credentials/2019Jun/0028.html">Dave Longley 的评论</a> 关于 `serviceType`。</p>
 
 		</section>
 
 		<section id="dereferencing-algorithm-fragment">
 			<h2>解引用片段</h2>
-			<p>如果 <var>输入 <a>DID URL</a></var> 包含 <a>DID片段</a>，则片段的解引用取决于资源的媒体类型 ([[RFC2046]])，即 <a href="#dereferencing-algorithm-resource"></a> 的结果。</p>
+			<p>如果<var>输入 <a>DID URL</a></var> 包含 <a>DID fragment</a>，则片段的解引用取决于资源的媒体类型（[[RFC2046]]），即 <a href="#dereferencing-algorithm-resource"></a> 的结果。</p>
 			<ol class="algorithm">
-				<li>如果 <a href="#dereferencing-algorithm-resource"></a> 的结果是 <var>输出 <a>服务端点</a> URL</var>，并且 <var>输入 <a>DID URL</a></var> 包含 <a>DID片段</a>：
-					<pre class="example nohighlight">did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest#intro</pre>
-					<ol class="algorithm">
-						<li>如果 <var>输出 <a>服务端点</a> URL</var> 包含 <code>fragment</code> 组件，则引发错误。</li>
-						<li>将 <a>DID片段</a> 附加到 <var>输出 <a>服务端点</a> URL</var>。换句话说，<var>输出 <a>服务端点</a> URL</var> “继承” 了 <var>输入 <a>DID URL</a></var> 的 <a>DID片段</a>。</li>
-						<li>返回 <var>输出 <a>服务端点</a> URL</var>。</li>
-					</ol>
+				<li>如果 <a href="#dereferencing-algorithm-resource"></a> 的结果是<var>输出 <a>DID document</a></var>，且<var>输入 <a href="#did-url-dereferencing-options">DID URL 解引用选项</a></var>包含 <code>verificationRelationship</code> 选项：
+				<ol class="algorithm">
+					<li>
+					令 <var>verificationRelationship</var> 为 <code>verificationRelationship</code> 选项的值。
+					</li>
+					<li>
+					令 <var>verificationMethod</var> 为根据 <var>DID 文档</var>媒体类型的规则从<var>输出 <a>DID document</a></var> 中解引用 <a>DID fragment</a> 的结果。
+					</li>
+					<li>
+					如果 <var>verificationMethod</var> 不是 <a data-cite="cid#dfn-conforming-verification-method">合规验证方法</a>，必须（MUST）引发错误，且应当（SHOULD）传达错误类型 <a data-cite="cid#INVALID_VERIFICATION_METHOD">INVALID_VERIFICATION_METHOD</a>。
+					</li>
+					<li>
+					如果 <var>verificationMethod</var> 未通过引用（URL）或通过值（对象）与<var>输出 <a>DID document</a></var> 中由 <var>verificationRelationship</var> 标识的 <a data-cite="cid#dfn-verification-relationship">验证关系</a>数组关联，必须（MUST）引发错误，且应当（SHOULD）传达错误类型 <a data-cite="cid#INVALID_RELATIONSHIP_FOR_VERIFICATION_METHOD">
+					INVALID_RELATIONSHIP_FOR_VERIFICATION_METHOD</a>。
+					</li>
+					<li>
+					返回 <var>verificationMethod</var>。
+					</li>
+				</ol>
 				</li>
-				<li>否则，根据资源的媒体类型 ([[RFC2046]]) 解引用DID片段。例如，如果资源是媒体类型为 <code>application/did</code> 的DID文档表示，则片段根据与 <a href="https://www.w3.org/TR/json-ld11/#iana-considerations">JSON-LD 1.1: application/ld+json 媒体类型</a> [JSON-LD11] 相关的规则进行处理。
+				<li>如果 <a href="#dereferencing-algorithm-resource"></a> 的结果是<var>所选 <a>service endpoint</a> URL</var>，且<var>输入 <a>DID URL</a></var> 包含 <a>DID fragment</a>：
+				<pre class="example nohighlight">did:example:1234?service=files&relativeRef=%2Fmyresume%2Fdoc%3Fversion%3Dlatest#intro</pre>
+				<ol class="algorithm">
+					<li>如果<var>所选 <a>service endpoint</a> URL</var> 包含 <code>fragment</code> 组件，引发错误。</li>
+					<li>将 <a>DID fragment</a> 附加到<var>所选 <a>service endpoint</a> URL</var>。换言之，<var>所选 <a>service endpoint</a> URL</var>"继承"了<var>输入 <a>DID URL</a></var> 的 <a>DID fragment</a>。</li>
+					<li>返回<var>所选 <a>service endpoint</a> URL</var>。</li>
+				</ol>
+				</li>
+				<li>否则，按资源的媒体类型（[[RFC2046]]）定义的方式解引用 DID 片段。例如，如果资源是媒体类型为 <code>application/did</code> 的 DID 文档表示，则片段按与 <a href="https://www.w3.org/TR/json-ld11/#iana-considerations">JSON-LD 1.1: application/ld+json 媒体类型</a> [JSON-LD11] 关联的规则处理。
 				</li>
 			</ol>
 
 			<p class="note">
-				<a>DID片段</a> 的这种使用方式与 [[RFC3986]] 中片段标识符的定义一致。它标识了 <em>主资源</em>（即 <a>DID文档</a>）的一个 <em>子资源</em>。
+				此 <a>DID fragment</a> 的使用与 [[RFC3986]] 中片段标识符的定义一致。它标识的是<em>次要资源</em>，是<em>主要资源</em>（<a>DID document</a>）的子集。
 			</p>
 
 			<p class="note">
-				<a>DID片段</a> 的这种行为类似于在 HTTP URL 中解引用片段时的处理方式，当解引用它返回带有 <code>Location</code> 头的 HTTP <code>3xx</code>（重定向）响应时（参见 [[RFC7231]] 的第 7.1.2 节）。
+				<a>DID fragment</a> 的此行为类似于 HTTP URL 中片段的处理方式，即当解引用它返回带有 <code>Location</code> 头的 HTTP <code>3xx</code>（重定向）响应时（参见 [[RFC7231]] 第 7.1.2 节）。
 			</p>
 
 		</section>
@@ -881,82 +1137,118 @@ dereference(DID URL, dereferenceOptions) →
 
 	<section>
 		<h2>示例</h2>
-		<p>给定以下 <var>输入 <a>DID URL</a></var>：</p>
-		<pre class="example nohighlight">
-did:example:123456789abcdefghi#keys-1
-</pre>
-		<p>... 以及以下 <var>解析的 <a>DID文档</a></var>：<p>
-		<pre class="example nohighlight">
-{
-	"@context": "https://www.w3.org/ns/did/v1",
-	"id": "did:example:123456789abcdefghi",
-	"verificationMethod": [{
+
+		<section id="example-dereferencing-to-verification-method">
+			<h3>示例：解引用到验证方法</h3>
+			<p>给定以下<var>输入 <a>DID URL</a></var>：</p>
+			<pre class="example nohighlight">
+	did:example:123456789abcdefghi#keys-1
+	</pre>
+			<p>... 以及以下<var>已解析的 <a>DID document</a></var>：<p>
+			<pre class="example nohighlight">
+	{
+		"@context":[
+			"https://www.w3.org/ns/did/v1.1",
+			"https://didcomm.org/messaging/contexts/v2",
+			"https://identity.foundation/linked-vp/contexts/v1"
+		],
+		"id": "did:example:123456789abcdefghi",
+		"verificationMethod": [{
+			"id": "did:example:123456789abcdefghi#keys-1",
+			"type": "Multikey",
+			"controller": "did:example:123456789abcdefghi",
+			"publicKeyMultibase": "z6MkmM42vxfqZQsv4ehtTjFFxQ4sQKS2w6WR7emozFAn5cxu"
+		}],
+		"service": [{
+			"id": "did:example:123456789abcdefghi#messages",
+			"type": "DIDCommMessaging",
+			"serviceEndpoint": "https://example.com/messages/8377464"
+		}, {
+			"id": "did:example:123456789abcdefghi#linkedvp",
+			"type": "LinkedVerifiablePresentation",
+			"serviceEndpoint": "https://example.com/verifiable-presentation.jsonld"
+		}]
+	}
+	</pre>
+			<p>... 则 <a href="#dereferencing"></a> 算法的结果为以下<var>输出资源</var>：</p>
+			<pre class="example nohighlight">
+	{
+		"@context": "https://www.w3.org/ns/did/v1.1",
 		"id": "did:example:123456789abcdefghi#keys-1",
-		"type": "Ed25519VerificationKey2018",
+		"type": "Multikey",
 		"controller": "did:example:123456789abcdefghi",
-		"publicKeyBase58": "H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV"
-	}],
-	"service": [{
-		"id": "did:example:123456789abcdefghi#agent",
-		"type": "AgentService",
-		"serviceEndpoint": "https://agent.example.com/8377464"
-	}, {
-		"id": "did:example:123456789abcdefghi#messages",
-		"type": "MessagingService",
-		"serviceEndpoint": "https://example.com/messages/8377464"
-	}]
-}
-</pre>
-		<p>... 那么 <a href="#dereferencing"></a> 算法的结果是以下 <var>输出资源</var>：</p>
-		<pre class="example nohighlight">
-{
-	"@context": "https://www.w3.org/ns/did/v1",
-	"id": "did:example:123456789abcdefghi#keys-1",
-	"type": "Ed25519VerificationKey2018",
-	"controller": "did:example:123456789abcdefghi",
-	"publicKeyBase58": "H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV"
-}
-</pre>
-		<p>给定以下 <var>输入 <a>DID URL</a></var> 和与上述相同的 <var>解析的 <a>DID文档</a></var>：</p>
-		<pre class="example nohighlight">
-did:example:123456789abcdefghi?service=messages&relativeRef=%2Fsome%2Fpath%3Fquery#frag
-</pre>
-		<p>... 那么 <a href="#dereferencing"></a> 算法的结果是以下 <var>输出 <a>服务端点</a> URL</var>：</p>
-		<pre class="example nohighlight">
-https://example.com/messages/8377464/some/path?query#frag
-</pre>
-		<figure id="figure-dereferencing">
-			<img style="margin: auto; display: block; width: 100%;" src="diagrams/did-url-dereferencing.png"
-				 alt="Diagram showing how aDID URLcan be dereferenced to a service endpoint URL">
-			<figcaption style="text-align: center;">
-				将DID URL解引用为服务端点 URL。
-			</figcaption>
-		</figure>
-		<p class="issue">更改图表和/或示例以使其一致。</p>
+		"publicKeyMultibase": "z6MkmM42vxfqZQsv4ehtTjFFxQ4sQKS2w6WR7emozFAn5cxu"
+	}
+	</pre>
+			<figure id="figure-dereference-to-verification-method">
+				<img style="margin: auto; display: block; width: 100%;" src="diagrams/section-5/example-dereference-to-verification-method.svg"
+					 alt="展示 DID URL 如何解引用到验证方法的图表">
+				<figcaption style="text-align: center;">
+					将 DID URL 解引用到验证方法。
+				</figcaption>
+			</figure>
+		</section>
+
+		<section id="example-dereferencing-to-service-endpoint-url">
+			<h3>示例：解引用到服务端点 URL</h3>
+			<p>给定以下<var>输入 <a>DID URL</a></var>：</p>
+			<pre class="example nohighlight">
+	did:example:123456789abcdefghi?service=messages&relativeRef=%2Fsome%2Fpath%3Fquery#frag
+	</pre>
+			<p>... 以及上一节中相同的<var>已解析的 <a>DID document</a></var>。<p>
+			<p>... 则 <a href="#dereferencing"></a> 算法的结果为以下<var>所选 <a>service endpoint</a> URL</var>：</p>
+			<pre class="example nohighlight">
+	https://example.com/messages/8377464/some/path?query#frag
+	</pre>
+			<figure id="figure-dereference-to-service-endpoint-url">
+				<img style="margin: auto; display: block; width: 100%;" src="diagrams/section-5/example-dereference-to-service-endpoint-url.svg"
+				alt="展示 DID URL 如何解引用到服务端点 URL 的图表">
+				<figcaption style="text-align: center;">
+					将 DID URL 解引用到服务端点 URL。
+				</figcaption>
+			</figure>
+		</section>
 
 	</section>
 
 </section>
 
-<section>
-	<h2 id="metadata-structure">元数据结构</h2>
+<section id="metadata-structure">
+	<h2>元数据结构</h2>
 
 	<p>
-		在 <a>DID解析</a>、<a>DID URL解引用</a> 和其他DID相关过程中，通常涉及输入和输出元数据。用于传达此元数据的结构必须是一个 <a data-cite="INFRA#maps">映射</a> 属性。每个属性名称必须是一个 <a data-cite="INFRA#string">字符串</a>。每个属性值必须是一个 <a data-cite="INFRA#string">字符串</a>、<a data-cite="INFRA#maps">映射</a>、<a data-cite="INFRA#list">列表</a>、<a data-cite="INFRA#ordered-set">集合</a>、<a data-cite="INFRA#boolean">布尔值</a> 或 <a data-cite="INFRA#nulls">null</a>。任何复杂数据结构（如映射和列表）中的值也必须是这些数据类型之一。在DID规范注册表 [[?DID-SPEC-REGISTRIES]] 中注册的所有元数据属性定义必须定义值类型，包括该值的任何其他格式或限制（例如，格式化为日期或十进制整数的字符串）。建议属性定义使用字符串作为值。整个元数据结构必须根据 [[INFRA]] 规范中的 <a data-cite="INFRA#serialize-an-infra-value-to-json-bytes">JSON 序列化规则</a> 可序列化。实现可以将元数据结构序列化为其他数据格式。
+		在 <a>DID Resolution</a>、<a>DID URL dereferencing</a> 及其他 DID 相关过程中通常涉及输入和输出元数据。用于传达此元数据的结构必须（MUST）是一个属性 <a data-cite="INFRA#maps">映射</a>。每个属性名必须（MUST）是一个 <a
+			data-cite="INFRA#string">字符串</a>。每个属性值必须（MUST）是 <a
+			data-cite="INFRA#string">字符串</a>、<a data-cite="INFRA#numbers">数字</a>、<a data-cite="INFRA#maps">映射</a>、<a data-cite="INFRA#lists">列表</a>、<a data-cite="INFRA#sets">集合</a>、<a data-cite="INFRA#boolean">布尔值</a>或 <a data-cite="INFRA#nulls">null</a>。任何复杂数据结构（如映射或列表）中的值也必须（MUST）是这些数据类型之一。在 DID Resolution Extensions
+		[[?DID-EXTENSIONS-RESOLUTION]] 中注册的所有元数据属性定义必须（MUST）定义值类型，包括对该值的任何其他格式或限制（例如，格式化为日期的字符串）。建议（RECOMMENDED）属性定义使用字符串作为值。整个元数据结构必须（MUST）可根据 [[INFRA]] 规范中的 <a
+			data-cite="INFRA#serialize-an-infra-value-to-json-bytes">JSON 序列化规则</a>进行序列化。实现可以（MAY）将元数据结构序列化为其他数据格式。
+	</p>
+
+	<aside class="note">
+		<p>
+			数值表示在不同平台和序列化方式之间有所不同（例如，IEEE-754 浮点数与固定宽度整数与"bigint"/大数类型）。<a data-cite="INFRA#numbers">Infra</a> 标准尚未为数字提供全面的指导。建议实现者避免使用可能在不同平台上有不同表示的元数据数字——特别是以下情况：
+		</p>
+		<ul>
+			<li>非整数值，如浮点数或分数</li>
+			<li>超出常见固定宽度范围的整数，如大于 32 位无符号整数（最大值 <code>2<sup>32</sup> - 1</code> 或 <code>4,294,967,295</code>）的整数</li>
+		</ul>
+		<p>
+			当互操作性需要此类值时，属性定义的良好实践是使用规范的<strong>字符串</strong>序列化（例如，使用明确定义的精度和舍入策略格式化为浮点数的字符串），并记录任何预期的范围或格式。
+		</p>
+		</aside>
+
+	<p>
+		所有使用元数据结构作为输入或输出的函数实现都能够以确定性方式完全表示此处描述的所有数据类型。由于使用元数据结构的输入和输出是根据数据类型而非其序列化来定义的，因此 <a>representation</a> 的方法是函数实现内部的，超出本规范的范围。
 	</p>
 
 	<p>
-		所有使用元数据结构作为输入或输出的函数的实现都能够以确定性的方式完全表示此处描述的所有数据类型。由于使用元数据结构的输入和输出是根据数据类型而不是其序列化定义的，因此 <a>表示</a> 的方法是函数实现内部的，不在本规范的范围内。
-	</p>
-
-	<p>
-		以下示例演示了可能用作 <a href="#did-resolution-options">DID解析输入元数据</a> 的 JSON 编码元数据结构。
+		以下示例展示了一个可能用作 <a href="#did-resolution-options">DID 解析输入元数据</a>的 JSON 编码元数据结构。
 	</p>
 
 	<pre class="example"
-		 title="JSON 编码的DID解析输入元数据示例">
+		 title="JSON 编码的 DID 解析输入元数据示例">
 {
-"accept": "application/did+ld+json"
+"accept": "application/did"
 }
   </pre>
 
@@ -965,18 +1257,18 @@ https://example.com/messages/8377464/some/path?query#frag
 	</p>
 
 	<pre class="example"
-		 title="DID解析输入元数据示例">
+		 title="DID 解析输入元数据示例">
 «[
-"accept" → "application/did+ld+json"
+"accept" → "application/did"
 ]»
   </pre>
 
 	<p>
-		下一个示例演示了可能用作 <a href="#did-resolution-options">DID解析元数据</a> 的 JSON 编码元数据结构，如果未找到 <a>DID</a>。
+		下一个示例展示了当 <a>DID</a> 未找到时可能用作 <a href="#did-resolution-options">DID 解析元数据</a>的 JSON 编码元数据结构。
 	</p>
 
 	<pre class="example"
-		 title="JSON 编码的DID解析元数据示例">
+		 title="JSON 编码的 DID 解析元数据示例">
 {
 "error": "notFound"
 }
@@ -987,17 +1279,17 @@ https://example.com/messages/8377464/some/path?query#frag
 	</p>
 
 	<pre class="example"
-		 title="DID解析元数据示例">
+		 title="DID 解析元数据示例">
 «[
 "error" → "notFound"
 ]»
   </pre>
 
 	<p>
-		下一个示例演示了可能用作 <a href="#did-document-metadata">DID文档元数据</a> 的 JSON 编码元数据结构，用于描述与 <a>DID文档</a> 关联的时间戳。
+		下一个示例展示了可能用作 <a href="#did-document-metadata">DID 文档元数据</a>的 JSON 编码元数据结构，用于描述与 <a>DID document</a> 相关联的时间戳。
 	</p>
 
-	<pre class="example" title="JSON 编码的DID文档元数据示例">
+	<pre class="example" title="JSON 编码的 DID 文档元数据示例">
 {
 "created": "2019-03-23T06:35:22Z",
 "updated": "2023-08-10T13:40:06Z"
@@ -1009,7 +1301,7 @@ https://example.com/messages/8377464/some/path?query#frag
 	</p>
 
 	<pre class="example"
-		 title="DID文档元数据示例">
+		 title="DID 文档元数据示例">
 «[
 "created" → "2019-03-23T06:35:22Z",
 "updated" → "2023-08-10T13:40:06Z"
@@ -1019,188 +1311,253 @@ https://example.com/messages/8377464/some/path?query#frag
 </section>
 
 <section id="architectures">
-	<h1>DID解析架构</h1>
-	<p class="issue">TODO: 描述 <a>DID解析器</a> 如何实现和使用，描述 <a>DID方法</a> 的相关性。解释“方法架构”和“解析器架构”之间的区别。</p>
+	<h1>DID 解析架构</h1>
 
 	<section id="method-architectures">
 		<h2>方法架构</h2>
-		<p><a>DID解析</a> 算法涉及根据其 <a>DID方法</a> 对 <a>DID</a> 执行 <a href="https://www.w3.org/TR/did-core/#method-operations">读取</a> 操作（参见 <a href="#resolving"></a>）。</p>
+		<p><a>DID resolution</a> 算法涉及根据其 <a>DID method</a> 对 <a>DID</a> 执行 <a data-cite="did-core#method-operations">Read</a> 操作（参见 <a href="#resolving"></a>）。</p>
 
-		<div class="note">
-			<p>“读取”操作的机制在 <a>DID方法</a> 之间可能有很大差异。特别是，不应假设：</p>
-			<ul>
-				<li>... 使用不可变的区块链作为（部分）<a>可验证数据注册表</a>。</li>
-				<li>... 在执行“读取”操作期间需要与远程网络交互。</li>
-				<li>... 实际的 <a>DID文档</a> 以纯文本形式存储在 <a>可验证数据注册表</a> 上，或者可以通过 HTTP(S) 等标准协议简单地检索 <a>DID文档</a>。虽然某些 <a>DID方法</a> 可能以这种方式定义其“读取”操作，但其他方法可能定义更复杂的多步骤过程，涉及动态构建“虚拟”<a>DID文档</a>。</li>
-			</ul>
-		</div>
+		<p>每个 DID 方法都定义了此方法操作，即 <a>DID resolver</a> 如何从 DID 获取 DID 文档。底层数据格式、协议、技术基础设施和流程在不同 <a>DID methods</a> 之间可能差异很大。</p>
 
-		<p class="issue">例如，提到“解析”对等/离链/微链/边缘链DID的含义（例如，参见 [[DID-PEER]] 和 <a href="https://docs.google.com/presentation/d/1UnC_nfOUK40WS5TD_EhyDuFe5cStX-u0Z7wjoae_PqQ/">这里</a>）。</p>
+        <p>DID 方法注意事项的示例包括以下内容：</p>
+		<ul>
+          <li>DID 方法可能使用不可变区块链、分布式账本、分布式文件系统、点对点网络或其他去中心化基础设施作为其 <a>verifiable data registry</a> 的（部分）。
+          </li>
+          <li>DID 方法可能使用 DNS、HTTP 或 Web 服务器作为其 <a>verifiable data registry</a> 的（部分）。
+          </li>
+          <li>DID 方法可能使用上述技术基础设施的任意组合。
+          </li>
+          <li>DID 方法可能以纯文本形式将实际 <a>DID document</a> 存储在 <a>verifiable data registry</a> 中，并在"读取"操作期间简单地检索该文档。
+          </li>
+          <li>DID 方法可能以更复杂的方式定义其"读取"操作，可能涉及中间的、部分的或临时的 <a>DID documents</a>，并使用多步骤过程"即时"构建 <a>DID document</a>。
+          </li>
+          <li>DID 方法在执行"读取"操作期间可能需要与远程服务器或网络交互。
+          </li>
+          <li>DID 方法可能以完全本地的方式执行"读取"操作，不需要与远程服务器或网络进行任何交互。例如，在 [[DID-KEY]] 方法中，DID 本身包装了一个公钥，"读取"操作只是一个简单的本地转换过程。
+          </li>
+		</ul>
+		</p>
 
-		<p class="issue">例如，提到“解析”仅仅是包装的公钥的DID的含义（例如，参见 [[DID-KEY]] 和 <a href="https://github.com/w3c/did-spec/pull/55">这里</a>）。</p>
+		<p>基于上述注意事项以及 <a>DID method's</a> "读取"操作的性质，<a>DID resolver</a> 与 <a>verifiable data registry</a> 之间的交互可被视为 <a>verifiable read</a> 或 <a>unverifiable read</a>：</p>
 
-		<p>根据 <a>DID方法</a> 的“读取”操作的确切性质，<a>DID解析器</a> 与 <a>可验证数据注册表</a> 之间的交互可以实现为 <a>可验证读</a> 或 <a>不可验证读</a>：</p>
-
-		<figure id="figure-method-verifiable">
-			<img style="margin: auto; display: block; width: 100%;" src="diagrams/method-verifiable.png"
-				 alt="Diagram showing a 'verifiable read' implementation of aDIDmethod.">
+		<figure id="figure-architecture-method-verifiable">
+			<img style="margin: auto; display: block; width: 100%; margin-bottom: 20px;" src="diagrams/section-7/architecture-method-verifiable.svg"
+			alt="展示 DID 方法的'可验证读取'实现的图表。">
 			<figcaption style="text-align: center;">
-				<a>DID方法</a> 的 <a>可验证读</a> 实现。
+				<a>DID method</a> 的 <a>verifiable read</a> 实现。
 			</figcaption>
 		</figure>
-		<figure id="figure-method-unverifiable">
-			<img style="margin: auto; display: block; width: 100%;" src="diagrams/method-unverifiable.png"
-				 alt="Diagram showing an 'unverifiable read' implementation of aDIDmethod.">
+		<figure id="figure-architecture-method-unverifiable">
+			<img style="margin: auto; display: block; width: 100%; margin-bottom: 20px;" src="diagrams/section-7/architecture-method-unverifiable.svg"
+			alt="展示 DID 方法的'不可验证读取'实现的图表。">
 			<figcaption style="text-align: center;">
-				<a>DID方法</a> 的 <a>不可验证读</a> 实现。
+				<a>DID method</a> 的 <a>unverifiable read</a> 实现。
 			</figcaption>
 		</figure>
 
 		<p>
-			<a>可验证读</a> 最大限度地提高了对“读取”操作结果的完整性和正确性的信心——在适用的 <a>DID方法</a> 下尽可能做到这一点。它可以通过多种方式实现，例如：
+			<a>verifiable read</a> 在适用 <a>DID method</a> 下可能的范围内最大化对"读取"操作结果的完整性和正确性的信心。这可以通过多种方式实现，例如以下方式：
 		</p>
 
 		<ul>
-			<li>如果可以通过本地、受信任的网络主机访问 <a>可验证数据注册表</a>，则“读取”操作可能被视为“可验证”。在基于区块链的 <a>DID方法</a> 中，可以在本地网络主机上运行区块链全节点以实现 <a>可验证读</a>。</li>
-			<li><a>DID解析器</a> 可以远程连接到 <a>可验证数据注册表</a>，但有一些方法可以验证“读取”操作响应的内容。在基于区块链的 <a>DID方法</a> 中，即使无法直接访问区块链全节点，仍然可以通过运行轻客户端来处理元数据以验证“读取”操作的结果是否被篡改。</li>
-			<li>如果通过远程网络主机访问 <a>可验证数据注册表</a>，并且该主机被认为是可信的，因为它运行在家中的个人设备上并通过安全通道访问，则可以实现 <a>可验证读</a>。</li>
+		<li>如果可以在本地可信网络环境中访问 <a>verifiable data registry</a>，则可以实现 <a>verifiable read</a>。
+            <ul>
+                <li>例如，在基于区块链的 <a>DID methods</a> 中，如果在本地服务器上部署了区块链全节点，则可以实现 <a>verifiable read</a>。</li>
+            </ul></li>
+        <li>如果通过远程服务器访问 <a>verifiable data registry</a>，在远程服务器可信且可以通过安全通道访问的情况下，仍可能实现 <a>verifiable read</a>。</li>
+        <li>如果通过远程服务器访问 <a>verifiable data registry</a>，在 <a>DID resolver</a> 有某种方式验证 DID 方法返回的 <a>DID document</a> 和 <a href="#did-document-metadata">DID 文档元数据</a>的情况下，可能实现 <a>verifiable read</a>。
+            <ul>
+            <li>例如，在基于区块链的 <a>DID methods</a> 中，即使无法直接访问区块链全节点，通过使用处理元数据来验证数据的轻客户端，仍可能实现 <a>verifiable read</a>。</li>
+            </ul></li>
 		</ul>
+
 		<p>
-			<a>不可验证读</a>没有这样的保证，因此不太理想，例如：
+			<a>unverifiable read</a> 没有这样的保证，因此不太理想，例如：
 		</p>
 
 		<ul>
-			<li>如果访问<a>可验证数据注册表</a>是通过远程的、不可信的中介进行的，那么“读取”操作可能被认为是“不可验证的”。在基于区块链的<a>DID方法</a>中，第三方操作的远程区块链浏览器API可能被用来从区块链中查找数据。</li>
+        <li>如果通过远程、不可信的中间方访问 <a>verifiable data registry</a>，则会发生 <a>unverifiable read</a>。
+            <ul>
+            <li>例如，在基于区块链的 <a>DID methods</a> 中，可能使用由第三方运营的远程区块链浏览器 API 从区块链查找数据。</li>
+            </ul></li>
 		</ul>
 
-		<p>
-			是否可以进行<a>可验证读</a>不仅取决于<a>DID方法</a>本身，还取决于<a>DID解析器</a>的实现方式。<a>DID方法</a>可以定义多种不同的“读取”操作实现方式，并且应该至少提供一种实现<a>可验证读</a>的指导。
+		<p class="note" title="实现细节">
+			<a>verifiable read</a> 是否可能不仅取决于 <a>DID method</a> 本身，还取决于 <a>DID resolver</a> 实现该 <a>DID method</a> 的方式。<a>DID methods</a> 可以（MAY）允许多种实现其"读取"操作的方式，并应当（SHOULD）提供关于至少一种实现 <a>verifiable read</a> 的方式的指导。
 		</p>
 
-		<p class="note">
-			<a>可验证读</a>的保证仍然始终受到底层<a>可验证数据注册表</a>的架构、协议、加密和其他方面的限制。最强的<a>可验证读</a>实现形式被认为是不需要与远程网络进行任何交互的形式（例如，参见[[DID-KEY]]），或者将依赖特定网络基础设施的需求降到最低，并将“信任根”仅归结为经过验证的熵和加密（例如，参见[[KERI]]）。
+		<p class="note" title="可验证数据注册表的局限性">
+			与 <a>verifiable read</a> 相关的保证始终受到 <a>DID method's</a> 底层 <a>verifiable data registry</a> 的架构、协议、加密元素和其他方面的限制。被认为最强的 <a>verifiable read</a> 实现形式是那些不需要与任何远程网络交互的形式（例如，参见 [[DID-KEY]]），以及那些最小化对特定网络基础设施依赖的形式，将"信任根"减少到经验证的熵和密码学（例如，参见 [[KERI]]）。
 		</p>
 
-		<p class="issue">TODO: 描述客户端如何在不信任DID解析器的情况下独立验证“读取”操作的结果（例如，使用状态证明）。</p>
+        <p>
+            为了启用 <a>verifiable reads</a>，许多 DID 方法使用数字签名、状态证明、Merkle 树包含证明、加密事件日志或其他类型的证明。如果 <a>DID method</a> 使用此类证明，它必须（MUST）在其 DID 方法规范中指定如何使用它们来验证"读取"操作结果的正确性。
+        </p>
 
-		<p>一个<a>DID解析器</a>必须支持至少一种<a>DID方法</a>的<a>DID解析</a>算法，并且可以支持多种<a>DID方法</a>：</p>
-		<figure id="figure-method-multiple">
-			<img style="margin: auto; display: block; width: 100%;" src="diagrams/method-multiple.png"
-				 alt="支持多种DID方法的DID解析器的图示。">
-			<figcaption style="text-align: center;">
-				支持多种<a>DID方法</a>的<a>DID解析器</a>。
-			</figcaption>
-		</figure>
+        <p>
+            <a>DID method</a> 也可以（MAY）将此类证明包含在 <a>DID document</a> 本身中，或包含在 <a href="#did-document-metadata">DID 文档元数据</a>的 <code>proof</code> 属性中。这可能使 <a>client</a> 能够独立验证 <a>DID Resolution</a> 过程的结果，即使它不信任 <a>DID resolver</a>。
+		</p>
 
-		<p>在这种情况下，上述关于<a>可验证读</a>和<a>不可验证读</a>实现的考虑适用于每个支持的<a>DID方法</a>。</p>
+		<p class="advisement">
+			请注意，来自 <a>DID method</a> 的证明是 <a>DID method</a> 特定的，必须在适用 <a>DID method</a> 的技术框架内理解。<a>DID document</a> 或 <a href="#did-document-metadata">DID 文档元数据</a>上的简单签名并不一定证明对 DID 的控制权，也不保证 <a>DID document</a> 对于该 <a>DID</a> 是正确的。这些证明有助于验证 <a>DID Resolution</a> 过程结果的完整性和真实性（就 <a>DID method</a> 本身而言）。然而，它们不保证 <a>client</a> 与 <a>DID resolver</a> 之间的 <a>binding</a> 是安全的。另请参见 <a href="#resolver-architectures"></a>。
+		</p>
 
 	</section>
 
 	<section id="resolver-architectures">
 		<h2>解析器架构</h2>
-		<p><a>DID解析</a>和<a>DID URL解引用</a>的算法被定义为抽象函数（参见<a href="#resolving"></a>和<a href="#dereferencing"></a>）。</p>
-		这些算法由<a>DID解析器</a>实现。客户端通过<a>绑定</a>调用<a>DID解析器</a>。绑定定义了如何使用具体的编程或通信接口实现这些抽象函数。可以区分<a>本地绑定</a>（例如本地命令行工具或库API）和<a>远程绑定</a>（例如<a href="#bindings-https">HTTP(S)绑定</a>）。</p>
+		<p><a>DID resolution</a> 和 <a>DID URL dereferencing</a> 的算法定义为抽象函数（参见 <a href="#resolving"></a> 和 <a href="#dereferencing"></a>）。</p>
 
-		<figure id="figure-binding-local">
-			<img style="margin: auto; display: block; width: 100%;" src="diagrams/binding-local.png"
-				 alt="具有“本地绑定”的DID解析器的图示。">
+        <p>
+            这些算法由 <a>DID resolvers</a> 和 <a>DID URL dereferencers</a> 实现，由 <a>client</a> 通过 <a>binding</a> 调用。绑定定义了如何使用具体的编程或通信接口访问抽象函数。
+        </p>
+
+        <p>绑定的示例包括以下内容：
+        <ul>
+            <li><a>DID resolver</a> 可以通过调用软件库或 SDK 在应用程序内调用。</li>
+            <li><a>DID resolver</a> 可以作为命令行工具调用。</li>
+            <li><a>DID resolver</a> 可以通过 HTTP(S) API 或其他网络协议调用，例如参见 <a href="#bindings-https"></a>。</li>
+        </ul>
+        </p>
+
+        <p>基于上述注意事项以及绑定的性质，<a>client</a> 与 <a>DID resolver</a> 或 <a>DID URL dereferencer</a> 之间的交互可被视为 <a>local binding</a> 或 <a>remote binding</a>：</p>
+
+		<figure id="figure-architecture-binding-local">
+			<img style="margin: auto; display: block; width: 100%; margin-bottom: 20px;" src="diagrams/section-7/architecture-binding-local.svg"
+			alt="展示具有'本地绑定'的 DID 解析器的图表。">
 			<figcaption style="text-align: center;">
-				<a>DID解析器</a>的<a>本地绑定</a>。
+				<a>DID resolver</a> 的 <a>local binding</a>。
 			</figcaption>
 		</figure>
-		<figure id="figure-binding-remote">
-			<img style="margin: auto; display: block; width: 100%;" src="diagrams/binding-remote.png"
-				 alt="具有“远程绑定”的DID解析器的图示。">
+		<figure id="figure-architecture-binding-remote">
+			<img style="margin: auto; display: block; width: 100%; margin-bottom: 20px;" src="diagrams/section-7/architecture-binding-remote.svg"
+			alt="展示具有'远程绑定'的 DID 解析器的图表。">
 			<figcaption style="text-align: center;">
-				<a>DID解析器</a>的<a>远程绑定</a>。
+				<a>DID resolver</a> 的 <a>remote binding</a>。
 			</figcaption>
 		</figure>
 
-		<div class="issue" data-number="28">
-			<p>TODO: 描述<a>本地绑定</a>与<a>远程绑定</a>，以及对隐私、安全和信任的影响。</p>
-			<p>还要描述<a>远程绑定</a>潜在缺点的缓解措施，例如：</p>
-			<ul>
-				<li><a>DID解析器</a>的<a>远程绑定</a>可以使用受信任的通道，例如VPN或带有相互认证的TLS。</li>
-				<li><a>DID解析器</a>可以向<a>DID文档</a>和/或<a>DID解析结果</a>添加数据完整性证明（参见[[DATA-INTEGRITY]]）。讨论这能实现什么，不能实现什么。另请参见<a href="https://www.w3.org/TR/did-core/#proving-control-and-binding">证明控制和绑定</a>。</li>
-				<li>客户端可以通过<a>远程绑定</a>查询多个<a>DID解析器</a>并比较结果。</li>
-			</ul>
-		</div>
-		<p class="issue">TODO: 讨论在受限用户代理（如移动应用和浏览器）中的DID解析。</p>
+        <p>
+            在可能的情况下，首选 <a>local bindings</a>，因为它们最大限度地减少对第三方和中间方的依赖，降低安全风险，并最大化对 <a>DID resolution</a> 和 <a>DID URL dereferencing</a> 函数结果的完整性和正确性的信心。
+        </p>
 
-		<section id="resolver-architectures-proxied">
-			<h2>代理解析</h2>
+        <p>
+            在某些情况下，可能无法使用 <a>local binding</a>；例如，在受限的物联网（IoT）环境中，或当 <a>DID method</a> 需要复杂的基础设施时，或当需要支持多种不同的 <a>DID
+            methods</a> 时。
+        </p>
 
-			<p>一个<a>DID解析器</a>可以调用另一个<a>DID解析器</a>，后者作为代理执行<a>DID解析</a>算法，如<a href="#resolving"></a>中定义。</p>
+        <p>
+            如果 <a>client</a> 使用 <a>remote binding</a>，适用以下注意事项：
+            <ul>
+                <li><a>remote binding</a> 应当（SHOULD）使用可信的 <a>DID resolver</a> 实例，最好由 <a>client</a> 自身控制（例如自托管）。</li>
+                <li><a>remote binding</a> 应当（SHOULD）使用安全通道，如 VPN 和/或具有双向认证的 TLS。</li>
+                <li><a>client</a> 可以通过 <a>remote binding</a> 查询多个 <a>DID resolvers</a> 并比较结果。</li>
+            </ul>
+        </p>
 
-			<p>第一个<a>DID解析器</a>然后充当<a>客户端</a>，并选择适当的<a>绑定</a>来调用第二个<a>DID解析器</a>。例如，一个<a>DID解析器</a>可以通过<a>本地绑定</a>（例如命令行工具）调用，而后者又通过<a>远程绑定</a>（例如<a href="#bindings-https">HTTP(S)绑定</a>）调用另一个<a>DID解析器</a>。</p>
+        <p>
+            <a>DID resolver</a> 也可以（MAY）在 <a href="#did-resolution-metadata">DID 解析元数据</a>的 <code>proof</code> 属性中包含证明。此包含可能使 <a>client</a> 能够独立验证 <a>DID Resolution</a> 过程的结果，只要它信任 <a>DID resolver</a>。
+        </p>
 
-			<figure id="figure-proxied-dereferencing">
-				<img style="margin: auto; display: block; width: 100%;" src="diagrams/proxied-dereferencing.png"
-					 alt="图示显示两个DID解析器，一个通过“本地绑定”调用，另一个通过“远程绑定”调用。">
+        <p class="advisement">
+            请注意，来自 <a>DID resolver</a> 的证明与 <a>DID method</a> 无关，可以由 <a>DID resolver</a> 跨所有 DID 方法普遍应用。这些证明有助于验证 <a>DID Resolution</a> 过程结果的完整性和真实性（就 <a>DID resolver</a> 本身而言）。然而，它们不保证适用 <a>DID method</a> 的"读取"操作的结果本身是正确的。另请参见 <a href="#method-architectures"></a>。
+        </p>
+
+		<section id="resolver-architectures-multiple">
+			<h2>多方法支持</h2>
+
+			<p><a>DID resolver</a> 必须（MUST）支持至少一种 <a>DID method</a> 的 <a>DID resolution</a> 算法，并且可以（MAY）支持多种 <a>DID methods</a>：</p>
+			<figure id="figure-resolver-multiple">
+				<img style="margin: auto; display: block; width: 100%; margin-bottom: 20px;" src="diagrams/section-7/resolver-multiple.svg"
+					 alt="展示支持多种 DID 方法的 DID 解析器的图表。">
 				<figcaption style="text-align: center;">
-					客户端通过<a>本地绑定</a>调用一个<a>DID解析器</a>，后者通过<a>远程绑定</a>调用另一个<a>DID解析器</a>，后者又支持解析多种<a>DID方法</a>。
+					支持多种 <a>DID methods</a> 的 <a>DID resolver</a>。
 				</figcaption>
 			</figure>
 
-			<p class="note">这类似于DNS架构中的“存根解析器”调用“递归解析器”，尽管概念并不完全可比（DNS解析使用单一的具体协议，而DID解析是由不同的<a>DID方法</a>和不同的<a>绑定</a>实现的抽象函数）。</p>
+			<p>在这种情况下，<a href="#method-architectures"></a> 中关于 <a>verifiable read</a> 和 <a>unverifiable read</a> 实现的上述注意事项分别适用于每个支持的 <a>DID method</a>。</p>
 
-		</section>
+	</section>
 
-		<section id="resolver-architectures-client-side">
-			<h2>客户端解引用</h2>
+	<section id="resolver-architectures-proxied">
+		<h2>代理解析</h2>
 
-			<p><a href="#dereferencing">DID URL解引用</a>算法的不同部分可以由<a href="#resolver-architectures">解析器架构</a>的不同组件执行。</p>
+		<p><a>DID resolver</a> 可以（MAY）调用另一个 <a>DID resolver</a>，后者作为代理执行 <a href="#resolving"></a> 中定义的 <a>DID resolution</a> 算法。</p>
 
-			<p>具体来说，当解引用带有<a>DID片段</a>的<a>DID URL</a>时，<a href="#dereferencing-algorithm-resource">解引用资源</a>由<a>DID解析器</a>完成，而<a href="#dereferencing-algorithm-fragment">解引用片段</a>由<a>客户端</a>完成。</p>
+		<p>第一个 <a>DID resolver</a> 随后充当 <a>client</a> 的角色，并为调用第二个 <a>DID resolver</a> 选择合适的 <a>binding</a>。例如，<a>DID resolver</a> 可以通过 <a>local binding</a>（如命令行工具）调用，后者又通过 <a>remote binding</a>（如 <a href="#bindings-https">HTTP(S) 绑定</a>）调用另一个 <a>DID resolver</a>。</p>
 
-			<p>示例：给定<a>DID URL</a> <code>did:xyz:1234#keys-1</code>，可以通过<a>本地绑定</a>调用<a>DID解析器</a>来<a href="#dereferencing-algorithm-resource">解引用资源</a>（即<a>DID文档</a>），而<a>客户端</a>可以通过<a href="#dereferencing-algorithm-fragment">解引用片段</a>（即<a>DID文档</a>的一部分）来完成<a>DID URL解引用</a>算法。</p>
+        <p>在使用代理解析时，"下游"解析器应当（SHOULD）以透明的方式保留来自"上游"解析器的所有 <a href="#did-resolution-metadata">DID 解析元数据</a>和 <a href="#did-document-metadata">DID 文档元数据</a>，包括可能存在的任何证明。在此过程中，"下游"解析器可以（MAY）添加自己的 <a href="#did-resolution-metadata">DID 解析元数据</a>，包括关于代理解析过程本身的任何元数据。</p>
 
-			<figure id="figure-client-side-dereferencing-1">
-				<img style="display: block; width: 100%;" src="diagrams/client-side-dereferencing-1.png"
-					 alt="图示显示通过DID解析器和客户端对DID URL进行客户端解引用。">
-				<figcaption style="text-align: center;">
-					通过<a>DID解析器</a>和<a>客户端</a>对<a>DID URL</a>进行客户端解引用。
-				</figcaption>
-			</figure>
+		<figure id="figure-resolver-proxied">
+			<img style="margin: auto; display: block; width: 100%; margin-bottom: 20px;" src="diagrams/section-7/resolver-proxied.svg"
+			alt="展示两个 DID 解析器的图表，一个通过'本地绑定'调用，另一个通过'远程绑定'调用。">
+			<figcaption style="text-align: center;">
+				<a>client</a> 通过 <a>local binding</a> 调用 <a>DID resolver</a>，后者通过 <a>remote binding</a> 调用另一个 <a>DID resolver</a>，后者再从 <a>DID method</a> 读取。
+			</figcaption>
+		</figure>
 
-			<p>示例：给定<a>DID URL</a> <code>did:xyz:1234#keys-1</code>，可以通过<a>本地绑定</a>调用<a>DID解析器</a>，后者又通过<a>远程绑定</a>调用另一个<a>DID解析器</a>来<a href="#dereferencing-algorithm-resource">解引用资源</a>（即<a>DID文档</a>），而<a>客户端</a>可以通过<a href="#dereferencing-algorithm-fragment">解引用片段</a>（即<a>DID文档</a>的一部分）来完成<a>DID URL解引用</a>算法。</p>
+		<p class="note" title="与 DNS 的比较">这类似于 DNS 架构中"存根解析器"调用"递归解析器"，尽管这些概念并非完全可比（DNS 解析使用单一的具体协议，而 DID 解析是由不同 <a>DID methods</a> 和不同 <a>bindings</a> 实现的抽象函数）。</p>
 
-			<figure id="figure-client-side-dereferencing-3">
-				<img style="margin: auto; display: block; width: 100%;" src="diagrams/client-side-dereferencing-2.png"
-					 alt="图示显示通过两个DID解析器和客户端对DID URL进行客户端解引用。">
-				<figcaption style="text-align: center;">
-					通过两个<a>DID解析器</a>和<a>客户端</a>对<a>DID URL</a>进行客户端解引用（结合<a href="#resolver-architectures-proxied">代理解析</a>）。
-				</figcaption>
-			</figure>
+	</section>
 
-			<p>示例：给定<a>DID URL</a> <code>did:xyz:1234?service=agent&relativeRef=%2Fsome%2Fpath%3Fquery#frag</code>，可以调用<a>DID解析器</a>来<a href="#dereferencing-algorithm-resource">解引用资源</a>（即<a>服务端点</a> URL），而<a>客户端</a>可以通过<a href="#dereferencing-algorithm-fragment">解引用片段</a>（即带有片段的<a>服务端点</a> URL）来完成<a>DID URL解引用</a>算法。</p>
+	<section id="resolver-architectures-client-side">
+		<h2>客户端侧解引用</h2>
 
-			<figure id="figure-client-side-dereferencing-2">
-				<img style="margin: auto; display: block; width: 100%;" src="diagrams/client-side-dereferencing-3.png"
-					 alt="图示显示通过DID解析器和客户端对DID URL进行客户端解引用。">
-				<figcaption style="text-align: center;">
-					通过<a>DID解析器</a>和<a>客户端</a>对<a>DID URL</a>进行客户端解引用。
-				</figcaption>
-			</figure>
+		<p><a href="#dereferencing">DID URL 解引用</a>算法的不同部分可能由<a href="#resolver-architectures">解析器架构</a>的不同组件执行。</p>
 
-		</section>
+		<p>具体来说，当解引用带有 <a>DID fragment</a> 的 <a>DID URL</a> 时，<a href="#dereferencing-algorithm-resource">解引用资源</a>由 <a>DID resolver</a> 完成，而 <a href="#dereferencing-algorithm-fragment">解引用片段</a>由 <a>client</a> 完成。</p>
+	</section>
+
+	</section>
+
+	<section>
+		<h2>示例</h2>
+
+		<p>给定 <a>DID URL</a> <code>did:xyz:1234#keys-1</code>，可以通过 <a>local binding</a> 调用 <a>DID resolver</a> 来执行 <a href="#dereferencing-algorithm-resource">解引用资源</a>（即 <a>DID document</a>），<a>client</a> 可以通过 <a href="#dereferencing-algorithm-fragment">解引用片段</a>（即 <a>DID document</a> 的一部分）来完成 <a>DID URL dereferencing</a> 算法。</p>
+
+		<figure id="figure-client-side-dereferencing-1">
+			<img style="display: block; width: 100%; margin-bottom: 20px;" src="diagrams/section-7/client-side-dereferencing-1.svg"
+			alt="展示由 DID 解析器和客户端进行的 DID URL 客户端侧解引用的图表">
+			<figcaption style="text-align: center;">
+				由 <a>DID resolver</a> 和 <a>client</a> 进行的 <a>DID URL</a> 客户端侧解引用。
+			</figcaption>
+		</figure>
+
+		<p>给定 <a>DID URL</a> <code>did:xyz:1234?service=agent&relativeRef=%2Fsome%2Fpath%3Fquery#frag</code>，可以调用 <a>DID resolver</a> 来执行 <a href="#dereferencing-algorithm-resource">解引用资源</a>（即 <a>service endpoint</a> URL），<a>client</a> 可以通过 <a href="#dereferencing-algorithm-fragment">解引用片段</a>（即带片段的 <a>service endpoint</a> URL）来完成 <a>DID URL dereferencing</a> 算法。</p>
+
+		<figure id="figure-client-side-dereferencing-2">
+			<img style="margin: auto; display: block; width: 100%; margin-bottom: 20px;" src="diagrams/section-7/client-side-dereferencing-2.svg"
+				 alt="展示由 DID 解析器和客户端进行的 DID URL 客户端侧解引用的图表">
+			<figcaption style="text-align: center;">
+				由 <a>DID resolver</a> 和 <a>client</a> 进行的 <a>DID URL</a> 客户端侧解引用。
+			</figcaption>
+		</figure>
+
+		<p>给定 <a>DID URL</a> <code>did:xyz:1234#keys-1</code>，可以通过 <a>local binding</a> 调用 <a>DID resolver</a>，后者通过 <a>remote binding</a> 调用另一个 <a>DID resolver</a> 来执行 <a href="#dereferencing-algorithm-resource">解引用资源</a>（即 <a>DID document</a>），<a>client</a> 可以通过 <a href="#dereferencing-algorithm-fragment">解引用片段</a>（即 <a>DID document</a> 的一部分）来完成 <a>DID URL dereferencing</a> 算法。</p>
+
+		<figure id="figure-client-side-dereferencing-3">
+			<img style="margin: auto; display: block; width: 100%; margin-bottom: 20px;" src="diagrams/section-7/client-side-dereferencing-3.svg"
+			alt="展示由两个 DID 解析器和客户端进行的 DID URL 客户端侧解引用的图表">
+			<figcaption style="text-align: center;">
+				客户端侧解引用（结合<a href="#resolver-architectures-proxied">代理解析</a>），由两个 <a>DID resolvers</a> 和 <a>client</a> 对 <a>DID URL</a> 进行。
+			</figcaption>
+		</figure>
 
 	</section>
 
 </section>
 
 <section id="did-resolution-result">
-	<h1>DID解析结果</h1>
-	<p>本节定义了一个数据结构，表示<a href="#resolving"></a>中描述的算法的结果。<a>DID解析结果</a>包含<a>DID文档</a>以及<a href="#output-resolutionmetadata">DID解析元数据</a>和<a href="#output-documentmetadata">DID文档元数据</a>。</p>
+	<h1>DID 解析结果</h1>
+	<p>本节定义了一个表示 <a href="#resolving"></a> 中所述算法结果的 JSON 数据结构。<a>DID resolution result</a> 包含 <a>DID document</a> 以及 <a href="#did-resolution-metadata">DID 解析元数据</a>和 <a href="#did-document-metadata">DID 文档元数据</a>。</p>
 
-	<p>此数据结构的媒体类型定义为`application/ld+json;profile="https://w3id.org/did-resolution"`。</p>
+	<p>此数据结构的媒体类型定义为 `application/did-resolution`。</p>
 
 	<section>
 		<h2>示例</h2>
 
-		<pre class="example nohighlight" title="DID解析结果示例">
+		<pre class="example nohighlight" title="Example DID resolution result">
 {
-	"@context": "https://w3id.org/did-resolution/v1",
 	"didDocument": {
 		"@context": "https://www.w3.org/ns/did/v1",
 		"id": "did:example:123456789abcdefghi",
@@ -1217,7 +1574,7 @@ https://example.com/messages/8377464/some/path?query#frag
 		}]
 	},
 	"didResolutionMetadata": {
-		"contentType": "application/did+ld+json",
+		"contentType": "application/did",
 		"retrieved": "2024-06-01T19:73:24Z",
 	},
 	"didDocumentMetadata": {
@@ -1254,73 +1611,19 @@ https://example.com/messages/8377464/some/path?query#frag
 }
 </pre>
 
-		<p class="issue" data-number="23">参见相应的开放问题。</p>
-		<p class="issue">需要定义此数据结构的确切工作方式，以及它是否始终包含<a>DID文档</a>，或者也可以包含其他结果。</p>
-
-	</section>
-
-	<section id="output-diddocument">
-		<h2>DID文档</h2>
-		<p>与<a>DID</a>关联的<a>DID文档</a>。<a href="#resolving"></a>的结果。</p>
-
-	</section>
-
-	<section id="output-resolutionmetadata">
-		<h2 id="did-resolution-metadata">DID解析元数据</h2>
-		<p>这是一个元数据结构（参见[[DID-CORE]]中的<a href="https://www.w3.org/TR/did-core/#metadata-structure">元数据结构</a>部分），包含有关<a>DID解析</a>过程的元数据。</p>
-		<p>此元数据通常在<a>DID解析</a>函数的调用之间变化，因为它表示解析过程本身的数据。</p>
-		<p>此元数据的来源是DID解析器。</p>
-		<p>DID解析元数据的示例包括：</p>
-		<ul>
-			<li>返回内容的媒体类型（<b>contentType</b>元数据属性）。</li>
-			<li>错误代码（<b>error</b>元数据属性）。</li>
-			<li>DID解析过程的持续时间。</li>
-			<li>有关DID文档的缓存信息（参见<a href="#caching"></a>部分）。</li>
-			<li>在DID解析过程中使用的各种URL、IP地址或其他网络信息。</li>
-			<li>由DID解析器添加的证明（例如，以建立可信解析）。</li>
-		</ul>
-		<p>另请参见[[DID-CORE]]中的<a href="https://www.w3.org/TR/did-core/#did-resolution-metadata">DID解析元数据</a>部分。</p>
-
-	</section>
-
-	<section id="output-documentmetadata">
-		<h2 id="did-document-metadata">DID文档元数据</h2>
-		<p>这是一个元数据结构（参见[[DID-CORE]]中的<a href="https://www.w3.org/TR/did-core/#metadata-structure">元数据结构</a>部分），包含有关<a>DID文档</a>的元数据。</p>
-		<p>此元数据通常在<a>DID解析</a>函数的调用之间不会变化，除非<a>DID文档</a>发生变化，因为它表示有关<a>DID文档</a>的数据。</p>
-		<p>此元数据的来源是<a>DID控制者</a>和/或<a>DID方法</a>。</p>
-		<p>DID文档元数据的示例包括：</p>
-		<ul>
-			<li>DID及其关联DID文档创建或更新的时间戳（<b>created</b>和<b>updated</b>元数据属性）。</li>
-			<li>有关控制器、能力、委托等的元数据。</li>
-			<li>DID文档的版本信息（参见<a href="#versioning"></a>部分）。</li>
-			<li>由DID控制者添加的证明（例如，以建立控制权限）。</li>
-		</ul>
-		<p>DID文档元数据还可以包括方法特定的元数据，例如：</p>
-		<ul>
-			<li>来自<a>可验证数据注册表</a>的状态证明。</li>
-			<li>区块链或其他<a>可验证数据注册表</a>中的记录的区块号、索引、交易哈希、确认次数等。</li>
-		</ul>
-		<p>另请参见[[DID-CORE]]中的<a href="https://www.w3.org/TR/did-core/#did-document-metadata">DID文档元数据</a>部分。</p>
-
-	</section>
-
-	<p class="issue">对于某些数据，可能存在争议，它是否应该属于DID文档（即描述DID主体的数据），或者它是否是元数据（即关于DID文档或DID解析过程的数据）。例如BTCR方法中的“延续DID文档”的URL。</p>
-
 </section>
-<section id="did-url-dereferencing-result">
-	<h1>DID URL解引用结果</h1>
-	<p>本节定义了一个数据结构，用于表示在<a href="#dereferencing"></a>中描述的算法的结果。<a>DID URL解引用结果</a>包含任意内容以及
-		<a href="#output-dereferencingmetadata">DID解析元数据</a>和<a href="#output-contentmetadata">内容元数据</a>。</p>
 
-	<p class="issue" data-number="69">参见相关的开放问题。</p>
-	<p>此数据结构的媒体类型定义为`application/ld+json;profile="https://w3id.org/did-resolution"`。</p>
+	<section id="did-url-dereferencing-result">
+		<h1>DID URL 解引用结果</h1>
+		<p>本节定义了一个表示 <a href="#dereferencing"></a> 中所述算法结果的 JSON 数据结构。<a>DID URL dereferencing result</a> 包含内容以及 <a href="#did-url-dereferencing-metadata">DID URL 解引用元数据</a>和 <a href="#did-url-content-metadata">DID URL 内容元数据</a>。</p>
 
-	<section>
-		<h2>示例</h2>
+		<p>此数据结构的媒体类型定义为 `application/did-url-dereferencing`。</p>
 
-		<pre class="example nohighlight" title="DID URL解引用结果示例">
+		<section>
+			<h2>示例</h2>
+
+			<pre class="example nohighlight" title="Example DID URL dereferencing result">
 {
-	"@context": "https://w3id.org/did-resolution/v1",
 	"content": {
 		"@context": "https://www.w3.org/ns/did/v1",
 		"id": "did:example:123456789abcdefghi",
@@ -1336,8 +1639,8 @@ https://example.com/messages/8377464/some/path?query#frag
 			"serviceEndpoint": "https://example.com/vc/"
 		}]
 	},
-	"DID URLDereferencingMetadata": {
-		"contentType": "application/did+ld+json",
+	"didUrlDereferencingMetadata": {
+		"contentType": "application/did",
 		"retrieved": "2024-06-01T19:73:24Z",
 	},
 	"contentMetadata": {
@@ -1374,130 +1677,170 @@ https://example.com/messages/8377464/some/path?query#frag
 }
 </pre>
 
-	</section>
-
-	<section id="output-content">
-		<h2>内容</h2>
-		<p>与<a>DID URL</a>关联的任意内容。<a href="#dereferencing"></a>的结果。</p>
+		</section>
+		</section>
 
 	</section>
-
-	<section id="output-dereferencingmetadata">
-		<h2>DID URL解引用元数据</h2>
-		<p>这是一个元数据结构（参见[[DID-CORE]]中的<a href="https://www.w3.org/TR/did-core/#metadata-structure">元数据结构</a>部分），包含有关<a>DID URL解引用</a>过程的元数据。</p>
-		<p>此元数据通常在<a>DID URL解引用</a>函数的调用之间发生变化，因为它表示有关解引用过程本身的数据。</p>
-		<p class="issue">添加更多关于DID URL解引用元数据如何工作的细节。</p>
-		<p>另见[[DID-CORE]]中的<a href="https://w3id.org/did-core/#did-url-dereferencing-metadata">DID URL解引用元数据</a>部分。</p>
-
-	</section>
-
-	<section id="output-contentmetadata">
-		<h2>内容元数据</h2>
-		<p>这是一个元数据结构（参见[[DID-CORE]]中的<a href="https://www.w3.org/TR/did-core/#metadata-structure">元数据结构</a>部分），包含有关内容的元数据。</p>
-		<p>此元数据通常在<a>DID URL解引用</a>函数的调用之间不会发生变化，除非内容发生变化，因为它表示有关内容的数据。</p>
-		<p class="issue">添加更多关于内容元数据如何工作的细节。</p>
-
-	</section>
-
-</section>
 
 <section id="errors">
 	<h1>错误</h1>
-	<h2>invalidDid</h2>
-	<p>如果在<a>DID解析</a>过程中检测到无效的DID，
-		DID解析元数据<strong>error</strong>属性的值必须为<strong>invalidDid</strong>，
-		如<a href="#did-resolution-metadata"></a>部分所定义。
+	<p>
+		本规范中描述的算法会抛出特定类型的错误。实现者可能会发现将这些错误传达给其他库或软件系统很有用。本节为错误提供了特定的 URL 和描述，以便实现本规范所述技术的生态系统在发生错误时可以更有效地互操作。此外，本规范使用了 [[CID]] 规范 <a data-cite="CID#processing-errors">第 3.5 节处理错误</a>中定义的一些错误。
 	</p>
-	<h2>invalidDID URL</h2>
-	<p>如果在<a>DID解析</a>或<a>DID URL解引用</a>过程中检测到无效的DID URL，
-		DID解析或DID URL解引用元数据<strong>error</strong>属性的值必须为<strong>invalidDID URL</strong>，
-		如<a href="#did-url-dereferencing-metadata"></a>部分所定义。
+
+	<p>
+		实现者应当（SHOULD）使用 [[RFC9457]] 来编码错误数据结构。如果使用 [[RFC9457]]：
 	</p>
-	<h2>notFound</h2>
-	<p>如果在<a>DID解析</a>或<a>DID URL解引用</a>过程中DID或DID URL不存在，
-		DID解析或DID URL解引用元数据<strong>error</strong>属性的值必须为<strong>notFound</strong>，
-		如<a href="#did-resolution-metadata"></a>和<a href="#did-url-dereferencing-metadata"></a>部分所定义。
-	</p>
-	<h2>representationNotSupported</h2>
-	<p>如果在<a>DID解析</a>或<a>DID URL解引用</a>过程中不支持DID文档的表示形式，
-		DID解析元数据<strong>error</strong>属性的值必须为<strong>representationNotSupported</strong>，
-		如<a href="#did-resolution-metadata"></a>部分所定义。
-	</p>
-	<h2>methodNotSupported</h2>
-	<p>如果在<a>DID解析</a>或<a>DID URL解引用</a>过程中不支持DID方法，
-		DID解析或DID URL解引用元数据<strong>error</strong>属性的值必须为<strong>methodNotSupported</strong>。
-	</p>
-	<h2>internalError</h2>
-	<p>当在<a>DID解析</a>或<a>DID URL解引用</a>过程中发生意外错误时，
-		DID解析或DID URL解引用元数据<strong>error</strong>属性的值必须为<strong>internalError</strong>。
-	</p>
-	<h2>invalidPublicKey</h2>
-	<p>如果在<a>DID解析</a>或<a>DID URL解引用</a>过程中检测到无效的公钥值，
-		DID解析或DID URL解引用元数据<strong>error</strong>属性的值必须为<strong>invalidPublicKey</strong>。
-	</p>
-	<h2>invalidPublicKeyLength</h2>
-	<p>如果在<a>DID解析</a>或<a>DID URL解引用</a>过程中，<i>rawPublicKeyBytes</i>的字节长度与关联的multicodecValue的预期公钥长度不匹配，
-		DID解析或DID URL解引用元数据<strong>error</strong>属性的值必须为<strong>invalidPublicKeyLength</strong>。
-	</p>
-	<h2>invalidPublicKeyType</h2>
-	<p>如果在<a>DID解析</a>或<a>DID URL解引用</a>过程中检测到无效的公钥类型，
-		DID解析或DID URL解引用元数据<strong>error</strong>属性的值必须为<strong>invalidPublicKeyType</strong>。
-	</p>
-	<h2>unsupportedPublicKeyType</h2>
-	<p>如果在<a>DID解析</a>或<a>DID URL解引用</a>过程中检测到不支持的公钥类型，
-		DID解析或DID URL解引用元数据<strong>error</strong>属性的值必须为<strong>unsupportedPublicKeyType</strong>。
-	</p>
+
+	<ul>
+		<li>
+错误对象的 `type` 值必须（MUST）是一个 URL。当以下章节中列出的值未定义 URL 时，这些值必须（MUST）前缀以 URL `https://www.w3.org/ns/did#`。
+		</li>
+		<li>
+`title` 值应当（SHOULD）提供错误的简短但具体的人类可读字符串。
+		</li>
+		<li>
+`detail` 值应当（SHOULD）提供错误的较长人类可读字符串。
+		</li>
+	</ul>
+
+	<dl>
+		<dt id="INVALID_DID">INVALID_DID</dt>
+		<dd>
+			在 <a>DID Resolution</a> 过程中检测到无效 DID。参见 <a href="#resolving-algorithm"></a> 章节。
+		</dd>
+		<dt id="INVALID_DID_DOCUMENT">INVALID_DID_DOCUMENT</dt>
+		<dd>
+            [=DID document=] 格式错误。参见 <a href="#resolving-algorithm"></a> 章节。
+		</dd>
+        <dt id="NOT_FOUND">NOT_FOUND</dt>
+		<dd>
+            <a>DID resolver</a> 无法找到此解析请求产生的 <a>DID document</a>。参见 <a href="#resolving-algorithm"></a> 章节。
+		</dd>
+        <dt id="REPRESENTATION_NOT_SUPPORTED">REPRESENTATION_NOT_SUPPORTED</dt>
+		<dd>
+			通过 <code>accept</code> 输入元数据属性请求的 <a>representation</a> 不被 <a>DID method</a> 和/或 <a>DID resolver</a> 实现支持。参见 <a href="#resolving-algorithm"></a> 章节。
+		</dd>
+        <dt id="INVALID_DID_URL">INVALID_DID_URL</dt>
+		<dd>
+			在 <a>DID URL dereferencing</a> 过程中检测到无效 <a>DID URL</a>。参见 <a href="#dereferencing-algorithm"></a> 章节。
+		</dd>
+        <dt id="METHOD_NOT_SUPPORTED">METHOD_NOT_SUPPORTED</dt>
+		<dd>
+			DID 的 DID 方法不被 <a>DID resolver</a> 支持。参见 <a href="#resolving-algorithm"></a> 章节。
+		</dd>
+        <dt id="INVALID_OPTIONS">INVALID_OPTIONS</dt>
+		<dd>
+			为 <a>DID Resolution</a> 或 <a>DID URL dereferencing</a> 提供的一个或多个选项无效。
+		</dd>
+        <dt id="INTERNAL_ERROR">INTERNAL_ERROR</dt>
+		<dd>
+			在 <a>DID Resolution</a> 或 <a>DID URL dereferencing</a> 过程中发生意外错误。
+		</dd>
+		<dt id="FEATURE_NOT_SUPPORTED">FEATURE_NOT_SUPPORTED</dt>
+		<dd>
+		<a>DID resolver</a> 不支持请求的功能。`detail` 字段的值应当（SHOULD）提供解析器不支持的功能的较长描述。
+		</dd>
+        <dt id="INVALID_PUBLIC_KEY">https://w3id.org/security#INVALID_PUBLIC_KEY</dt>
+		<dd>
+			在 <a>DID Resolution</a> 或 <a>DID URL dereferencing</a> 过程中检测到无效的公钥值。
+		</dd>
+        <dt id="INVALID_PUBLIC_KEY_LENGTH">https://w3id.org/security#INVALID_PUBLIC_KEY_LENGTH</dt>
+		<dd>
+			在 <a>DID Resolution</a> 或 <a>DID URL dereferencing</a> 过程中，<i>rawPublicKeyBytes</i> 的字节长度与关联 multicodecValue 的预期公钥长度不匹配。
+		</dd>
+        <dt id="INVALID_PUBLIC_KEY_TYPE">https://w3id.org/security#INVALID_PUBLIC_KEY_TYPE</dt>
+		<dd>
+			在 <a>DID Resolution</a> 或 <a>DID URL dereferencing</a> 过程中检测到无效的公钥类型。
+		</dd>
+        <dt id="UNSUPPORTED_PUBLIC_KEY_TYPE">https://w3id.org/security#UNSUPPORTED_PUBLIC_KEY_TYPE</dt>
+		<dd>
+			在 <a>DID Resolution</a> 或 <a>DID URL dereferencing</a> 过程中检测到不支持的公钥类型。
+		</dd>
+	  </dl>
+	  <dl>
+	</dl>
+
 
 </section>
 
 <section id="bindings">
 	<h1>绑定</h1>
-	<p>本节定义了<a href="#resolving"></a>和<a href="#dereferencing"></a>部分中抽象算法的绑定。</p>
+	<p>本节为 <a href="#resolving"></a> 和 <a href="#dereferencing"></a> 章节中的抽象算法定义绑定。</p>
 
 	<section id="bindings-https">
 		<h2>HTTP(S) 绑定</h2>
-		<p>本节定义了一个<a>DID解析器</a>的<a>绑定</a>，通过HTTP(S)端点暴露<a>DID解析</a>和/或<a>DID URL解引用</a>功能（包括所有解析/解引用选项和元数据）。参见<a href="#resolver-architectures"></a>。</p>
+		<p>本节定义了一个 <a>DID resolver</a> <a>binding</a>，通过 HTTP(S) 端点暴露 <a>DID resolution</a> 和/或 <a>DID URL dereferencing</a> 函数（包括所有解析/解引用选项和元数据）。参见 <a href="#resolver-architectures"></a>。</p>
 
-		<p>HTTP(S)绑定是一个<a>远程绑定</a>。它需要一个已知的HTTP(S) URL，远程<a>DID解析器</a>可以在该URL上被调用。此URL称为<var><a>DID解析器</a> HTTP(S) 端点</var>。</p>
+		<p>HTTP(S) 绑定需要一个已知的 HTTP(S) URL，可以在该 URL 处调用 <a>DID resolver</a>。此 URL 称为 <var><a>DID resolver</a> HTTP(S) 端点</var>。</p>
 
-		<p>使用此绑定，<a>DID解析</a>功能（参见<a href="#resolving"></a>）和/或<a>DID URL解引用</a>功能（参见<a href="#dereferencing"></a>）可以按以下方式执行：</p>
+		<p>此绑定通常被视为 <a>remote binding</a>，但如果 HTTP(S) 端点在本地环境中运行（如 <code>localhost</code>），也可以是 <a>local binding</a>。</p>
+
+		<p>使用此绑定，可以按以下方式执行 <a>DID resolution</a> 函数（参见 <a href="#resolving"></a>）和/或 <a>DID URL dereferencing</a> 函数（参见 <a href="#dereferencing"></a>）：</p>
 
 		<ol class="algorithm">
-			<li>使用<var><a>DID解析器</a> HTTP(S) 端点</var>初始化<var>请求HTTP(S) URL</var>。
-				<pre class="example nohighlight">https://resolver.example/1.0/identifiers/</pre></li>
-			<li>对于<a>DID解析</a>功能：
+			<li>使用 <var><a>DID resolver</a> HTTP(S) 端点</var>初始化<var>请求 HTTP(S) URL</var>。
+			<pre class="example nohighlight">https://resolver.example/1.0/identifiers/</pre></li>
+			<li>对于 <a>DID resolution</a> 函数：
 				<ol class="algorithm">
-					<li>将<var>输入 <a>DID</a></var>附加到<var>请求HTTP(S) URL</var>。
-						<pre class="example nohighlight">https://resolver.example/1.0/identifiers/did:example:1234</pre></li>
-					<li>将<code>Accept</code> <var>HTTP 请求头</var>设置为`application/ld+json;profile="https://w3id.org/did-resolution"`以请求完整的<a href="#did-resolution-result"></a>，或者</li>
-					<li>将<code>Accept</code> <var>HTTP 请求头</var>设置为<var>解析选项</var>中的<b>accept</b>值。</li>
-					<li>如果提供了其他<var>解析选项</var>：
-						<ol class="algorithm">
-							<li><var>输入 <a>DID</a></var>必须进行URL编码（如<a data-cite="RFC3986#section-2.1">RFC3986 第2.1节</a>所指定）。</li>
-							<li>将所有<var>解析选项</var>（除了<b>accept</b>）编码为<var>请求HTTP(S) URL</var>中的查询参数。
-								<pre class="example nohighlight">https://resolver.example/1.0/identifiers/did%3Aexample%3A1234?option1=value1&option2=value2</pre></li>
-						</ol>
-					</li>
+					<li>将<var>输入 <a>DID</a></var> 附加到<var>请求 HTTP(S) URL</var>。
+					<pre class="example nohighlight">https://resolver.example/1.0/identifiers/did:example:1234</pre></li>
+					<li>将 <code>Accept</code> <var>HTTP 请求头</var>设置为 `application/did-resolution` 以请求完整的 <a href="#did-resolution-result"></a>，或者</li>
+					<li>将 <code>Accept</code> <var>HTTP 请求头</var>设置为 <b>accept</b> <var>解析选项</var>的值以仅请求结果中的 <b>didDocument</b> 值。</li>
 				</ol>
 			</li>
-			<li>对于<a>DID URL解引用</a>功能：
+			<li>对于 <a>DID URL dereferencing</a> 函数：
 				<ol class="algorithm">
-					<li>将<var>输入 <a>DID URL</a></var>附加到<var>请求HTTP(S) URL</var>。
-						<pre class="example nohighlight">https://resolver.example/1.0/identifiers/did:example:1234?service=files&relativeRef=/resume.pdf</pre></li>
-					<li>将<code>Accept</code> <var>HTTP 请求头</var>设置为`application/ld+json;profile="https://w3id.org/did-url-dereferencing"`以请求完整的<a href="#did-url-dereferencing-result"></a>，或者</li>
-					<li>将<code>Accept</code> <var>HTTP 请求头</var>设置为<var>解引用选项</var>中的<b>accept</b>值。</li>
-					<li>如果提供了其他<var>解引用选项</var>：
-						<ol class="algorithm">
-							<li><var>输入 <a>DID URL</a></var>必须进行URL编码（如<a data-cite="RFC3986#section-2.1">RFC3986 第2.1节</a>所指定）。</li>
-							<li>将所有<var>解引用选项</var>（除了<b>accept</b>）编码为<var>请求HTTP(S) URL</var>中的查询参数。
-								<pre class="example nohighlight">https://resolver.example/1.0/identifiers/did%3Aexample%3A1234%3Fservice%3Dfiles%26relativeRef%3D%2Fresume.pdf?option1=value1&option2=value2</pre></li>
-						</ol>
-					</li>
+					<li>将<var>输入 <a>DID URL</a></var> 附加到<var>请求 HTTP(S) URL</var>。
+					<pre class="example nohighlight">https://resolver.example/1.0/identifiers/did:example:1234?service=files&relativeRef=/resume.pdf</pre></li>
+					<li>将 <code>Accept</code> <var>HTTP 请求头</var>设置为 `application/did-url-dereferencing` 以请求完整的 <a href="#did-url-dereferencing-result"></a>，或者</li>
+					<li>将 <code>Accept</code> <var>HTTP 请求头</var>设置为 <b>accept</b> <var>解引用选项</var>的值以仅请求结果中的 <b>contentStream</b> 值。</li>
 				</ol>
 			</li>
-			<li>在<var>请求HTTP(S) URL</var>上执行HTTP <code>GET</code>请求。这将调用远程<a>DID解析器</a>上的<a>DID解析</a>或<a>DID URL解引用</a>功能。</li>
-			<li>如果<a>DID解析</a>或<a>DID URL解引用</a>功能在<b>didResolutionMetadata</b>或<b>dereferencingMetadata</b>中返回<b>error</b>元数据属性，
-				则HTTP响应状态码必须对应于<b>error</b>元数据属性的值，根据以下表格：
+            <li>对于 HTTP(S) GET 绑定：
+                <ol class="algorithm">
+                    <li>如果提供了除 <b>accept</b> 之外的其他<var>解析选项</var>或<var>解引用选项</var>：
+                        <ol class="algorithm">
+                            <li><var>输入 <a>DID</a></var> 必须（MUST）进行 URL 编码（如 <a
+                                    data-cite="RFC3986#section-2.1">RFC3986 第 2.1 节</a>中所指定）。</li>
+                            <li>将除 <b>accept</b> 之外的所有<var>解析选项</var>编码为<var>请求 HTTP(S) URL</var> 中的查询参数。
+                        </ol>
+                    </li>
+                    <li>在<var>请求 HTTP(S) URL</var> 上执行 HTTP <code>GET</code> 请求。这将在远程 <a>DID resolver</a> 上调用 <a>DID resolution</a> 或 <a>DID URL dereferencing</a> 函数。
+                        <pre class="example nohighlight">GET https://resolver.example/1.0/identifiers/did%3Aexample%3A1234?option1=value1&option2=value2 HTTP/1.1
+Accept: application/did-resolution
+</pre>
+                        <pre class="example nohighlight">GET https://resolver.example/1.0/identifiers/did%3Aexample%3A1234%3Fservice%3Dfiles%26relativeRef%3D%2Fresume.pdf?option1=value1&option2=value2 HTTP/1.1
+Accept: application/did-url-dereferencing
+</pre>
+                    </li>
+                </ol>
+            </li>
+            <li>对于 HTTP(S) POST 绑定：
+            <ol class="algorithm">
+                <li>如果提供了除 <b>accept</b> 之外的其他<var>解析选项</var>或<var>解引用选项</var>：
+                    <ol class="algorithm">
+                        <li>将除 <b>accept</b> 之外的所有<var>解析选项</var>编码为 HTTP 请求 POST 主体中的 JSON 结构。
+                    </ol>
+                </li>
+                <li>在<var>请求 HTTP(S) URL</var> 上执行 HTTP <code>POST</code> 请求。这将在远程 <a>DID resolver</a> 上调用 <a>DID resolution</a> 或 <a>DID URL dereferencing</a> 函数。
+                    <pre class="example nohighlight">POST https://resolver.example/1.0/identifiers/did:example:1234 HTTP/1.1
+Accept: application/did-resolution
+
+{
+    "option1": "value1",
+    "option2": "value2"
+}</pre>
+                    <pre class="example nohighlight">POST https://resolver.example/1.0/identifiers/did:example:1234?service=files&relativeRef=/resume.pdf HTTP/1.1
+Accept: application/did-url-dereferencing
+
+{
+    "option1": "value1",
+    "option2": "value2"
+}</pre>
+            </ol>
+            </li>
+			<li>如果 <a>DID resolution</a> 或 <a>DID URL dereferencing</a> 函数在 <b>didResolutionMetadata</b> 或 <b>dereferencingMetadata</b> 中返回 <b>error</b> 元数据属性，则 HTTP 响应状态码必须（MUST）根据以下表格对应 <b>error</b> 元数据属性的值：
 				<table class="simple">
 					<thead>
 					<tr>
@@ -1512,7 +1855,7 @@ https://example.com/messages/8377464/some/path?query#frag
 					<tbody>
 					<tr>
 						<td>
-							<code>invalidDid</code>
+							<code>INVALID_DID</code>
 						</td>
 						<td>
 							<code>400</code>
@@ -1520,7 +1863,15 @@ https://example.com/messages/8377464/some/path?query#frag
 					</tr>
 					<tr>
 						<td>
-							<code>invalidDID URL</code>
+							<code>INVALID_DID_URL</code>
+						</td>
+						<td>
+							<code>400</code>
+						</td>
+					</tr>
+          <tr>
+						<td>
+							<code>INVALID_OPTIONS</code>
 						</td>
 						<td>
 							<code>400</code>
@@ -1528,7 +1879,7 @@ https://example.com/messages/8377464/some/path?query#frag
 					</tr>
 					<tr>
 						<td>
-							<code>notFound</code>
+							<code>NOT_FOUND</code>
 						</td>
 						<td>
 							<code>404</code>
@@ -1536,23 +1887,15 @@ https://example.com/messages/8377464/some/path?query#frag
 					</tr>
 					<tr>
 						<td>
-							<code>representationNotSupported</code>
+							<code>REPRESENTATION_NOT_SUPPORTED</code>
 						</td>
 						<td>
 							<code>406</code>
 						</td>
 					</tr>
-					<tr>
+          <tr>
 						<td>
-							<code>methodNotSupported</code>
-						</td>
-						<td>
-							<code>501</code>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<code>internalError</code>
+							<code>INVALID_DID_DOCUMENT</code>
 						</td>
 						<td>
 							<code>500</code>
@@ -1560,7 +1903,56 @@ https://example.com/messages/8377464/some/path?query#frag
 					</tr>
 					<tr>
 						<td>
-							（其他值）
+							<code>METHOD_NOT_SUPPORTED</code>
+						</td>
+						<td>
+							<code>501</code>
+						</td>
+					</tr>
+          <tr>
+						<td>
+							<code>INVALID_PUBLIC_KEY</code>
+						</td>
+						<td>
+							<code>500</code>
+						</td>
+					</tr>
+          <tr>
+						<td>
+							<code>INVALID_PUBLIC_KEY_LENGTH</code>
+						</td>
+						<td>
+							<code>500</code>
+						</td>
+					</tr>
+          <tr>
+						<td>
+							<code>INVALID_PUBLIC_KEY_TYPE</code>
+						</td>
+						<td>
+							<code>500</code>
+						</td>
+					</tr>
+          <tr>
+						<td>
+							<code>UNSUPPORTED_PUBLIC_KEY_TYPE</code>
+						</td>
+						<td>
+							<code>501</code>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<code>INTERNAL_ERROR</code>
+						</td>
+						<td>
+							<code>500</code>
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							(any other value)
 						</td>
 						<td>
 							<code>500</code>
@@ -1569,319 +1961,305 @@ https://example.com/messages/8377464/some/path?query#frag
 					</tbody>
 				</table>
 			</li>
-			<li>如果<a>DID解析</a>或<a>DID URL解引用</a>功能在<b>didDocumentMetadata</b>或<b>contentMetadata</b>中返回<b>deactivated</b>元数据属性，且其值为<code>true</code>：
+			<li>如果 <a>DID resolution</a> 或 <a>DID URL dereferencing</a> 函数在 <b>didDocumentMetadata</b> 或 <b>contentMetadata</b> 中返回值为 <code>true</code> 的 <b>deactivated</b> 元数据属性：
 				<ol class="algorithm">
-					<li>HTTP响应状态码必须为<code>410</code>。</li>
+					<li>HTTP 响应状态码必须（MUST）为 <code>410</code>。</li>
 				</ol>
 			</li>
-			<li>对于<a>DID解析</a>功能：
+			<li>对于 <a>DID resolution</a> 函数：
 				<ol class="algorithm">
-					<li>如果<code>Content-Type</code> <var>HTTP 响应头</var>的值为`application/ld+json;profile="https://w3id.org/did-resolution"`：
+					<li>如果 <code>Content-Type</code> <var>HTTP 响应头</var>的值为 `application/did-resolution`：
 						<ol class="algorithm">
-							<li><var>HTTP 主体</var>必须包含<a>DID解析结果</a>（参见<a href="#did-resolution-result"></a>），这是<a>DID解析</a>功能的结果。</li>
+							<li><var>HTTP 主体</var>必须（MUST）包含作为 <a>DID resolution</a> 函数结果的 <a>DID resolution result</a>（参见 <a href="#did-resolution-result"></a>）。</li>
 						</ol>
 					</li>
-					<li>如果功能成功并返回<b>didDocument</b>：
+					<li>如果函数成功并返回 <b>didDocument</b>：
 						<ol class="algorithm">
-							<li>HTTP响应状态码必须为<code>200</code>。</li>
-							<li>HTTP响应必须包含<code>Content-Type</code> <var>HTTP 响应头</var>。其值必须为<b>didResolutionMetadata</b>中的<b>contentType</b>元数据属性的值（参见<a href="#did-resolution-metadata"></a>）。</li>
-							<li>HTTP响应主体必须包含<a>DID解析</a>功能的结果<b>didDocument</b>，其表示形式对应于<code>Content-Type</code> <var>HTTP 响应头</var>。</li>
+							<li>HTTP 响应状态码必须（MUST）为 <code>200</code>。</li>
+							<li>HTTP 响应必须（MUST）包含 <code>Content-Type</code> <var>HTTP 响应头</var>。其值必须（MUST）为 <b>didResolutionMetadata</b> 中 <b>contentType</b> 元数据属性的值（参见 <a href="#did-resolution-metadata"></a>）。</li>
+							<li>HTTP 响应主体必须（MUST）包含作为 <a>DID resolution</a> 函数结果的 <b>didDocument</b>，以对应 <code>Content-Type</code> <var>HTTP 响应头</var>的表示形式。</li>
 						</ol>
 					</li>
 				</ol>
 			</li>
-			<li>对于<a>DID URL解引用</a>功能：
+			<li>对于 <a>DID URL dereferencing</a> 函数：
 				<ol class="algorithm">
-					<li>如果<code>Content-Type</code> <var>HTTP 响应头</var>的值为`application/ld+json;profile="https://w3id.org/did-url-dereferencing"`：
+					<li>如果 <code>Content-Type</code> <var>HTTP 响应头</var>的值为 `application/did-url-dereferencing`：
 						<ol class="algorithm">
-							<li><var>HTTP 主体</var>必须包含<a>DID URL解引用结果</a>（参见<a href="#did-url-dereferencing-result"></a>），这是<a>DID URL解引用</a>功能的结果。</li>
+							<li><var>HTTP 主体</var>必须（MUST）包含作为 <a>DID URL dereferencing</a> 函数结果的 <a>DID URL dereferencing result</a>（参见 <a href="#did-url-dereferencing-result"></a>）。</li>
 						</ol>
 					</li>
-					<li>如果功能成功并返回<b>contentStream</b>，且<b>contentType</b>元数据属性的值为<code>text/uri-list</code>：
+					<li>如果函数成功并在 <b>dereferencingMetadata</b> 中返回 <b>contentStream</b> 和值为 <code>text/uri-list</code> 的 <b>contentType</b> 元数据属性：
 						<ol class="algorithm">
-							<li>HTTP响应状态码必须为<code>303</code>。</li>
-							<li>HTTP响应必须包含<code>Location</code>头。该头的值必须为<var>输出 <a>服务端点</a> URL</var>。</li>
-							<li>HTTP响应主体必须为空。</li>
+							<li>HTTP 响应状态码必须（MUST）为 <code>303</code>。</li>
+							<li>HTTP 响应必须（MUST）包含 <code>Location</code> 头。此头的值必须（MUST）为<var>所选 <a>service endpoint</a> URL</var>。</li>
+							<li>HTTP 响应主体必须（MUST）为空。</li>
 						</ol>
 					</li>
-					<li>如果功能成功并返回<b>contentStream</b>，且<b>contentType</b>为其他值：
+					<li>如果函数成功并返回具有任何其他 <b>contentType</b> 的 <b>contentStream</b>：
 						<ol class="algorithm">
-							<li>HTTP响应状态码必须为<code>200</code>。</li>
-							<li>HTTP响应必须包含<code>Content-Type</code> <var>HTTP 响应头</var>。其值必须为<b>dereferencingMetadata</b>中的<b>contentType</b>元数据属性的值（参见<a href="#did-url-dereferencing-metadata"></a>）。</li>
-							<li>HTTP响应主体必须包含<a>DID URL解引用</a>功能的结果<b>contentStream</b>，其表示形式对应于<code>Content-Type</code> <var>HTTP 响应头</var>。</li>
+							<li>HTTP 响应状态码必须（MUST）为 <code>200</code>。</li>
+							<li>HTTP 响应必须（MUST）包含 <code>Content-Type</code> <var>HTTP 响应头</var>。其值必须（MUST）为 <b>dereferencingMetadata</b> 中 <b>contentType</b> 元数据属性的值（参见 <a href="#did-url-dereferencing-metadata"></a>）。</li>
+							<li>HTTP 响应主体必须（MUST）包含作为 <a>DID URL dereferencing</a> 函数结果的 <b>contentStream</b>，以对应 <code>Content-Type</code> <var>HTTP 响应头</var>的表示形式。</li>
 						</ol>
 					</li>
 				</ol>
 			</li>
 		</ol>
 
-		<div>
-			<p>参见<a href="https://github.com/decentralized-identity/universal-resolver/blob/main/openapi/openapi.yaml">此处</a>的OpenAPI定义。</p>
-		</div>
+		<p class="note">
+			参见<a href="openapi/openapi.yaml">此处</a>获取对应 HTTP(S) 绑定的 OpenAPI 定义。
+		</p>
 
 	</section>
 
 	<section>
-		<h2>DID解析示例</h2>
-		<p>给定以下<var><a>DID解析器</a> HTTP(S) 端点</var>：<p>
+		<h2>DID 解析示例</h2>
+		<p>给定以下 <var><a>DID resolver</a> HTTP(S) 端点</var>：<p>
 		<p><code>
-			https://resolver.example/1.0/identifiers/</code></p>
-		<p>以及以下<var>输入 <a>DID</a></var>：</p>
+https://resolver.example/1.0/identifiers/</code></p>
+		<p>以及给定以下<var>输入 <a>DID</a></var>：</p>
 		<p><code>
-			did:sov:WRfXPg8dantKVubE3HX8pw</code></p>
-		<p>则<var>请求HTTP(S) URL</var>为：</p>
+did:example:123</code></p>
+		<p>则<var>请求 HTTP(S) URL</var> 为：</p>
 		<p><code>
-			https://resolver.example/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8pw</code></p>
-		<p>可以通过以下方式调用HTTP(S)绑定：</p>
-		<pre class="example nohighlight" title="通过HTTP(S)绑定调用DID解析器的curl示例">
-curl -X GET https://resolver.example/1.0/identifiers/did:sov:WRfXPg8dantKVubE3HX8pw</pre>
+https://resolver.example/1.0/identifiers/did:example:123</code></p>
+		<h3>示例：返回 DID 解析结果</h3>
+		<p>可以通过 HTTP(S) 绑定按以下方式调用 <code>resolve()</code> 函数：</p>
+		<pre class="example nohighlight" title="Example request to a DID resolver via HTTP(S) binding">
+GET https://resolver.example/1.0/identifiers/did:example:123 HTTP/1.1
+Accept: application/did-resolution</pre>
+		<p>响应如下：</p>
+		<pre class="example nohighlight" title="Example response from a DID resolver via HTTP(S) binding">
+HTTP 200 OK
+Content-Type: application/did-resolution
 
-		<p>HTTP(S)绑定的其他示例：</p>
+{
+	"didDocument": {
+		"@context": [ "https://www.w3.org/ns/did/v1.1" ],
+		"id": "did:example:123",
+		"verificationMethod": [{
+			...
+		}],
+		"service": [{
+			...
+		}]
+	},
+	"didResolutionMetadata": {
+		"contentType": "application/did"
+	},
+	"didDocumentMetadata": {
+		...
+	}
+}</pre>
+		<h3>示例：返回 DID 文档</h3>
+		<p>可以通过 HTTP(S) 绑定按以下方式调用 <code>resolve()</code> 函数：</p>
+		<pre class="example nohighlight" title="Example request to a DID resolver via HTTP(S) binding">
+GET https://resolver.example/1.0/identifiers/did:example:123 HTTP/1.1
+Accept: application/did</pre>
+		<p>响应如下：</p>
+		<pre class="example nohighlight" title="Example response from a DID resolver via HTTP(S) binding">
+HTTP 200 OK
+Content-Type: application/did
 
-		<figure id="https-resolve-example-1">
-			<img style="margin: auto; display: block; width: 100%;" src="diagrams/https-resolve-example-1.png"
-				 alt="通过HTTPS调用resolve()的图示">
-			<figcaption style="text-align: center;">
-				通过HTTP(S)调用resolve()。
-			</figcaption>
-		</figure>
-
-		<figure id="https-resolve-example-2">
-			<img style="margin: auto; display: block; width: 100%;" src="diagrams/https-resolve-example-2.png"
-				 alt="通过HTTPS调用resolve()的图示">
-			<figcaption style="text-align: center;">
-				通过HTTP(S)调用resolve()。
-			</figcaption>
-		</figure>
+{
+	"@context": [ "https://www.w3.org/ns/did/v1.1" ],
+	"id": "did:example:123",
+	"verificationMethod": [{
+		...
+	}],
+	"service": [{
+		...
+	}]
+}</pre>
 
 	</section>
 
 	<section>
-		<h2>DID URL解引用示例</h2>
+		<h2>DID URL 解引用示例</h2>
+		<h3>示例：返回 DID URL 解引用结果</h3>
+		<p>可以通过 HTTP(S) 绑定按以下方式调用 <code>dereference()</code> 函数：</p>
+		<pre class="example nohighlight" title="Example request to a DID URL dereferencer via HTTP(S) binding">
+GET https://resolver.example/1.0/identifiers/did:example:123?versionId=2 HTTP/1.1
+Accept: application/did-url-dereferencing</pre>
+		<p>响应如下：</p>
+		<pre class="example nohighlight" title="Example response from a DID URL dereferencer via HTTP(S) binding">
+HTTP 200 OK
+Content-Type: application/did-url-dereferencing
 
-		<p>HTTP(S)绑定的其他示例：</p>
+{
+	"content": {
+		"@context": [ "https://www.w3.org/ns/did/v1.1" ],
+		"id": "did:example:123",
+		"verificationMethod": [{
+			...
+		}],
+		"service": [{
+			...
+		}]
+	},
+	"dereferencingMetadata": {
+		"contentType": "application/did"
+	},
+	"contentMetadata": {
+		...
+	}
+}</pre>
+		<h3>示例：返回资源</h3>
+		<p>可以通过 HTTP(S) 绑定按以下方式调用 <code>dereference()</code> 函数：</p>
+		<pre class="example nohighlight" title="Example request to a DID URL dereferencer via HTTP(S) binding">
+GET https://resolver.example/1.0/identifiers/did:example:123?versionId=2 HTTP/1.1
+Accept: application/did</pre>
+		<p>响应如下：</p>
+		<pre class="example nohighlight" title="Example response from a DID URL dereferencer via HTTP(S) binding">
+HTTP 200 OK
+Content-Type: application/did
 
-		<figure id="https-dereference-example-1">
-			<img style="margin: auto; display: block; width: 100%;" src="diagrams/https-dereference-example-1.png"
-				 alt="通过HTTPS调用dereference()的图示">
-			<figcaption style="text-align: center;">
-				通过HTTP(S)调用dereference()。
-			</figcaption>
-		</figure>
-
-		<figure id="https-dereference-example-2">
-			<img style="margin: auto; display: block; width: 100%;" src="diagrams/https-dereference-example-2.png"
-				 alt="通过HTTPS调用dereference()的图示">
-			<figcaption style="text-align: center;">
-				通过HTTP(S)调用dereference()。
-			</figcaption>
-		</figure>
+{
+	"@context": [ "https://www.w3.org/ns/did/v1.1" ],
+	"id": "did:example:123",
+	"verificationMethod": [{
+		...
+	}],
+	"service": [{
+		...
+	}]
+}</pre>
 
 	</section>
 
 </section>
-
-<section id="service-endpoint-construction">
-	<h1>服务端点构建</h1>
-
-	<p>本节定义了<a>服务端点构建</a>的输入和算法，该算法返回一个<a>服务端点</a> URL作为输出。此算法在<a>DID URL解引用</a>过程中选择服务端点时使用（参见<a href="#dereferencing"></a>）。</p>
-
-	<p>在本节中，<code>path</code>、<code>query</code>和<code>fragment</code>的定义遵循[[RFC3986]]。</p>
-
-	<section>
-		<h2>输入</h2>
-
-		<p><a>服务端点构建</a>算法的输入是一个<var>输入 <a>DID URL</a></var>和一个<var>输入 <a>服务端点</a> URL</var>。</p>
-
-		<p><a>服务端点构建</a>算法的输入要求如下：</p>
-		<ul>
-			<li><var>输入 <a>DID URL</a></var>和<var>输入 <a>服务端点</a> URL</var>都可以有<code>path</code>组件。</li>
-			<li><var>输入 <a>DID URL</a></var>和<var>输入 <a>服务端点</a> URL</var>不能同时有<code>query</code>组件。</li>
-			<li><var>输入 <a>DID URL</a></var>和<var>输入 <a>服务端点</a> URL</var>不能同时有<code>fragment</code>组件。</li>
-			<li><var>输入 <a>服务端点</a> URL</var>必须是HTTP(S) URL。</li>
-		</ul>
-
-	</section>
-
-	<section>
-		<h2>算法</h2>
-		<ol class="algorithm">
-			<li>将字符串<var>输出<a>服务端点</a>URL</var>初始化为<var>输入<a>服务端点</a>URL</var>的值</li>
-			<li>如果<var>输出<a>服务端点</a>URL</var>包含<code>query</code>组件，则移除该组件</li>
-			<li>如果<var>输出<a>服务端点</a>URL</var>包含<code>fragment</code>组件，则移除该组件</li>
-			<li>将<var>输入<a>DID URL</a></var>的<code>path</code>组件追加到<var>输出<a>服务端点</a>URL</var>中</li>
-			<li>如果<var>输入<a>服务端点</a>URL</var>包含<code>query</code>组件，则在<var>输出<a>服务端点</a>URL</var>后追加<code>?</code>加上<code>query</code></li>
-			<li>如果<var>输入<a>DID URL</a></var>包含<code>query</code>组件，则在<var>输出<a>服务端点</a>URL</var>后追加<code>?</code>加上<code>query</code></li>
-			<li>如果<var>输入<a>服务端点</a>URL</var>包含<code>fragment</code>组件，则在<var>输出<a>服务端点</a>URL</var>后追加<code>#</code>加上<code>fragment</code></li>
-			<li>如果<var>输入<a>DID URL</a></var>包含<code>fragment</code>组件，则在<var>输出<a>服务端点</a>URL</var>后追加<code>#</code>加上<code>fragment</code></li>
-			<li>返回<var>输出<a>服务端点</a>URL</var></li>
-		</ol>
-
-		<p class="issue">我们可能允许<var>输入<a>DID URL</a></var>和<var>输入<a>服务端点</a>URL</var>同时包含<code>query</code>组件，前提是它们都包含可以合并的键/值参数列表。</p>
-
-		<p class="issue">服务端点构建算法的细节已在2019年4月的CCG邮件列表中讨论过，例如<a href="https://lists.w3.org/Archives/Public/public-credentials/2019Apr/0021.html">这里</a>或<a href="https://lists.w3.org/Archives/Public/public-credentials/2019Apr/0032.html">这里</a>。</p>
-
-		<p class="issue">我们可以考虑复用[[RFC3986]]中定义的“相对解析”算法，而不是定义自己的算法。</p>
-
-		<p class="issue" data-number="61">参见对应的开放问题。</p>
-
-	</section>
-
-	<section>
-		<h2>示例</h2>
-		<p>给定以下<var>输入<a>服务端点</a>URL</var>：<p>
-		<p><code>
-			https://example.com/messages/8377464</code></p>
-		<p>以及以下<var>输入<a>DID URL</a></var>：</p>
-		<p><code>
-			did:example:123456789abcdefghi?service=messages&relativeRef=%2Fsome%2Fpath%3Fquery#frag
-		</code></p>
-		<p>则<var>输出<a>服务端点</a>URL</var>为：</p>
-		<p><code>
-			https://example.com/messages/8377464/some/path?query#frag
-		</code></p>
-
-	</section>
-
 </section>
 
-<section id="security-privacy-considerations">
-	<h1>安全与隐私考虑</h1>
+<section id="security-considerations">
+	<h1>安全注意事项</h1>
 
 	<section id="authentication">
-		<h2>认证/授权</h2>
-		<p><a>DID解析</a>和<a>DID URL解引用</a>不涉及任何认证或授权功能。类似于DNS解析，任何人都可以执行此过程，无需任何凭据或非公开知识。</p>
+		<h2>身份验证/授权</h2>
+		<p><a>DID resolution</a> 和 <a>DID URL dereferencing</a> 不涉及任何身份验证或授权功能。类似于 DNS 解析，任何人都可以执行此过程，而无需任何凭证或非公开知识。</p>
 
 		<p class="issue" data-number="38"></p>
 
 		<div class="issue">
-			<p>说明DID不一定是<em>全局</em>可解析的，例如成对或N-wise的“对等”DID。</p>
-			<p>参见[[RFC3339]]：
-				<em> URI具有全局范围，无论上下文如何，其解释都是一致的，尽管解释结果可能与最终用户的上下文相关。</em>
-			</p>
-			<p>一个高级的想法是，DID解析的结果可能是上下文相关的或依赖于策略，参见<a href="https://github.com/w3c/did-resolution/issues/28#issuecomment-510592199">此评论</a>。</p>
+		<p>解释 DID 不一定是<em>全局</em>可解析的，例如成对或 N 方"对等"DID。</p>
+		<p>参见 [[RFC3339]]：
+		<em> URI 具有全局范围，无论上下文如何都以一致的方式解释，尽管解释的结果可能与最终用户的上下文有关。</em>
+		</p>
+		<p>一个高级想法是 DID 解析的结果可能是上下文相关的或依赖于策略，参见<a href="https://github.com/w3c/did-resolution/issues/28#issuecomment-510592199">此评论</a>。</p>
 		</div>
 
-		<p class="issue">一个相关主题是DID文档（或部分）是否可以加密，例如<a href="https://github.com/w3c/did-core/issues/25">w3c/did-core/issues/25</a>。另见<a href="https://did-ipid.github.io/ipid-did-method/">IPID</a>DID方法中片段的使用。</p>
+		<p class="issue">一个相关主题是 DID 文档的（部分）是否可以加密，例如
+		<a href="https://github.com/w3c/did-core/issues/25">w3c/did-core/issues/25</a>。另请参见 <a href="https://did-ipid.github.io/ipid-did-method/">IPID</a> DID 方法中片段的使用。</p>
 
 	</section>
 
 	<section id="caching">
 		<h2>缓存</h2>
-		<p><a>DID解析器</a>可以维护<a>DID文档</a>的通用缓存，也可以维护特定于某些<a>DID方法</a>的缓存。</p>
-		<p>可以使用<code>noCache</code>解析选项来请求特定的缓存行为。</p>
-		<p>此<var>解析选项</var>是可选的。</p>
-		<p>该属性的可能值包括：</p>
-		<ul>
-			<li>`"false"`（默认值）：允许缓存<a>DID文档</a>。</li>
-			<li>`"true"`：请求禁用缓存，并从<a>可验证数据注册表</a>中获取最新的<a>DID文档</a>。</li>
-		</ul>
-		<p>缓存行为可以通过<a>DID解析器</a>的配置、<code>noCache</code>解析选项或DID文档内容（例如`cacheMaxTtl`字段）或其组合来控制。</p>
-		<p class="issue" data-number="10">参见对应的开放问题。</p>
-		<p class="issue">或许我们可以复用其他协议（如HTTP）的缓存机制。</p>
+		<p><a>DID resolver</a> 可以维护 <a>DID documents</a> 的通用缓存。它也可以维护特定于某些 <a>DID methods</a> 的缓存。</p>
+		<p><code>noCache</code> 解析选项可用于请求特定的缓存行为。</p>
+			<p>此<var>解析选项</var>是可选的（OPTIONAL）。</p>
+			<p>此属性的可能值为：</p>
+			<ul>
+			<li>`"false"`（默认值）：允许缓存 <a>DID documents</a>。</li>
+			<li>`"true"`：请求禁用缓存并从 <a>verifiable data registry</a> 检索新的 <a>DID document</a>。</li>
+			</ul>
+		<p>缓存行为可以通过 <a>DID resolver</a> 的配置、<code>noCache</code> 解析选项或 DID 文档内容（例如 `cacheMaxTtl` 字段）或这些属性的组合来控制。</p>
 
+		<p>实现 noCache 的解析器可能更容易受到拒绝服务攻击，因为恶意客户端可以绕过缓存来强制执行昂贵的网络请求和资源消耗。请求使用 <code>noCache</code> 进行解析的客户端应预期某些解析器会拒绝绕过缓存的解析请求。拒绝无缓存解析的解析器必须（MUST）响应 <a href="#FEATURE_NOT_SUPPORTED">FEATURE_NOT_SUPPORTED</a> 错误，明确表示不允许绕过缓存，以便客户端可以尝试不使用 <code>noCache</code> 进行解析。</p>
+
+	</section>
+	<section id="json-ld-integrity">
+		<h2>JSON-LD 上下文完整性</h2>
+			<p>如果从远程位置获取 <a href="https://www.w3.org/TR/json-ld11/#the-context">JSON-LD 上下文</a>文件，攻击者可能会篡改上下文文件（例如通过入侵服务器或通过中间人攻击拦截请求）。
+			</p>
+			<p>因此，强烈建议执行远程 JSON-LD 上下文 URL 检索的任何 <a>DID resolver</a> 使用上下文文件及其对应哈希的注册表（或功能等效的机制）来帮助确保端到端安全性。预期实现如果资源的加密哈希值与预期哈希值不匹配则抛出错误。</p>
 	</section>
 
 	<section id="versioning">
 		<h2>版本控制</h2>
-		<p>如果提供了<a href="https://www.w3.org/TR/did-core/#did-parameters"><code>versionId</code></a>或
-			<a href="https://www.w3.org/TR/did-core/#did-parameters"><code>versionTime</code></a>DID参数，
-			则<a>DID解析</a>算法会返回<a>DID文档</a>的特定版本。</p>
-		<p>DID参数<a href="https://www.w3.org/TR/did-core/#did-parameters"><code>versionId</code></a>
-			和<a href="https://www.w3.org/TR/did-core/#did-parameters"><code>versionTime</code></a>
+		<p>如果提供了 <a href="https://www.w3.org/TR/did-core/#did-parameters"><code>versionId</code></a> 或
+			<a href="https://www.w3.org/TR/did-core/#did-parameters"><code>versionTime</code></a> DID 参数，<a>DID resolution</a>
+			算法会返回 <a>DID document</a> 的特定版本。</p>
+		<p>DID 参数 <a href="https://www.w3.org/TR/did-core/#did-parameters"><code>versionId</code></a>
+			和 <a href="https://www.w3.org/TR/did-core/#did-parameters"><code>versionTime</code></a>
 			是互斥的。</p>
-		<p><a href="https://www.w3.org/TR/did-core/#did-parameters"><code>versionId</code></a>DID参数的使用是特定于<a>DID方法</a>的。
-			其可能值包括顺序号、随机UUID、内容哈希等。</p>
-		<p>DID文档元数据可能包含<a href="https://www.w3.org/TR/did-core/#did-parameters"><code>versionId</code></a>
-			属性，该属性会随着每次对DID文档执行的<a href="https://www.w3.org/TR/did-core/#method-operations">更新</a>操作而改变。</p>
-		<p class="note">虽然大多数<a>DID方法</a>支持<a href="https://www.w3.org/TR/did-core/#method-operations">更新</a>操作，
-			但<a>DID方法</a>并不需要保留所有先前的<a>DID文档</a>版本，因此并非所有<a>DID方法</a>都支持版本控制。</p>
-		<p class="issue" data-number="12">参见对应的开放问题。</p>
+		<p><a href="https://www.w3.org/TR/did-core/#did-parameters"><code>versionId</code></a> DID 参数的使用是 <a>DID method</a> 特定的。其可能的值可能包括顺序号、随机 UUID、内容哈希等。</p>
+		<p>DID 文档元数据可以（MAY）包含一个 <a href="https://www.w3.org/TR/did-core/#did-parameters"><code>versionId</code></a>
+			属性，该属性随对 DID 文档执行的每次 <a href="https://www.w3.org/TR/did-core/#method-operations">Update</a> 操作而变化。</p>
+		<p class="note">虽然大多数 <a>DID methods</a> 支持 <a href="https://www.w3.org/TR/did-core/#method-operations">Update</a>
+			操作，但不要求 <a>DID methods</a> 保留所有先前的 <a>DID document</a> 版本，因此并非所有 <a>DID methods</a> 都支持版本控制。</p>
 
 	</section>
 
-	<section id="non-did-identifiers">
-		<h2>非DID标识符</h2>
-		<p class="issue" data-number="8">关于<a>DID解析</a>与非DID标识符（如域名、HTTP URI或电子邮件地址）解析之间关系的讨论正在进行中。这包括如何从非DID标识符中发现DID，以及如何使标识符之间的链接可验证。</p>
-
+	<section id="vdr-forks">
+		<h2>VDR 网络分叉</h2>
+		<p>使用分布式系统（如分布式账本）作为 VDR（<a>verifiable data registry</a>）的 <a>DID methods</a> 需要管理可能发生网络分叉的潜在风险。因此，使用分布式系统作为 VDR 的 <a>DID method</a> 规范应当（SHOULD）指定一种方式，以将其使用的 VDR 与此类分叉区分开来。</p>
 	</section>
 
-	<section id="did-method-governance">
-		<h2>DID方法治理</h2>
-		<p class="issue" data-number="6">描述<a>DID解析器</a>应支持哪些方法，以及潜在的影响。</p>
+	<section id="security-cycles-resolution">
+		<h2>解析循环</h2>
 
+		<p>当 <a>DID resolver</a> 客户端解引用 <a>DID document</a> 中的标识符和链接资源时——特别是 <code>verificationMethod</code>、<code>controller</code> 或 <code>alsoKnownAs</code> 等字段——它可能会遇到 <a>resolution cycle</a>。当 <a>DID document</a> 引用另一个 DID（或 URL）最终导回先前解引用的标识符，形成循环时，就会发生这种情况。<a>DID resolver</a> 在解引用引用 <a>service endpoint</a> 的 <a>DID URL</a> 时也可能遇到这种情况。</p>
+
+		<div class="example" title="通过控制者的循环">
+			<pre><code>did:example:alice
+	└── verificationMethod.controller → did:example:bob
+		└── verificationMethod.controller → did:example:alice</code></pre>
+		</div>
+
+		<p><strong>执行递归解引用的 <a>DID resolvers</a> 及其客户端应预期、检测和处理此类循环</strong>。</p>
+
+		<p><strong>安全和性能风险：</strong>如果未检测和缓解循环，递归解引用可能导致：</p>
+		<ul>
+			<li>软件中的<strong>无限循环</strong>或<strong>栈溢出</strong>。</li>
+			<li><strong>资源耗尽</strong>（例如内存、网络或 CPU）。</li>
+			<li>客户端或中间方的<strong>拒绝服务（DoS）</strong>漏洞。</li>
+		</ul>
+
+		<p><strong>缓解指导：</strong>递归跟踪外部 <a>DID document</a> 引用的组件应跟踪已经解引用的标识符，检测循环发生的时间并采取适当行动。此外，开发者可能希望限制递归深度或广度以减少潜在攻击面。</p>
 	</section>
 
 </section>
+<section id="privacy-considerations">
+	<h1>隐私注意事项</h1>
 
-<section id="future-work">
-	<h1>未来工作</h1>
-	<p class="note">本节列出了正在讨论中但尚未纳入算法的其他<a>DID URL解引用</a>功能。</p>
-
-	<section id="redirect">
-		<h3>重定向</h3>
-		<p><a href="https://www.w3.org/TR/did-core/#services">服务端点</a>可能具有
-			一个<code>serviceEndpoint</code>属性，其值本身是一个DID。这被解释为从输入DID到另一个DID的“DID重定向”。在这种情况下，可以启动一个“子”DID解析过程以到达“最终”服务端点。</p>
-
-		<p>客户端可以提供<code>follow-redirect</code>解析选项作为提示，指示是否应遵循重定向。此<var>解析选项</var>是可选的。</p>
-
-		<p class="issue" data-number="7">参见对应的开放问题。
+	<section id="profiling-requesters">
+		<h2>DID 解析和解引用请求者的画像分析</h2>
+		<p><a>DID resolvers</a> 和 <a>DID URL dereferencers</a> 将能够记录对其解析和解引用服务的请求。随着时间的推移，这些日志可能被用于跟踪和分析发出这些服务请求的客户端。为了缓解这种隐私风险，客户端应向其信任的服务发出此类请求，例如由于现有的业务关系或因为该服务运行在其控制的基础设施上。客户端还可以采取措施混淆其对服务的请求，以限制关联和画像分析的可能性。
 		</p>
-
-		<p class="issue" data-number="36">DID重定向不仅可以应用于单个服务端点，还可以应用于整个DID文档，从而实现可移植性用例。
-		</p>
-
-		<pre class="example nohighlight">
-{
-   "id": "did:example:123456789abcdefghi#hub1",
-   "type": "HubService",
-   "serviceEndpoint": "did:example:xyz"
-}
-</pre>
-
-	</section>
-
-	<section id="proxy">
-		<h3>代理</h3>
-		<p>DID文档可能包含“代理”服务类型，该类型将提供一个需要遵循的映射，以解析到最终的服务URL。</p>
-
-		<p class="issue" data-number="35"></p>
-		</p>
-
-		<pre class="example nohighlight">
-{
-   "id": "did:example:123456789abcdefghi",
-   "type": "ProxyService",
-   "serviceEndpoint": "https://mydomain.com/proxy"
-}
-</pre>
-
-	</section>
-
-	<section id="json-pointer">
-		<h3>JSON指针</h3>
-		<div class="issue">
-			<p>正在讨论几种选择DID文档部分的方法，包括使用JSON指针。</p>
-			<p>参见对应的PR <a href="https://github.com/w3c/did-spec/pull/161">这里</a>
-				和<a href="https://github.com/w3c/did-core/pull/257">这里</a>。</p>
-		</div>
 
 	</section>
 
 </section>
 
 <section class="appendix">
-	<h1>DID解析资源</h1>
+	<h1>与其他技术的关系</h1>
+
+	<p>
+用于将标识符解析为互联网地址的最常见机制之一是 [[?RFC1034]] 中描述的全球域名系统（DNS）。DNS 以及用于将域名映射到互联网协议地址的过程和系统是托管网站的常见需求。
+	</p>
+	<p>
+[[[DID]]] 规范引入了一种不依赖全球域名系统的新型标识符，并引入了不需要集中化架构任何部分的标识符解析过程的概念。这种新架构允许去中心化地创建和管理全局可解析的标识符，以对抗标识符寻租和审查。它使个人能够完全拥有和控制其标识符，而不是从第三方租用标识符。
+	</p>
+	<p>
+获取 [=DID URLs=] 的个人在其软件中使用它们，就像他们继续使用基于 DNS 的 URL 一样。软件使用 [=DID resolver=] 接口（在本规范中定义）来确定要检索的资源的位置。[=DID resolution=] 的过程，就像 DNS 解析的过程一样，对个人来说是不透明的，在软件内部发生而不需要个人的任何直接参与。
+	</p>
+	<p>
+与 DNS 集中化相关的研究以及 [=DIDs=] 和 [=DID resolution=] 的相应发明记录在 [[[?DID]]] 规范中与 <a data-cite="DID#acknowledgements">DID 的历史</a>相关的章节中。
+	</p>
+</section>
+
+<section class="appendix">
+	<h1>DID 解析资源</h1>
 
 	<ol>
-		<li><a href="https://www.w3.org/TR/did-core/#resolution">DID核心规范中的DID解析器</a></li>
-		<li><a href="https://github.com/decentralized-identity/universal-resolver/">通用解析器</a></li>
-		<li><a href="https://github.com/digitalbazaar/did-client">did-client</a></li>
-		<li><a href="https://github.com/uport-project/did-resolver">uPortDID解析器</a></li>
+	<li><a href="https://www.w3.org/TR/did-core/#resolution">DID Core 规范中的 DID 解析器</a></li>
+	<li><a href="https://github.com/decentralized-identity/universal-resolver/">Universal Resolver</a></li>
+	<li><a href="https://github.com/digitalbazaar/did-client">did-client</a></li>
+	<li><a href="https://github.com/uport-project/did-resolver">uPort DID resolver</a></li>
 	</ol>
 
 </section>
 
 </body>
 </html>
-
